@@ -1,6 +1,8 @@
 import { businessDirections } from "@/data/business";
 import { capabilities } from "@/data/capabilities";
 import { directions } from "@/data/directions";
+import { yuanyinPlan } from "@/data/plans";
+import { substationPluginGroups } from "@/data/plugins";
 import { getAllCases, getAllNews, getAllProducts } from "@/lib/content";
 import type { SearchEntry } from "@/types";
 
@@ -16,6 +18,14 @@ export function buildSearchIndex(): SearchEntry[] {
       description: p.summary,
       href: `/products/${p.slug}`,
     })),
+    ...substationPluginGroups.flatMap((g) =>
+      g.plugins.map((p) => ({
+        type: "监测插件",
+        title: `${p.name}（${g.code} 类 · ${g.title}）`,
+        description: `${p.description} 关键技术：${p.techniques.join("、")}`,
+        href: `/products/poye-substation-monitoring#plugin-${p.id}`,
+      })),
+    ),
     ...capabilities.map((c) => ({
       type: "核心能力",
       title: c.title,
@@ -39,6 +49,18 @@ export function buildSearchIndex(): SearchEntry[] {
       title: n.title,
       description: n.summary,
       href: `/news/${n.slug}`,
+    })),
+    {
+      type: "发展计划",
+      title: yuanyinPlan.name,
+      description: `${yuanyinPlan.statement} ${yuanyinPlan.summary}`,
+      href: `/directions/${yuanyinPlan.slug}`,
+    },
+    ...yuanyinPlan.subPlans.map((sub) => ({
+      type: "发展计划",
+      title: `${sub.name}（${sub.domain}）`,
+      description: sub.summary,
+      href: `/directions/${yuanyinPlan.slug}#${sub.id}`,
     })),
     ...directions.map((d) => ({
       type: "发展方向",

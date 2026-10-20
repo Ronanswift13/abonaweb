@@ -1,6 +1,6 @@
 # 北京艾博纳信息技术有限公司 · 官方网站
 
-> Beijing Aibona Information Technology Co., Ltd. · **Abonayaoer.com**
+> Beijing Aibona Information Technology Co., Ltd. · **abonatech.com**
 > 自研大模型「艾博纳幺儿」（Abonayaoer）
 
 企业官网 V1.0 工程框架：**Next.js 16（App Router）+ TypeScript（strict）+ Tailwind CSS v3**，内容与 UI 分离，支持 Docker / Docker Compose / Nginx 部署。
@@ -24,6 +24,7 @@ npm run dev        # http://localhost:3000
 | `npm run typecheck` | 生成路由类型并做 TypeScript 检查 |
 | `npm run lint` | ESLint 检查 |
 | `npm run check` | 类型检查 + Lint + 构建（提交 / 发布前执行） |
+| `npm run og:generate` | 重新生成社交分享图 `public/images/og-default.png` |
 
 国内网络安装依赖较慢时：`npm install --registry=https://registry.npmmirror.com`
 
@@ -48,6 +49,7 @@ npm run dev        # http://localhost:3000
 │   ├── api/health/           # 健康检查（Docker / 监控）
 │   ├── sitemap.ts robots.ts  # 自动生成 sitemap.xml / robots.txt
 │   ├── icon.png apple-icon.png  # 站点图标（由 Logo 生成）
+│   ├── error.tsx global-error.tsx  # 出错兜底页
 │   └── not-found.tsx         # 404
 ├── components/
 │   ├── layout/               # Navbar、Footer
@@ -59,7 +61,8 @@ npm run dev        # http://localhost:3000
 │   ├── site.ts               # ★ 公司信息、联系方式、备案号、Logo
 │   ├── navigation.ts         # 主导航、页脚链接
 │   ├── home.ts               # 首页各区块文案（Hero、CTA …）
-│   ├── products.ts           # 核心产品（自动生成详情页）
+│   ├── products.ts           # 核心产品（自动生成详情页，含技术方案区块）
+│   ├── plugins.ts            # 破夜绘明监测插件矩阵（20 个插件，按 A/B/C/D 四类分组）
 │   ├── business.ts           # 业务方向轮播卡片
 │   ├── capabilities.ts       # 核心能力
 │   ├── directions.ts         # 发展方向
@@ -71,6 +74,7 @@ npm run dev        # http://localhost:3000
 ├── lib/                      # 内容读取（content.ts）、SEO、搜索索引、工具函数
 ├── types/index.ts            # 全部内容数据的 TypeScript 接口
 ├── public/images/            # Logo、团队头像等静态资源
+├── scripts/                  # 辅助脚本（生成社交分享图）
 ├── deploy/nginx/conf.d/      # Nginx 反向代理配置
 ├── .github/workflows/        # CI（检查 + 构建）、Deploy（SSH 发布到生产），见第 5 节
 ├── Dockerfile  docker-compose.yml  .dockerignore  .env.example
@@ -94,6 +98,8 @@ grep -rn "【占位】" data content app components
 | 导航栏 / 页脚链接 | `data/navigation.ts` |
 | 首页 Hero、各区块标题、底部 CTA | `data/home.ts` |
 | 核心产品（首页三张卡片 = `featured: true`，按 `order` 排序） | `data/products.ts` |
+| 产品详情页技术方案（关键数据、技术架构、关键技术、安全设计、技术栈） | `data/products.ts` 中对应产品的可选字段 |
+| 变电站监测插件矩阵（插件名称、描述、关键技术） | `data/plugins.ts` |
 | 业务方向轮播卡片 | `data/business.ts` |
 | 核心能力 / 发展方向 | `data/capabilities.ts` / `data/directions.ts` |
 | 企业文化 / 核心团队 | `data/culture.ts` / `data/team.ts` |
@@ -139,10 +145,28 @@ featured: true                 # 首页优先展示
 
 在 `data/products.ts` 或 `data/business.ts` 数组中追加一项即可——卡片、详情页（`/products/<slug>`）、轮播指示点、sitemap 都会自动生成。
 
+产品详情页的技术方案区块全部可选，填了才显示，页内导航自动同步：
+
+| 字段 | 区块（锚点） |
+| --- | --- |
+| `stats` / `statsNote` | 页头关键数据条及口径说明 |
+| `architecture` | 技术架构 `#architecture` |
+| `plugins` | 监测插件矩阵 `#plugins`（每个插件另有 `#plugin-<id>`） |
+| `technologies` | 关键技术 `#technology` |
+| `security` | 安全设计 `#security` |
+| `techStack` | 技术栈 `#stack` |
+
+新增监测插件：在 `data/plugins.ts` 对应分组追加一项，产品页、插件总数（首页 Hero 等处引用）与站内搜索自动更新。
+
 ### 替换 Logo / 图标
 
-- `public/images/logo.png`：当前由提供的 JPG 抠图生成的透明 PNG（197×153）。拿到矢量或高清源文件后直接覆盖，并同步 `data/site.ts` 中 `logo.width / height`。
+- `public/images/logo.png`：由提供的红色 Logo 抠图生成的透明 PNG（338×256）。拿到矢量或高清源文件后直接覆盖，并同步 `data/site.ts` 中 `logo.width / height`。
 - `app/icon.png`、`app/apple-icon.png`：浏览器标签页与 iOS 图标。
+- `public/images/og-default.png`：微信 / 社交平台分享卡片图（1200×630）。更换 Logo、品牌色或公司名后执行 `npm run og:generate` 重新生成（需在装有中文字体的电脑上执行，文案在 `scripts/generate-og-image.mjs` 中修改）。
+
+### 微信二维码
+
+将二维码图片放入 `public/images/wechat-qr.png`（建议 400×400 以上正方形），在 `data/site.ts` 中取消 `wechatQr` 一行的注释。联系我们页与页脚会自动显示“微信扫码添加”。
 
 ### 新增图标
 
@@ -156,6 +180,8 @@ featured: true                 # 首页优先展示
 ---
 
 ## 4. 生产部署
+
+阿里云 ECS 从域名解析、ICP备案、安全组、Docker 安装、证书到首次启动的完整操作见 **[deploy/ALIYUN.md](deploy/ALIYUN.md)**。首次上线建议按该手册逐项执行；下面保留日常部署速查。
 
 ### 4.1 Docker Compose（推荐）
 
@@ -177,7 +203,11 @@ docker compose --profile nginx up -d --build
 
 Nginx 负责：HTTP→HTTPS 跳转、裸域→www、反向代理、限流、HSTS、gzip、访问/错误日志（`deploy/nginx/logs/`）。应用端口默认仅监听本机，不直接暴露公网。
 
-### 4.3 更新发布
+### 4.3 网站统计（可选）
+
+支持百度统计：在 [tongji.baidu.com](https://tongji.baidu.com) 新建站点，取统计代码 `hm.js?` 后的 32 位字符串，写入服务器 `.env` 的 `NEXT_PUBLIC_BAIDU_TONGJI_ID` 后重新构建。未设置时不加载任何统计脚本；站内页面切换也会计入浏览量。
+
+### 4.4 更新发布
 
 日常发布使用 GitHub Actions（见第 5 节）。需要在服务器上手动更新时：
 
@@ -186,13 +216,14 @@ git pull
 docker compose up -d --build    # 重新构建并滚动替换容器
 ```
 
-### 4.4 上线前检查
+### 4.5 上线前检查
 
 - [ ] `data/site.ts`：ICP 备案号、地址、邮箱、成立年份等【占位】已替换
 - [ ] 团队、案例、新闻等【占位】内容已替换或删除
 - [ ] `NEXT_PUBLIC_SITE_URL` 为正式域名
 - [ ] HTTPS 证书有效，HTTP 自动跳转
-- [ ] `https://www.abonayaoer.com/sitemap.xml`、`/robots.txt` 可访问
+- [ ] `https://www.abonatech.com/sitemap.xml`、`/robots.txt` 可访问
+- [ ] 分享图、微信二维码、百度统计按需配置
 
 ---
 
@@ -247,7 +278,8 @@ ssh-keygen -t ed25519 -N "" -C github-actions-deploy -f abona-deploy
 - **渲染方式**：全部页面在构建期静态生成（SSG），访问速度快、服务器压力小；内容修改后重新构建即可生效。
 - **Next.js 16**：未启用 Cache Components（`cacheComponents`），沿用经典的静态 / 动态渲染模型，对内容型官网更简单直接；后续需要时可在 `next.config.ts` 开启。
 - **轮播**：Embla Carousel，支持拖动、触摸滑动、左右按钮、指示点、自动轮播、悬停暂停；系统开启“减少动态效果”时不自动播放。
-- **SEO**：每页独立 Title / Description / Canonical / Open Graph（`lib/metadata.ts`），组织与新闻结构化数据（JSON-LD），自动 sitemap / robots。
+- **SEO**：每页独立 Title / Description / Canonical / Open Graph / Twitter 卡片（`lib/metadata.ts`），统一分享图，组织、新闻与面包屑结构化数据（JSON-LD），自动 sitemap / robots。
+- **可用性**：新闻按分类、案例按行业筛选；返回顶部按钮；页面出错时有兜底页（`app/error.tsx`、`app/global-error.tsx`）；按 Lighthouse 无障碍规则检查（触控尺寸、可访问名称等）。
 - **内容层**：页面只通过 `lib/content.ts` 取数。V2.0 引入 CMS / API 时，只需改写该文件。
 
 ## 7. 后续演进（参考建设方案）
@@ -257,4 +289,4 @@ ssh-keygen -t ed25519 -N "" -C github-actions-deploy -f abona-deploy
 
 ---
 
-联系人：周贤伟 · 电话 13311187533 · 微信 zhou13311187533
+联系人：罗近一 · 电话 18301304191 · 微信 TSwiftie-1989

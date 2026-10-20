@@ -2,14 +2,15 @@
   "name": "abona-website",
   "version": "1.0.0",
   "private": true,
-  "description": "北京艾博纳信息技术有限公司官方网站（Abonayaoer.com）",
+  "description": "北京艾博纳信息技术有限公司官方网站（abonatech.com）",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run build",
+    "og:generate": "node scripts/generate-og-image.mjs"
   },
   "engines": {
     "node": ">=20.9.0"

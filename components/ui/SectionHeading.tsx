@@ -34,7 +34,7 @@ export function SectionHeading({
         <p
           className={cn(
             "mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]",
-            invert ? "text-aqua-300" : "text-brand-600",
+            invert ? "text-brand-200" : "text-brand-700",
           )}
         >
           <span className="h-px w-6 bg-current" aria-hidden="true" />

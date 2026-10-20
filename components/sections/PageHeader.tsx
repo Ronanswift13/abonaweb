@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import { Container } from "@/components/ui/Container";
+import { site } from "@/data/site";
+import { toJsonLd } from "@/lib/utils";
 import type { LinkItem } from "@/types";
 
 interface PageHeaderProps {
@@ -13,16 +15,26 @@ interface PageHeaderProps {
   children?: React.ReactNode;
 }
 
-/** 子页面顶部横幅：面包屑 + 标题 + 描述 */
+/** 子页面顶部横幅：面包屑 + 标题 + 描述（同时输出面包屑结构化数据） */
 export function PageHeader({ eyebrow, title, description, breadcrumbs = [], children }: PageHeaderProps) {
   const crumbs = [{ label: "首页", href: "/" }, ...breadcrumbs];
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.label,
+      item: `${site.url}${crumb.href === "/" ? "" : crumb.href}`,
+    })),
+  };
 
   return (
     <section className="relative isolate overflow-hidden border-b border-ink-100 bg-white">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-grid-light bg-grid [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-        <div className="absolute -right-24 -top-32 size-[480px] rounded-full bg-aqua-300/25 blur-3xl" />
-        <div className="absolute -left-24 top-10 size-[360px] rounded-full bg-brand-200/30 blur-3xl" />
+        <div className="absolute -right-24 -top-32 size-[480px] rounded-full bg-ink-100/60 blur-3xl" />
+        <div className="absolute -left-24 top-10 size-[360px] rounded-full bg-brand-100/50 blur-3xl" />
       </div>
 
       <Container className="py-14 sm:py-20">
@@ -59,6 +71,7 @@ export function PageHeader({ eyebrow, title, description, breadcrumbs = [], chil
         {description && <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-500 sm:text-lg">{description}</p>}
         {children}
       </Container>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumbJsonLd) }} />
     </section>
   );
 }

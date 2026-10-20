@@ -2,38 +2,39 @@ import type { Accent } from "@/types";
 
 /**
  * 卡片主题色映射（数据中的 accent 字段 → Tailwind 类名）
+ * 统一为深红 / 石墨灰同色系，仅以明度区分，保持整体克制。
  * 注意：类名需完整书写，Tailwind 才能在构建时扫描到。
  */
 export const accentStyles: Record<Accent, { icon: string; glow: string; soft: string; text: string }> = {
   sky: {
-    icon: "from-brand-400 to-brand-700",
-    glow: "bg-brand-400/25",
+    icon: "from-brand-600 to-brand-800",
+    glow: "bg-brand-300/20",
     soft: "from-brand-50 to-white",
     text: "text-brand-700",
   },
   cyan: {
-    icon: "from-aqua-400 to-brand-600",
-    glow: "bg-aqua-400/25",
-    soft: "from-cyan-50 to-white",
-    text: "text-aqua-600",
+    icon: "from-brand-500 to-brand-700",
+    glow: "bg-brand-200/30",
+    soft: "from-brand-50 to-white",
+    text: "text-brand-600",
   },
   ocean: {
-    icon: "from-brand-500 to-brand-900",
-    glow: "bg-brand-600/20",
-    soft: "from-sky-50 to-white",
+    icon: "from-brand-700 to-brand-950",
+    glow: "bg-brand-400/15",
+    soft: "from-ink-50 to-white",
     text: "text-brand-800",
   },
   indigo: {
-    icon: "from-sky-400 to-indigo-600",
-    glow: "bg-indigo-400/20",
-    soft: "from-indigo-50 to-white",
-    text: "text-indigo-600",
+    icon: "from-ink-600 to-ink-900",
+    glow: "bg-ink-300/25",
+    soft: "from-ink-50 to-white",
+    text: "text-ink-800",
   },
   teal: {
-    icon: "from-teal-300 to-aqua-600",
-    glow: "bg-teal-300/25",
-    soft: "from-teal-50 to-white",
-    text: "text-teal-600",
+    icon: "from-brand-800 to-night-900",
+    glow: "bg-brand-300/15",
+    soft: "from-brand-50 to-white",
+    text: "text-brand-900",
   },
 };
 

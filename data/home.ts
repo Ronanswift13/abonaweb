@@ -1,3 +1,4 @@
+import { substationPluginCount } from "@/data/plugins";
 import type { HomeContent } from "@/types";
 
 /**
@@ -6,7 +7,7 @@ import type { HomeContent } from "@/types";
  */
 export const home: HomeContent = {
   hero: {
-    badge: "自研行业大模型 · 主动 AI · 数字孪生",
+    badge: "行业大模型 · 主动 AI · 智能监测 · 可信安全",
     title: "北京艾博纳信息技术有限公司",
     model: {
       name: "艾博纳幺儿",
@@ -14,12 +15,12 @@ export const home: HomeContent = {
       tagline: "面向电力能源与工业场景的自研大模型",
     },
     description:
-      "我们以自研大模型为核心，融合多模态感知、主动 AI 智能体与数字孪生技术，为电力能源与工业企业提供“看得见、想得到、做得准”的智能化解决方案。",
+      "我们以自研大模型为核心，融合多模态感知、主动 AI 智能体与数字孪生技术，并以贯穿全链路的安全设计，为电力能源与工业企业提供“看得见、想得到、做得准”的智能化解决方案。",
     primaryCta: { label: "了解我们的解决方案", href: "/capabilities" },
     secondaryCta: { label: "观看产品演示", href: "/products/abonayaoer#demo" },
-    // 【占位】亮点数据请替换为经确认可公开的表述
+    // 【占位】亮点数据请替换为经确认可公开的表述（插件数量取自 data/plugins.ts）
     highlights: [
-      { value: "自研", label: "行业大模型底座" },
+      { value: String(substationPluginCount), label: "变电站监测插件" },
       { value: "全链路", label: "感知 · 认知 · 决策" },
       { value: "私有化", label: "安全可控部署" },
     ],
@@ -47,7 +48,7 @@ export const home: HomeContent = {
   business: {
     eyebrow: "BUSINESS DIRECTIONS",
     title: "业务方向",
-    description: "围绕大模型与行业场景持续拓展，覆盖电力能源、工业物联网与企业服务等领域。",
+    description: "围绕大模型与行业场景持续拓展，覆盖电力能源、企业服务、工业物联网与网络安全等领域。",
   },
 
   casesNews: {
@@ -82,7 +83,7 @@ export const home: HomeContent = {
     eyebrow: "LET'S BUILD TOGETHER",
     title: "让大模型真正走进您的业务现场",
     description:
-      "无论是变电站智能监测、行业大模型私有化部署，还是主动 AI 智能体定制，我们都将为您提供从咨询、方案到落地运维的一站式服务。",
+      "无论是变电站智能监测、行业大模型私有化部署、主动 AI 智能体定制，还是智慧后勤 AI 助手，我们都将为您提供从咨询、方案到落地运维的一站式服务。",
     primary: { label: "获取解决方案", href: "/contact#solution" },
     secondary: { label: "联系我们", href: "/contact" },
     contactTitle: "商务联系人",

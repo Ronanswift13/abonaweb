@@ -12,10 +12,10 @@ export function Footer() {
   const copyrightYears = year > site.foundedYear ? `${site.foundedYear}–${year}` : `${year}`;
 
   return (
-    <footer className="relative overflow-hidden bg-night-gradient text-ink-300">
-      <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-40" aria-hidden="true" />
+    <footer className="relative overflow-hidden bg-brand-800 text-white/75">
+      <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-30" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute -top-40 right-0 size-[480px] rounded-full bg-brand-500/10 blur-3xl"
+        className="pointer-events-none absolute -top-40 right-0 size-[480px] rounded-full bg-brand-600/30 blur-3xl"
         aria-hidden="true"
       />
 
@@ -24,8 +24,8 @@ export function Footer() {
           {/* 公司信息 */}
           <div className="lg:col-span-4">
             <Logo invert />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-ink-300">{site.description}</p>
-            <p className="mt-4 text-xs text-ink-400">{site.nameEn}</p>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/75">{site.description}</p>
+            <p className="mt-4 text-xs text-white/65">{site.nameEn}</p>
           </div>
 
           {/* 链接分栏 */}
@@ -36,7 +36,7 @@ export function Footer() {
                 <ul className="mt-4 space-y-3">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm transition-colors hover:text-aqua-300">
+                      <Link href={link.href} className="text-sm transition-colors hover:text-white">
                         {link.label}
                       </Link>
                     </li>
@@ -49,12 +49,12 @@ export function Footer() {
           {/* 联系方式 */}
           <div className="lg:col-span-4">
             <h3 className="text-sm font-semibold text-white">联系我们</h3>
-            <ContactList invert className="mt-4" />
+            <ContactList invert showQr className="mt-4" />
           </div>
         </div>
 
         {/* 版权与备案 */}
-        <div className="flex flex-col gap-3 border-t border-white/10 py-6 text-xs text-ink-400 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 border-t border-white/15 py-6 text-xs text-white/65 md:flex-row md:items-center md:justify-between">
           <p>
             © {copyrightYears} {site.name} 版权所有
           </p>

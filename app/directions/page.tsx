@@ -1,9 +1,11 @@
 import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
+import { PlanSpotlight } from "@/components/sections/PlanSections";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { directions, directionsIntro, horizons } from "@/data/directions";
 import { home } from "@/data/home";
+import { yuanyinPlan } from "@/data/plans";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -22,9 +24,16 @@ export default function DirectionsPage() {
         breadcrumbs={[{ label: directionsIntro.title, href: "/directions" }]}
       />
 
+      {/* 重点发展计划 */}
+      <section className="pt-20">
+        <Container>
+          <PlanSpotlight plan={yuanyinPlan} />
+        </Container>
+      </section>
+
       <section className="py-20">
         <Container>
-          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-aqua-300 before:to-transparent md:before:left-[23px]">
+          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-brand-200 before:to-transparent md:before:left-[23px]">
             {horizons.map((horizon, index) => {
               const items = directions.filter((d) => d.horizon === horizon.key);
               if (items.length === 0) return null;

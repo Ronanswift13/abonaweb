@@ -9,7 +9,7 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      "bg-image": [{ bg: ["brand-gradient", "brand-button", "brand-gradient-soft", "night-gradient", "grid-light", "grid-dark"] }],
+      "bg-image": [{ bg: ["brand-gradient", "brand-gradient-soft", "night-gradient", "grid-light", "grid-dark"] }],
       "bg-size": [{ bg: ["grid", "200%"] }],
       shadow: [{ shadow: ["card", "card-hover", "glow"] }],
     },
@@ -33,7 +33,7 @@ export function formatDate(date: string) {
   return `${y}年${Number(m)}月${Number(d)}日`;
 }
 
-/** 手机号显示格式：13311187533 → 133 1118 7533 */
+/** 手机号分段显示：18301304191 → 183 0130 4191 */
 export function formatPhone(phone: string) {
   return phone.replace(/^(\d{3})(\d{4})(\d{4})$/, "$1 $2 $3");
 }

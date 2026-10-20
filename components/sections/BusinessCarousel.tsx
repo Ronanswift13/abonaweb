@@ -66,13 +66,13 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
   );
 
   const arrowClass =
-    "flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-aqua-300 hover:bg-white/10 disabled:opacity-40";
+    "flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-brand-300 hover:bg-white/10 disabled:opacity-40";
 
   return (
     <section className="relative overflow-hidden bg-night-gradient py-20 sm:py-24" aria-roledescription="carousel" aria-label={intro.title}>
       <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute -left-40 top-1/3 size-[520px] animate-float rounded-full bg-brand-500/15 blur-3xl"
+        className="pointer-events-none absolute -left-40 top-1/3 size-[520px] animate-float rounded-full bg-brand-700/20 blur-3xl"
         aria-hidden="true"
       />
 
@@ -121,19 +121,25 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
           <button type="button" className={cn(arrowClass, "size-9 md:hidden")} onClick={() => go("prev")} aria-label="上一张">
             <ChevronLeft className="size-4" aria-hidden="true" />
           </button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             {Array.from({ length: snapCount }, (_, index) => (
+              // 按钮本身保持 24px 点击区域（无障碍触控尺寸），内部小圆点负责视觉
               <button
                 key={index}
                 type="button"
                 onClick={() => go(index)}
                 aria-label={`切换到第 ${index + 1} 张`}
                 aria-current={index === selected}
-                className={cn(
-                  "h-2 rounded-full transition-all duration-300",
-                  index === selected ? "w-8 bg-brand-gradient" : "w-2 bg-white/25 hover:bg-white/50",
-                )}
-              />
+                className="group flex h-6 min-w-6 items-center justify-center px-1"
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "block h-2 rounded-full transition-all duration-300",
+                    index === selected ? "w-8 bg-brand-gradient" : "w-2 bg-white/25 group-hover:bg-white/50",
+                  )}
+                />
+              </button>
             ))}
           </div>
           <button type="button" className={cn(arrowClass, "size-9 md:hidden")} onClick={() => go("next")} aria-label="下一张">

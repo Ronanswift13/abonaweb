@@ -1,6 +1,7 @@
 import { NewsCard } from "@/components/cards/NewsCard";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container } from "@/components/ui/Container";
+import { FilterTabs } from "@/components/ui/FilterTabs";
 import { getAllNews } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -18,11 +19,11 @@ export default function NewsPage() {
       <section className="py-20">
         <Container className="max-w-4xl">
           {news.length > 0 ? (
-            <div className="space-y-5">
+            <FilterTabs categories={news.map((n) => n.category)} label="按分类筛选新闻" className="space-y-5">
               {news.map((item) => (
-                <NewsCard key={item.slug} item={item} />
+                <NewsCard key={item.slug} item={item} headingLevel="h2" />
               ))}
-            </div>
+            </FilterTabs>
           ) : (
             <p className="py-20 text-center text-ink-400">暂无新闻。</p>
           )}

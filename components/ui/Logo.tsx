@@ -15,14 +15,11 @@ interface LogoProps {
 /** Logo + 公司名，点击返回首页。Logo 高度 44px（设计要求 40–48px） */
 export function Logo({ withName = true, invert = false, className }: LogoProps) {
   return (
-    <Link
-      href="/"
-      aria-label={`${site.name} - 返回首页`}
-      className={cn("group inline-flex shrink-0 items-center gap-3", className)}
-    >
+    // 可访问名称取自可见文字（满足“标签与可见文字一致”），不再单独设置 aria-label
+    <Link href="/" className={cn("group inline-flex shrink-0 items-center gap-3", className)}>
       <Image
         src={site.logo.src}
-        alt={site.logo.alt}
+        alt={withName ? "" : `${site.name} 首页`}
         width={site.logo.width}
         height={site.logo.height}
         priority
@@ -38,7 +35,7 @@ export function Logo({ withName = true, invert = false, className }: LogoProps) 
           <span
             className={cn(
               "text-[10px] font-medium uppercase tracking-[0.18em]",
-              invert ? "text-ink-300" : "text-ink-400",
+              invert ? "text-white/70" : "text-ink-400",
             )}
           >
             {site.brand}

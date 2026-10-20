@@ -19,7 +19,7 @@ export function Hero({ content }: { content: HeroContent }) {
         {/* 左：文案 */}
         <div className="lg:col-span-7">
           <p className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-brand-100 bg-white/80 px-4 py-1.5 text-xs font-medium text-brand-700 shadow-sm backdrop-blur sm:text-sm">
-            <Sparkles className="size-4 text-aqua-500" aria-hidden="true" />
+            <Sparkles className="size-4 text-brand-600" aria-hidden="true" />
             {badge}
           </p>
 
@@ -50,7 +50,7 @@ export function Hero({ content }: { content: HeroContent }) {
               href={secondaryCta.href}
               variant="secondary"
               size="lg"
-              icon={<CirclePlay className="size-5 text-brand-600" aria-hidden="true" />}
+              icon={<CirclePlay className="size-5" aria-hidden="true" />}
             >
               {secondaryCta.label}
             </ButtonLink>
@@ -81,8 +81,8 @@ function HeroBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       <div className="absolute inset-0 bg-grid-light bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_60%_30%,black,transparent)]" />
-      <div className="absolute -right-32 -top-40 size-[640px] animate-float rounded-full bg-aqua-300/30 blur-3xl" />
-      <div className="absolute -bottom-48 -left-40 size-[560px] animate-float-slow rounded-full bg-brand-300/25 blur-3xl" />
+      <div className="absolute -right-32 -top-40 size-[640px] animate-float rounded-full bg-ink-100/60 blur-3xl" />
+      <div className="absolute -bottom-48 -left-40 size-[560px] animate-float-slow rounded-full bg-brand-100/50 blur-3xl" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent" />
     </div>
   );
@@ -95,14 +95,14 @@ function HeroVisual({ demo }: { demo: HeroContent["demo"] }) {
       {/* 轨道装饰 */}
       <div className="absolute left-1/2 top-1/2 -z-10 size-[115%] -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
         <div className="absolute inset-0 animate-spin-slow rounded-full border border-dashed border-brand-200" />
-        <div className="absolute inset-[12%] rounded-full border border-aqua-300/40" />
-        <div className="absolute inset-[24%] rounded-full bg-brand-gradient opacity-10 blur-2xl" />
+        <div className="absolute inset-[12%] rounded-full border border-ink-200/60" />
+        <div className="absolute inset-[24%] rounded-full bg-brand-gradient opacity-[0.06] blur-2xl" />
       </div>
 
       <div className="relative rounded-3xl border border-white/70 bg-white/80 p-5 shadow-card-hover backdrop-blur-xl sm:p-6">
         {/* 面板头 */}
         <div className="flex items-center gap-3 border-b border-ink-100 pb-4">
-          <span className="flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-50 to-white ring-1 ring-brand-100">
+          <span className="flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-ink-50 to-white ring-1 ring-ink-100">
             <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} className="h-7 w-auto" />
           </span>
           <div className="min-w-0">
@@ -139,7 +139,7 @@ function HeroVisual({ demo }: { demo: HeroContent["demo"] }) {
         <div className="rounded-2xl bg-ink-50 p-4" aria-hidden="true">
           <div className="mb-3 flex items-center justify-between text-[11px] font-medium text-ink-400">
             <span>多源数据融合分析</span>
-            <span className="text-brand-600">实时</span>
+            <span className="text-brand-700">实时</span>
           </div>
           <div className="flex h-14 items-end gap-1">
             {[38, 52, 44, 60, 48, 70, 56, 82, 64, 92, 74, 58, 66, 50, 62, 46].map((h, i) => (
