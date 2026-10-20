@@ -45,3 +45,7 @@ next-env.d.ts
 
 # Nginx 证书（勿提交）
 deploy/nginx/certs/
+
+# ACME 临时校验文件与 Nginx 日志
+deploy/nginx/acme/
+deploy/nginx/logs/

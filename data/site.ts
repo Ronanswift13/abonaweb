@@ -10,8 +10,8 @@ export const site: SiteConfig = {
   shortName: "艾博纳",
   nameEn: "Beijing Aibona Information Technology Co., Ltd.",
   brand: "Abonayaoer",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.abonayaoer.com",
-  domain: "Abonayaoer.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.abonatech.com",
+  domain: "abonatech.com",
   description:
     "北京艾博纳信息技术有限公司专注行业大模型、主动 AI 智能体、变电站智能监测、数字孪生与网络安全技术，以自研大模型「艾博纳幺儿」（Abonayaoer）赋能电力能源与工业场景的智能化升级。",
   keywords: [
@@ -49,7 +49,7 @@ export const site: SiteConfig = {
     phone: "18301304191",
     wechat: "TSwiftie-1989",
     // wechatQr: "/images/wechat-qr.png", // 【占位】放入微信二维码图片后取消注释
-    // email: "business@abonayaoer.com", // 【占位】对外邮箱确认后取消注释
+    // email: "business@abonatech.com", // 【占位】对外邮箱确认后取消注释
   },
   address: "北京市", // 【占位】详细办公地址待确认
   serviceHours: "周一至周五 9:00–18:00",

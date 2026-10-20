@@ -3,7 +3,8 @@ import type { DevelopmentDirection, Horizon, SectionIntro } from "@/types";
 export const directionsIntro: SectionIntro = {
   eyebrow: "ROADMAP",
   title: "发展方向",
-  description: "立足电力能源，以大模型与主动 AI 为主线，逐步走向更广阔的工业与企业服务场景。",
+  description:
+    "立足电力能源，以大模型与主动 AI 为主线，以「元隐空轴智慧测绘计划」为重点，逐步走向新能源、交通、空天地通信与算力网络等更广阔的场景。",
 };
 
 /** 时间维度说明（页面按此顺序分组展示） */

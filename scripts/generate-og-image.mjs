@@ -35,7 +35,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <text x="96" y="492" ${font} font-size="26" fill="#374151">行业大模型 · 主动 AI 智能体 · 变电站智能监测 · 数字孪生</text>
 
   <rect x="96" y="540" width="56" height="3" fill="#9B1B1B"/>
-  <text x="168" y="550" ${font} font-size="24" font-weight="600" fill="#111827" letter-spacing="1">www.abonayaoer.com</text>
+  <text x="168" y="550" ${font} font-size="24" font-weight="600" fill="#111827" letter-spacing="1">www.abonatech.com</text>
 </svg>`;
 
 const logo = await sharp(projectDir + "/public/images/logo.png").resize({ height: 150 }).toBuffer();

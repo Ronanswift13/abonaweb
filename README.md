@@ -1,6 +1,6 @@
 # 北京艾博纳信息技术有限公司 · 官方网站
 
-> Beijing Aibona Information Technology Co., Ltd. · **Abonayaoer.com**
+> Beijing Aibona Information Technology Co., Ltd. · **abonatech.com**
 > 自研大模型「艾博纳幺儿」（Abonayaoer）
 
 企业官网 V1.0 工程框架：**Next.js 16（App Router）+ TypeScript（strict）+ Tailwind CSS v3**，内容与 UI 分离，支持 Docker / Docker Compose / Nginx 部署。
@@ -181,6 +181,8 @@ featured: true                 # 首页优先展示
 
 ## 4. 生产部署
 
+阿里云 ECS 从域名解析、ICP备案、安全组、Docker 安装、证书到首次启动的完整操作见 **[deploy/ALIYUN.md](deploy/ALIYUN.md)**。首次上线建议按该手册逐项执行；下面保留日常部署速查。
+
 ### 4.1 Docker Compose（推荐）
 
 ```bash
@@ -220,7 +222,7 @@ docker compose up -d --build    # 重新构建并滚动替换容器
 - [ ] 团队、案例、新闻等【占位】内容已替换或删除
 - [ ] `NEXT_PUBLIC_SITE_URL` 为正式域名
 - [ ] HTTPS 证书有效，HTTP 自动跳转
-- [ ] `https://www.abonayaoer.com/sitemap.xml`、`/robots.txt` 可访问
+- [ ] `https://www.abonatech.com/sitemap.xml`、`/robots.txt` 可访问
 - [ ] 分享图、微信二维码、百度统计按需配置
 
 ---

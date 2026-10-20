@@ -71,7 +71,17 @@ export type IconName =
   | "key"
   | "fingerprint"
   | "usercheck"
-  | "filecheck";
+  | "filecheck"
+  // 发展计划（空天地 / 行业接口）
+  | "satellite"
+  | "drone"
+  | "car"
+  | "radiotower"
+  | "eyeoff"
+  | "axis"
+  | "ban"
+  | "landmark"
+  | "flag";
 
 /** 链接（站内路由以 "/" 开头；外链/电话以 http、tel:、mailto: 开头） */
 export interface LinkItem {
@@ -353,6 +363,107 @@ export interface DevelopmentDirection {
   horizon: Horizon;
   summary: string;
   focus: string[];
+}
+
+/* ------------------------------------------------------------------ */
+/* 发展计划（/directions/<slug>，单独详细介绍的重点计划）               */
+/* ------------------------------------------------------------------ */
+
+/** 通用表格：每行与 columns 一一对应，首列作为行标题 */
+export interface PlanTable {
+  columns: string[];
+  rows: string[][];
+}
+
+export interface PlanStep {
+  title: string;
+  description: string;
+  /** 补充说明（如策略），以弱化样式显示 */
+  note?: string;
+}
+
+/** 计划名称释义（空 / 轴 / 稳网 / 元 / 隐 / 测绘） */
+export interface PlanTerm {
+  term: string;
+  /** 所属分计划，如 "空轴稳网" */
+  group: string;
+  description: string;
+}
+
+/** 技术线 */
+export interface PlanTrack {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: IconName;
+  goal: string;
+  /** 分层观测（如天基 / 空基 / 地基） */
+  layers?: Feature[];
+  /** 开发顺序或模块 */
+  steps: PlanStep[];
+  strategy: string[];
+  /** 通栏展示（模块较多时） */
+  wide?: boolean;
+}
+
+/** 分计划 */
+export interface SubPlan {
+  id: string;
+  name: string;
+  /** 领域，如 "能源" */
+  domain: string;
+  icon: IconName;
+  summary: string;
+  goals: string[];
+  nonGoals: string[];
+  table: { title: string; data: PlanTable };
+  route: { title: string; steps: PlanStep[] };
+  highlights: { title: string; items: string[]; note?: string }[];
+  zones?: { title: string; description: string; data: PlanTable };
+  note?: string;
+}
+
+export interface PlanPhase {
+  name: string;
+  period: string;
+  content: string;
+  /** 对应的国家政策窗口 */
+  window: string;
+}
+
+export interface DevelopmentPlan {
+  slug: string;
+  name: string;
+  subtitle: string;
+  /** 计划发起说明（页头导语、首页 / 发展方向页推荐位） */
+  statement: string;
+  /** 计划简介（SEO 描述、新闻与搜索摘要） */
+  summary: string;
+  facts: { label: string; value: string }[];
+  overview: {
+    problem: string[];
+    gaps: Feature[];
+    conclusion: string;
+    goals: { year: string; description: string }[];
+  };
+  terms: PlanTerm[];
+  tracks: PlanTrack[];
+  /** 大模型在计划中的角色与边界 */
+  llmRoles: string[];
+  subPlans: SubPlan[];
+  fusion: { unit: string; chain: string[]; wording: string; governance: string[] };
+  phases: PlanPhase[];
+  firstPhase: { intro: string; steps: { days: string; content: string }[] };
+  /** 复制阶段起按统一编号接入的行业接口 */
+  interfaces: { intro: string; items: Feature[] };
+  policies: PlanTable;
+  acceptance: PlanTable;
+  risks: PlanTable;
+  outcomes: string[];
+  /** 规划期内明确不做的事项 */
+  boundaries: string[];
+  /** 依托的公司现有产品与能力 */
+  foundations: (Feature & { href: string })[];
 }
 
 /* ------------------------------------------------------------------ */

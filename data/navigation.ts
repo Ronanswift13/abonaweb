@@ -29,6 +29,7 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "了解艾博纳",
     links: [
+      { label: "元隐空轴计划", href: "/directions/yuanyin-kongzhou" },
       { label: "新闻动态", href: "/news" },
       { label: "关于我们", href: "/about" },
       { label: "联系我们", href: "/contact" },

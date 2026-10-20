@@ -1,9 +1,11 @@
 import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
+import { PlanSpotlight } from "@/components/sections/PlanSections";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { directions, directionsIntro, horizons } from "@/data/directions";
 import { home } from "@/data/home";
+import { yuanyinPlan } from "@/data/plans";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -21,6 +23,13 @@ export default function DirectionsPage() {
         description={directionsIntro.description}
         breadcrumbs={[{ label: directionsIntro.title, href: "/directions" }]}
       />
+
+      {/* 重点发展计划 */}
+      <section className="pt-20">
+        <Container>
+          <PlanSpotlight plan={yuanyinPlan} />
+        </Container>
+      </section>
 
       <section className="py-20">
         <Container>

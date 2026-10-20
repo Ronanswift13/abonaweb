@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { yuanyinPlan } from "@/data/plans";
 import { site } from "@/data/site";
 import { getAllCases, getAllNews, getAllProducts } from "@/lib/content";
 
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
+    { url: `${site.url}/directions/${yuanyinPlan.slug}`, changeFrequency: "monthly" as const, priority: 0.8 },
     ...getAllProducts().map((p) => ({ url: `${site.url}/products/${p.slug}`, priority: 0.7 })),
     ...getAllCases().map((c) => ({ url: `${site.url}/cases/${c.slug}`, lastModified: c.date, priority: 0.6 })),
     ...getAllNews().map((n) => ({ url: `${site.url}/news/${n.slug}`, lastModified: n.date, priority: 0.6 })),

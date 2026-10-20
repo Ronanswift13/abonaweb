@@ -7,6 +7,16 @@ import type { BusinessDirection } from "@/types";
  */
 export const businessDirections: BusinessDirection[] = [
   {
+    id: "yuanyin-kongzhou",
+    title: "元隐空轴智慧测绘",
+    subtitle: "Development Plan",
+    icon: "satellite",
+    accent: "sky",
+    description: "空天地物理测绘、网络空间资产测绘与主动智能体协同，服务新能源系统稳定运行与关键信息基础设施可见性。",
+    tags: ["空轴稳网", "元隐测绘"],
+    href: "/directions/yuanyin-kongzhou",
+  },
+  {
     id: "llm",
     title: "行业大模型",
     subtitle: "Industry LLM",
