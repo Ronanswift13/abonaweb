@@ -1,0 +1,211 @@
+# 北京艾博纳信息技术有限公司 · 官方网站
+
+> Beijing Aibona Information Technology Co., Ltd. · **Abonayaoer.com**
+> 自研大模型「艾博纳幺儿」（Abonayaoer）
+
+企业官网 V1.0 工程框架：**Next.js 16（App Router）+ TypeScript（strict）+ Tailwind CSS v3**，内容与 UI 分离，支持 Docker / Docker Compose / Nginx 部署。
+
+---
+
+## 1. 快速开始
+
+环境要求：Node.js ≥ 20.9（推荐 22 / 24 LTS）
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
+
+| 命令 | 说明 |
+| --- | --- |
+| `npm run dev` | 本地开发（热更新） |
+| `npm run build` | 生产构建（输出 `.next/standalone`） |
+| `npm run start` | 本地运行生产构建 |
+| `npm run typecheck` | 生成路由类型并做 TypeScript 检查 |
+| `npm run lint` | ESLint 检查 |
+| `npm run check` | 类型检查 + Lint + 构建（提交 / 发布前执行） |
+
+国内网络安装依赖较慢时：`npm install --registry=https://registry.npmmirror.com`
+
+---
+
+## 2. 目录结构
+
+```
+.
+├── app/                      # 路由（App Router）
+│   ├── layout.tsx            # 全局布局：导航、页脚、SEO 元数据、组织结构化数据
+│   ├── page.tsx              # 首页（区块顺序在这里调整）
+│   ├── globals.css           # Tailwind 入口与全局样式
+│   ├── capabilities/         # 核心能力
+│   ├── products/             # 产品与解决方案 + [slug] 产品详情
+│   ├── cases/                # 项目案例 + [slug] 案例详情
+│   ├── directions/           # 发展方向
+│   ├── news/                 # 新闻动态 + [slug] 新闻详情
+│   ├── about/                # 关于我们
+│   ├── contact/              # 联系我们（#solution 获取解决方案）
+│   ├── search/               # 站内搜索
+│   ├── api/health/           # 健康检查（Docker / 监控）
+│   ├── sitemap.ts robots.ts  # 自动生成 sitemap.xml / robots.txt
+│   ├── icon.png apple-icon.png  # 站点图标（由 Logo 生成）
+│   └── not-found.tsx         # 404
+├── components/
+│   ├── layout/               # Navbar、Footer
+│   ├── sections/             # Hero、ProductSection、BusinessCarousel、CasesNewsSection、
+│   │                         # CultureTeam、CTA、PageHeader、SearchResults
+│   ├── cards/                # ProductCard、BusinessCard、CaseCard、NewsCard、TeamMemberCard
+│   └── ui/                   # Button、Container、SectionHeading、Icon、Logo、ContactList …
+├── data/                     # 结构化内容（TypeScript，类型见 types/）
+│   ├── site.ts               # ★ 公司信息、联系方式、备案号、Logo
+│   ├── navigation.ts         # 主导航、页脚链接
+│   ├── home.ts               # 首页各区块文案（Hero、CTA …）
+│   ├── products.ts           # 核心产品（自动生成详情页）
+│   ├── business.ts           # 业务方向轮播卡片
+│   ├── capabilities.ts       # 核心能力
+│   ├── directions.ts         # 发展方向
+│   ├── culture.ts team.ts    # 企业文化、核心团队
+│   └── about.ts              # 关于我们、联系我们页文案
+├── content/                  # Markdown 内容（文件名即 URL）
+│   ├── news/                 # 新闻 → /news/<文件名>
+│   └── cases/                # 案例 → /cases/<文件名>
+├── lib/                      # 内容读取（content.ts）、SEO、搜索索引、工具函数
+├── types/index.ts            # 全部内容数据的 TypeScript 接口
+├── public/images/            # Logo、团队头像等静态资源
+├── deploy/nginx/conf.d/      # Nginx 反向代理配置
+├── Dockerfile  docker-compose.yml  .dockerignore  .env.example
+└── tailwind.config.ts        # ★ 品牌色、渐变、阴影、动画等设计令牌
+```
+
+---
+
+## 3. 内容修改指南
+
+所有文案都在 `data/` 与 `content/` 中，**组件里不写死业务文案**。
+所有待确认 / 待替换的占位内容都标记了 `【占位】`，一条命令即可列出：
+
+```bash
+grep -rn "【占位】" data content app components
+```
+
+| 想修改的内容 | 文件 |
+| --- | --- |
+| 公司名称、联系人、电话、微信、邮箱、地址、ICP 备案号 | `data/site.ts` |
+| 导航栏 / 页脚链接 | `data/navigation.ts` |
+| 首页 Hero、各区块标题、底部 CTA | `data/home.ts` |
+| 核心产品（首页三张卡片 = `featured: true`，按 `order` 排序） | `data/products.ts` |
+| 业务方向轮播卡片 | `data/business.ts` |
+| 核心能力 / 发展方向 | `data/capabilities.ts` / `data/directions.ts` |
+| 企业文化 / 核心团队 | `data/culture.ts` / `data/team.ts` |
+| 关于我们、联系我们页 | `data/about.ts` |
+| 品牌色、渐变、阴影、字体 | `tailwind.config.ts` |
+
+### 新增一条新闻
+
+在 `content/news/` 新建 `2026-11-xxx.md`（文件名即 URL：`/news/2026-11-xxx`）：
+
+```markdown
+---
+title: 新闻标题
+date: "2026-11-01"
+category: 公司新闻
+summary: 列表页与 SEO 使用的摘要
+featured: false
+---
+
+正文使用 Markdown，支持 **加粗**、列表、表格、[链接](/contact) 等。
+```
+
+保存后首页“新闻动态”、新闻列表、sitemap、站内搜索会自动更新。缺少必填字段时构建会报错并指出文件名。
+
+### 新增一个项目案例
+
+在 `content/cases/` 新建 `.md` 文件，frontmatter 字段：
+
+```yaml
+title: 案例标题
+date: "2026-11-01"
+industry: 电力能源
+client: 某省级电网公司          # 未获授权时不写真实客户名
+summary: 摘要
+icon: radar                    # 可选值见 types/index.ts → IconName
+accent: sky                    # sky | cyan | ocean | indigo | teal
+products: [poye-substation-monitoring]   # 关联产品 slug，可为空 []
+results: [成果一, 成果二]
+featured: true                 # 首页优先展示
+```
+
+### 新增一个产品 / 业务方向
+
+在 `data/products.ts` 或 `data/business.ts` 数组中追加一项即可——卡片、详情页（`/products/<slug>`）、轮播指示点、sitemap 都会自动生成。
+
+### 替换 Logo / 图标
+
+- `public/images/logo.png`：当前由提供的 JPG 抠图生成的透明 PNG（197×153）。拿到矢量或高清源文件后直接覆盖，并同步 `data/site.ts` 中 `logo.width / height`。
+- `app/icon.png`、`app/apple-icon.png`：浏览器标签页与 iOS 图标。
+
+### 新增图标
+
+1. 在 `types/index.ts` 的 `IconName` 中添加名称
+2. 在 `components/ui/Icon.tsx` 中注册对应的 [lucide-react](https://lucide.dev/icons) 图标
+
+### 字体
+
+为保证国内服务器构建与访问稳定，默认使用系统字体栈（苹方 / 微软雅黑 / 思源黑体等），不依赖 Google Fonts。如需统一字体，可将 Inter / 思源黑体字体文件放入项目，用 `next/font/local` 加载，并在 `tailwind.config.ts` 的 `fontFamily.sans` 前置。
+
+---
+
+## 4. 生产部署
+
+### 4.1 Docker Compose（推荐）
+
+```bash
+cp .env.example .env            # 按需修改；国内服务器建议 NPM_REGISTRY=https://registry.npmmirror.com
+docker compose up -d --build    # 网站监听 127.0.0.1:3000
+docker compose ps               # STATUS 显示 healthy 即启动成功
+```
+
+### 4.2 启用 Nginx + HTTPS
+
+1. 域名解析到服务器，申请证书，将 `fullchain.pem`、`privkey.pem` 放入 `deploy/nginx/certs/`（已在 `.gitignore` 中忽略）
+2. 按实际域名修改 `deploy/nginx/conf.d/abona.conf`
+3. 启动：
+
+```bash
+docker compose --profile nginx up -d --build
+```
+
+Nginx 负责：HTTP→HTTPS 跳转、裸域→www、反向代理、限流、HSTS、gzip、访问/错误日志（`deploy/nginx/logs/`）。应用端口默认仅监听本机，不直接暴露公网。
+
+### 4.3 更新发布
+
+```bash
+git pull
+docker compose up -d --build    # 重新构建并滚动替换容器
+```
+
+### 4.4 上线前检查
+
+- [ ] `data/site.ts`：ICP 备案号、地址、邮箱、成立年份等【占位】已替换
+- [ ] 团队、案例、新闻等【占位】内容已替换或删除
+- [ ] `NEXT_PUBLIC_SITE_URL` 为正式域名
+- [ ] HTTPS 证书有效，HTTP 自动跳转
+- [ ] `https://www.abonayaoer.com/sitemap.xml`、`/robots.txt` 可访问
+
+---
+
+## 5. 技术说明
+
+- **渲染方式**：全部页面在构建期静态生成（SSG），访问速度快、服务器压力小；内容修改后重新构建即可生效。
+- **Next.js 16**：未启用 Cache Components（`cacheComponents`），沿用经典的静态 / 动态渲染模型，对内容型官网更简单直接；后续需要时可在 `next.config.ts` 开启。
+- **轮播**：Embla Carousel，支持拖动、触摸滑动、左右按钮、指示点、自动轮播、悬停暂停；系统开启“减少动态效果”时不自动播放。
+- **SEO**：每页独立 Title / Description / Canonical / Open Graph（`lib/metadata.ts`），组织与新闻结构化数据（JSON-LD），自动 sitemap / robots。
+- **内容层**：页面只通过 `lib/content.ts` 取数。V2.0 引入 CMS / API 时，只需改写该文件。
+
+## 6. 后续演进（参考建设方案）
+
+- V2.0：CMS 内容管理后台、FastAPI 接口、PostgreSQL、权限与审核流程
+- V3.0：AI 智能助手、在线产品演示、客户门户、多语言站点等
+
+---
+
+联系人：周贤伟 · 电话 13311187533 · 微信 zhou13311187533
