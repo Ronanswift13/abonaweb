@@ -1,0 +1,74 @@
+import { CTA } from "@/components/sections/CTA";
+import { PageHeader } from "@/components/sections/PageHeader";
+import { Container } from "@/components/ui/Container";
+import { Icon } from "@/components/ui/Icon";
+import { directions, directionsIntro, horizons } from "@/data/directions";
+import { home } from "@/data/home";
+import { pageMetadata } from "@/lib/metadata";
+
+export const metadata = pageMetadata({
+  title: directionsIntro.title,
+  description: directionsIntro.description,
+  path: "/directions",
+});
+
+export default function DirectionsPage() {
+  return (
+    <>
+      <PageHeader
+        eyebrow={directionsIntro.eyebrow}
+        title={directionsIntro.title}
+        description={directionsIntro.description}
+        breadcrumbs={[{ label: directionsIntro.title, href: "/directions" }]}
+      />
+
+      <section className="py-20">
+        <Container>
+          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-aqua-300 before:to-transparent md:before:left-[23px]">
+            {horizons.map((horizon, index) => {
+              const items = directions.filter((d) => d.horizon === horizon.key);
+              if (items.length === 0) return null;
+              return (
+                <li key={horizon.key} className="relative pl-14 md:pl-20">
+                  {/* 时间轴节点 */}
+                  <span className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full bg-brand-gradient text-sm font-bold text-white shadow-glow md:size-12">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="text-2xl font-bold text-ink-900">{horizon.label}</h2>
+                  <p className="mt-2 text-ink-500">{horizon.description}</p>
+
+                  <div className="mt-8 grid gap-6 md:grid-cols-2">
+                    {items.map((d) => (
+                      <article
+                        key={d.id}
+                        id={d.id}
+                        className="rounded-3xl border border-ink-100 bg-white p-7 shadow-card transition-shadow hover:shadow-card-hover"
+                      >
+                        <div className="flex items-center gap-4">
+                          <span className="flex size-12 items-center justify-center rounded-2xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
+                            <Icon name={d.icon} className="size-6" />
+                          </span>
+                          <h3 className="text-lg font-bold text-ink-900">{d.title}</h3>
+                        </div>
+                        <p className="mt-4 text-sm leading-relaxed text-ink-500">{d.summary}</p>
+                        <ul className="mt-5 flex flex-wrap gap-2">
+                          {d.focus.map((f) => (
+                            <li key={f} className="rounded-full border border-brand-100 bg-brand-50/60 px-3 py-1 text-xs text-brand-800">
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </article>
+                    ))}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </Container>
+      </section>
+
+      <CTA content={home.cta} />
+    </>
+  );
+}
