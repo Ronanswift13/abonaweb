@@ -1,0 +1,50 @@
+# 北京艾博纳官网 · 持续集成
+#
+# 推送到 main 或向 main 提交 PR 时执行：安装依赖 → 类型检查 → Lint → 生产构建。
+# main 上的 CI 通过后，会触发 deploy.yml 发布到生产服务器（见 README「CI/CD」）。
+# 注意：deploy.yml 通过工作流名称 "CI" 监听本工作流，改名时需同步修改。
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# 同一分支 / PR 有新提交时，取消尚未完成的旧检查
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck · Lint · Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v7
+
+      - name: 安装 Node.js 24（缓存 npm）
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci --no-audit --no-fund
+
+      - name: 类型检查
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: 生产构建
+        run: npm run build

@@ -1,0 +1,190 @@
+# 北京艾博纳官网 · 生产发布
+#
+# 触发方式：
+#   - 手动：Actions → Deploy → Run workflow（仅限 main，且该提交的 CI 必须已通过）
+#   - 自动：main 上的 CI 通过后触发；需将仓库变量 AUTO_DEPLOY 设为 true 才会启用
+# 流程：确认提交 → production 环境审批（如已配置）→ SSH 登录服务器 →
+#       git 快进到该提交 → docker compose up -d --build → 轮询健康检查 → 正式生效
+# 任一步失败即停止发布。服务器地址、账号、密钥、目录全部来自 Secrets，见 README「CI/CD」。
+
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # 服务器本机的健康检查地址（对应 docker-compose.yml 中 web 服务的端口映射）
+  HEALTH_URL: http://127.0.0.1:3000/api/health
+
+jobs:
+  preflight:
+    name: Resolve commit
+    # 自动触发仅针对 main 的 push 且 CI 成功（排除 PR、失败或被取消的 CI）
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (vars.AUTO_DEPLOY == 'true' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      sha: ${{ steps.resolve.outputs.sha }}
+    steps:
+      - name: 确认待发布提交
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            if [ "$GITHUB_REF" != refs/heads/main ]; then
+              echo "::error::只能从 main 分支发布（当前：$GITHUB_REF）"
+              exit 1
+            fi
+            passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml \
+              --commit "$SHA" --status success --limit 1 --json databaseId --jq length)
+            if [ "$passed" = 0 ]; then
+              echo "::error::提交 $SHA 的 CI 尚未通过，停止发布"
+              exit 1
+            fi
+          fi
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "待发布提交：\`$SHA\`" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Deploy to production
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Settings → Environments → production 中配置 Required reviewers 后，发布前需人工批准
+    environment:
+      name: production
+      url: https://www.abonayaoer.com
+    # 同一时间只运行一个发布，后到的排队等待
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    env:
+      SHA: ${{ needs.preflight.outputs.sha }}
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+    steps:
+      - name: 配置 SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          missing=""
+          for name in DEPLOY_HOST DEPLOY_USER DEPLOY_SSH_KEY DEPLOY_PATH; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::缺少 Secrets:$missing（见 README「CI/CD」）"
+            exit 1
+          fi
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          if [ -n "$DEPLOY_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::未设置 DEPLOY_KNOWN_HOSTS，本次信任 ssh-keyscan 获取的主机指纹（建议配置以固定指纹）"
+            ssh-keyscan -T 20 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > ~/.ssh/known_hosts
+          fi
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "::error::无法获取服务器主机指纹，请检查 DEPLOY_HOST / DEPLOY_PORT"
+            exit 1
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<EOF
+          Host deploy-target
+            HostName $DEPLOY_HOST
+            Port $DEPLOY_PORT
+            User $DEPLOY_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 20
+            ServerAliveInterval 30
+            ServerAliveCountMax 10
+          EOF
+
+      - name: 发布（git 快进 → docker compose 重建 → 健康检查）
+        run: |
+          # 参数在本地经 %q 转义后传给远端；远端脚本包在函数里：bash 先读完整个函数再执行，
+          # 避免其中命令读取 stdin 时吞掉后续脚本
+          # shellcheck disable=SC2029
+          ssh deploy-target "bash -s -- $(printf '%q ' "$DEPLOY_PATH" "$SHA" "$HEALTH_URL")" <<'REMOTE'
+          set -euo pipefail
+
+          deploy() {
+            local app_dir=$1 sha=$2 health_url=$3
+
+            cd "$app_dir"
+            echo "==> 部署目录 $(pwd)：$(git rev-parse --short HEAD) → ${sha:0:7}"
+
+            # 国内服务器访问 GitHub 偶有超时，最多重试 3 次
+            local attempt
+            for attempt in 1 2 3; do
+              git fetch origin main && break
+              if [ "$attempt" -eq 3 ]; then
+                echo "git fetch 失败，停止发布" >&2
+                return 1
+              fi
+              sleep 10
+            done
+
+            # 只快进到 CI 验证过的提交；服务器有冲突的本地修改或分叉提交时直接失败，不覆盖
+            git merge --ff-only "$sha"
+            echo "==> 代码已更新：$(git log -1 --format='%h %s')"
+
+            # 构建失败时旧容器保持运行；NPM_REGISTRY 等变量取自服务器上的 .env
+            echo "==> 重新构建并启动容器"
+            docker compose up -d --build
+
+            echo "==> 等待健康检查 $health_url"
+            local i body
+            for ((i = 1; i <= 30; i++)); do
+              if body=$(curl -fsS --max-time 5 "$health_url" 2>/dev/null); then
+                echo "==> 健康检查通过（第 $i 次）：$body"
+                # 已启用 Nginx（--profile nginx）时重载，使其重新解析新 web 容器的地址
+                if [ "$(docker inspect -f '{{.State.Running}}' abona-nginx 2>/dev/null)" = true ]; then
+                  docker exec abona-nginx nginx -s reload
+                  echo "==> Nginx 已重载"
+                fi
+                # 清理被替换下来的旧镜像，避免磁盘逐渐占满
+                docker image prune -f > /dev/null
+                return 0
+              fi
+              sleep 5
+            done
+
+            echo "健康检查失败，停止发布" >&2
+            docker compose ps
+            docker compose logs --tail=100 web
+            return 1
+          }
+
+          deploy "$@"
+          REMOTE
+
+      - name: 清理 SSH 密钥
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
