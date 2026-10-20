@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Icon } from "@/components/ui/Icon";
 import { site } from "@/data/site";
@@ -8,6 +10,8 @@ interface ContactListProps {
   invert?: boolean;
   /** 是否显示地址、工作时间等扩展信息 */
   extended?: boolean;
+  /** 是否显示微信二维码（需在 data/site.ts 配置 contact.wechatQr） */
+  showQr?: boolean;
   className?: string;
 }
 
@@ -15,14 +19,14 @@ interface ContactListProps {
  * 联系方式列表（联系人 / 电话 / 微信 …）
  * 数据来自 data/site.ts → contact，CTA、页脚、联系页共用。
  */
-export function ContactList({ invert = false, extended = false, className }: ContactListProps) {
+export function ContactList({ invert = false, extended = false, showQr = false, className }: ContactListProps) {
   const { contact, address, serviceHours, domain } = site;
 
   const iconBox = cn(
     "flex size-10 shrink-0 items-center justify-center rounded-xl",
-    invert ? "bg-white/10 text-aqua-300" : "bg-brand-50 text-brand-600",
+    invert ? "bg-white/10 text-white" : "bg-brand-50 text-brand-700",
   );
-  const label = cn("text-xs", invert ? "text-ink-300" : "text-ink-400");
+  const label = cn("text-xs", invert ? "text-white/70" : "text-ink-400");
   const value = cn("font-semibold", invert ? "text-white" : "text-ink-900");
 
   return (
@@ -49,7 +53,6 @@ export function ContactList({ invert = false, extended = false, className }: Con
           <a
             href={`tel:${contact.phone}`}
             className={cn(value, "tabular-nums tracking-wide hover:underline")}
-            aria-label={`拨打电话 ${contact.phone}`}
           >
             {formatPhone(contact.phone)}
           </a>
@@ -67,11 +70,24 @@ export function ContactList({ invert = false, extended = false, className }: Con
             <CopyButton
               value={contact.wechat}
               label="复制微信号"
-              className={invert ? "border-white/25 text-ink-200 hover:border-white hover:text-white" : undefined}
+              className={invert ? "border-white/30 text-white/85 hover:border-white hover:text-white" : undefined}
             />
           </div>
         </div>
       </li>
+
+      {showQr && contact.wechatQr && (
+        <li className="pl-[52px]">
+          <Image
+            src={contact.wechatQr}
+            alt={`${contact.name}的微信二维码`}
+            width={240}
+            height={240}
+            className="size-28 rounded-xl bg-white p-1.5 shadow-card"
+          />
+          <p className={cn(label, "mt-2")}>微信扫码添加</p>
+        </li>
+      )}
 
       {contact.email && (
         <li className="flex items-center gap-3">

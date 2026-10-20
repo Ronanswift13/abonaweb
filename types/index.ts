@@ -42,7 +42,36 @@ export type IconName =
   | "mail"
   | "map"
   | "globe"
-  | "clock";
+  | "clock"
+  // 监测插件 / 技术方案
+  | "toggle"
+  | "cable"
+  | "battery"
+  | "thermometer"
+  | "flame"
+  | "rainbow"
+  | "bird"
+  | "paw"
+  | "hardhat"
+  | "waveform"
+  | "wind"
+  | "server"
+  | "workflow"
+  | "merge"
+  | "fence"
+  | "route"
+  | "puzzle"
+  | "history"
+  | "database"
+  | "mic"
+  | "volume"
+  | "checklist"
+  // 安全
+  | "lock"
+  | "key"
+  | "fingerprint"
+  | "usercheck"
+  | "filecheck";
 
 /** 链接（站内路由以 "/" 开头；外链/电话以 http、tel:、mailto: 开头） */
 export interface LinkItem {
@@ -71,6 +100,8 @@ export interface ContactPerson {
   title?: string;
   phone: string;
   wechat: string;
+  /** 微信二维码图片（public/ 下路径，建议 400×400 以上正方形）；未设置时不显示 */
+  wechatQr?: string;
   email?: string;
 }
 
@@ -92,6 +123,14 @@ export interface SiteConfig {
   logo: {
     src: string;
     /** 原始图片尺寸，用于 next/image 计算比例 */
+    width: number;
+    height: number;
+    alt: string;
+  };
+  /** 社交分享图（1200×630，由 npm run og:generate 生成） */
+  ogImage: {
+    /** public/ 下的路径，字段名与 Next.js OGImage 一致 */
+    url: string;
     width: number;
     height: number;
     alt: string;
@@ -194,6 +233,47 @@ export interface Feature {
   icon?: IconName;
 }
 
+/** 产品关键数据（详情页顶部数字条） */
+export interface ProductStat {
+  value: string;
+  label: string;
+}
+
+/** 技术架构中的一层 */
+export interface ArchitectureLayer {
+  name: string;
+  description: string;
+  items: string[];
+}
+
+/** 插件部署场景 */
+export type PluginScene = "室外" | "室内" | "移动作业" | "二次设备" | "全站";
+
+/** 监测插件（详情页“插件矩阵”中的一张卡片；id 同时作为锚点 #plugin-{id}） */
+export interface MonitoringPlugin {
+  id: string;
+  name: string;
+  icon: IconName;
+  scene: PluginScene;
+  description: string;
+  /** 关键技术标签（2–4 个） */
+  techniques: string[];
+}
+
+/** 插件分组（按系统类别） */
+export interface PluginGroup {
+  /** 类别代号，如 "A" */
+  code: string;
+  title: string;
+  description: string;
+  plugins: MonitoringPlugin[];
+}
+
+export interface TechStackGroup {
+  category: string;
+  items: string[];
+}
+
 /** 核心产品（首页三列卡片 + /products/[slug] 详情页） */
 export interface Product {
   slug: string;
@@ -216,6 +296,24 @@ export interface Product {
     title: string;
     description: string;
   };
+
+  /* ---- 技术方案（以下均为可选，有数据时详情页自动渲染对应区块） ---- */
+
+  /** 关键数据 */
+  stats?: ProductStat[];
+  /** 关键数据的口径说明（如“内部冻结测试集”） */
+  statsNote?: string;
+  /** 技术架构（#architecture） */
+  architecture?: { description: string; layers: ArchitectureLayer[] };
+  /** 监测插件矩阵（#plugins） */
+  plugins?: { description: string; groups: PluginGroup[]; note?: string };
+  /** 关键技术（#technology） */
+  technologies?: Feature[];
+  /** 安全设计（#security） */
+  security?: { description: string; items: Feature[] };
+  /** 技术栈（#stack） */
+  techStack?: TechStackGroup[];
+
   /** 是否在首页核心产品区展示 */
   featured: boolean;
   /** 排序，数字越小越靠前 */

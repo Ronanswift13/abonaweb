@@ -37,7 +37,7 @@ export default function ContactPage() {
             <div className="relative">
               <h2 className="text-2xl font-bold">{site.name}</h2>
               <p className="mt-1 text-sm text-ink-300">{site.nameEn}</p>
-              <ContactList invert extended className="mt-8" />
+              <ContactList invert extended showQr className="mt-8" />
               <ButtonLink
                 href={`tel:${site.contact.phone}`}
                 variant="light"

@@ -24,7 +24,7 @@ export default function DirectionsPage() {
 
       <section className="py-20">
         <Container>
-          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-aqua-300 before:to-transparent md:before:left-[23px]">
+          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-brand-200 before:to-transparent md:before:left-[23px]">
             {horizons.map((horizon, index) => {
               const items = directions.filter((d) => d.horizon === horizon.key);
               if (items.length === 0) return null;

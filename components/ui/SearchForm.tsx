@@ -29,7 +29,7 @@ export function SearchForm({ defaultValue, autoFocus, className, onSubmit }: Sea
       />
       <button
         type="submit"
-        className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-full bg-brand-button px-4 text-sm font-semibold text-white"
+        className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-full bg-brand-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
       >
         搜索
       </button>

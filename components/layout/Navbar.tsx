@@ -83,7 +83,7 @@ export function Navbar() {
       ref={headerRef}
       className={cn(
         "sticky top-0 z-50 border-b bg-white/85 backdrop-blur-xl transition-[border-color,box-shadow] duration-300",
-        scrolled || menuOpen ? "border-ink-100 shadow-[0_8px_30px_-12px_rgba(11,27,46,0.12)]" : "border-transparent",
+        scrolled || menuOpen ? "border-ink-100 shadow-[0_8px_30px_-12px_rgba(17,24,39,0.10)]" : "border-transparent",
       )}
     >
       <Container className="flex h-[72px] items-center justify-between gap-4 xl:gap-6">
@@ -91,7 +91,8 @@ export function Navbar() {
 
         {/* 桌面端主导航 */}
         <nav aria-label="主导航" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+          {/* lg 档（1024px 起）空间较紧：缩小字号与内边距并禁止折行，xl 档恢复宽松间距 */}
+          <ul className="flex items-center xl:gap-1">
             {mainNav.map((item) => {
               const active = isActive(pathname, item.href);
               return (
@@ -100,7 +101,7 @@ export function Navbar() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative rounded-full px-2.5 py-2 text-[15px] font-medium transition-colors xl:px-4",
+                      "relative whitespace-nowrap rounded-full px-1.5 py-2 text-sm font-medium transition-colors xl:px-4 xl:text-[15px]",
                       active ? "text-brand-700" : "text-ink-600 hover:text-brand-700",
                     )}
                   >
@@ -108,7 +109,7 @@ export function Navbar() {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "absolute inset-x-2.5 -bottom-0.5 h-0.5 rounded-full bg-brand-gradient transition-opacity xl:inset-x-4",
+                        "absolute inset-x-1.5 -bottom-0.5 h-0.5 rounded-full bg-brand-700 transition-opacity xl:inset-x-4",
                         active ? "opacity-100" : "opacity-0",
                       )}
                     />
@@ -188,7 +189,7 @@ export function Navbar() {
                         )}
                       >
                         {item.label}
-                        {active && <span className="size-2 rounded-full bg-brand-500" aria-hidden="true" />}
+                        {active && <span className="size-2 rounded-full bg-brand-700" aria-hidden="true" />}
                       </Link>
                     </li>
                   );
@@ -204,7 +205,7 @@ export function Navbar() {
                 href={`tel:${site.contact.phone}`}
                 className="flex h-12 items-center justify-center gap-2 rounded-full border border-ink-200 text-sm font-semibold text-ink-800"
               >
-                <Phone className="size-4 text-brand-600" aria-hidden="true" />
+                <Phone className="size-4 text-brand-700" aria-hidden="true" />
                 {site.contact.name} · {formatPhone(site.contact.phone)}
               </a>
             </div>

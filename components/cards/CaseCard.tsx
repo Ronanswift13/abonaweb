@@ -7,7 +7,17 @@ import { cn, formatDate } from "@/lib/utils";
 import type { CaseMeta } from "@/types";
 
 /** 项目案例卡片：渐变封面（暂无图片时）+ 行业 / 标题 / 摘要 */
-export function CaseCard({ item, className }: { item: CaseMeta; className?: string }) {
+export function CaseCard({
+  item,
+  headingLevel = "h3",
+  className,
+}: {
+  item: CaseMeta;
+  /** 列表页直接位于 h1 之下时传 "h2"，保持标题层级连续 */
+  headingLevel?: "h2" | "h3";
+  className?: string;
+}) {
+  const Heading = headingLevel;
   const accent = getAccent(item.accent);
 
   return (
@@ -30,11 +40,11 @@ export function CaseCard({ item, className }: { item: CaseMeta; className?: stri
         <p className="text-xs text-ink-400">
           {item.client} · {formatDate(item.date)}
         </p>
-        <h3 className="mt-2 text-lg font-bold leading-snug text-ink-900">
+        <Heading className="mt-2 text-lg font-bold leading-snug text-ink-900">
           <Link href={`/cases/${item.slug}`} className="after:absolute after:inset-0 after:content-['']">
             {item.title}
           </Link>
-        </h3>
+        </Heading>
         <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-500">{item.summary}</p>
         <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700">
           查看案例

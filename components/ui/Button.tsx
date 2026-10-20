@@ -7,11 +7,10 @@ type Variant = "primary" | "secondary" | "ghost" | "light" | "outline-light";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  // 品牌渐变主按钮
-  primary:
-    "bg-brand-button text-white shadow-glow hover:brightness-110 hover:shadow-[0_16px_40px_-12px_rgba(0,174,239,0.75)]",
-  // 白底描边按钮
-  secondary: "border border-ink-200 bg-white text-ink-800 hover:border-brand-300 hover:text-brand-700",
+  // 深红主按钮，悬停加深
+  primary: "bg-brand-700 text-white shadow-glow hover:bg-brand-800",
+  // 白底红色描边按钮
+  secondary: "border border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
   ghost: "text-brand-700 hover:bg-brand-50",
   // 深色/渐变背景上的白色按钮
   light: "bg-white text-brand-800 shadow-card hover:bg-brand-50",
@@ -47,7 +46,7 @@ export function ButtonLink({
 }: ButtonLinkProps) {
   const classes = cn(
     "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-all duration-300",
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500",
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700",
     variants[variant],
     sizes[size],
     className,

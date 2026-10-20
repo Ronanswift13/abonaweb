@@ -32,7 +32,7 @@ export function CTA({ content }: { content: CtaContent }) {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-3xl border border-white/25 bg-night-900/35 p-6 backdrop-blur-md sm:p-8">
+              <div className="rounded-3xl border border-white/25 bg-night-900/30 p-6 backdrop-blur-md sm:p-8">
                 <p className="mb-5 text-sm font-semibold text-white">{content.contactTitle}</p>
                 <ContactList invert />
               </div>

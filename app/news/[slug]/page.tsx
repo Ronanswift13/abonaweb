@@ -21,7 +21,13 @@ export async function generateMetadata({ params }: PageProps<"/news/[slug]">): P
   const { slug } = await params;
   const article = getNews(slug);
   if (!article) return {};
-  return pageMetadata({ title: article.title, description: article.summary, path: `/news/${slug}` });
+  return pageMetadata({
+    title: article.title,
+    description: article.summary,
+    path: `/news/${slug}`,
+    type: "article",
+    publishedTime: article.date,
+  });
 }
 
 export default async function NewsDetailPage({ params }: PageProps<"/news/[slug]">) {

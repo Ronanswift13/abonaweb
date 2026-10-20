@@ -3,6 +3,7 @@ import type { FooterColumn, LinkItem, NavItem } from "@/types";
 /** 顶部主导航（顺序即展示顺序） */
 export const mainNav: NavItem[] = [
   { label: "首页", href: "/" },
+  { label: "产品方案", href: "/products" },
   { label: "核心能力", href: "/capabilities" },
   { label: "项目案例", href: "/cases" },
   { label: "发展方向", href: "/directions" },
@@ -20,6 +21,7 @@ export const footerColumns: FooterColumn[] = [
     links: [
       { label: "核心能力", href: "/capabilities" },
       { label: "产品与解决方案", href: "/products" },
+      { label: "监测插件", href: "/products/poye-substation-monitoring#plugins" },
       { label: "项目案例", href: "/cases" },
       { label: "发展方向", href: "/directions" },
     ],

@@ -24,6 +24,9 @@ FROM base AS builder
 # 站点正式地址在构建时写入（SEO / sitemap / canonical）
 ARG NEXT_PUBLIC_SITE_URL=https://www.abonayaoer.com
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+# 百度统计站点 ID（可选，留空则不加载统计脚本）
+ARG NEXT_PUBLIC_BAIDU_TONGJI_ID=
+ENV NEXT_PUBLIC_BAIDU_TONGJI_ID=$NEXT_PUBLIC_BAIDU_TONGJI_ID
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

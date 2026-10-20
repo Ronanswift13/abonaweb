@@ -5,13 +5,17 @@ import { Container } from "@/components/ui/Container";
 import { home } from "@/data/home";
 import { getAllProducts } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/utils";
 
 const title = "产品与解决方案";
-const description = "自研大模型、变电站智能监测平台与主动 AI 智能体，覆盖感知、认知与决策全链路。";
+const description =
+  "变电站智能监测平台、自研行业大模型、主动 AI 智能体与智慧后勤 AI 助手，覆盖感知、认知、决策与服务全链路。";
 
 export const metadata = pageMetadata({ title, description, path: "/products" });
 
 export default function ProductsPage() {
+  const products = getAllProducts();
+
   return (
     <>
       <PageHeader
@@ -21,9 +25,9 @@ export default function ProductsPage() {
         breadcrumbs={[{ label: title, href: "/products" }]}
       />
       <section className="py-20">
-        <Container className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {getAllProducts().map((product) => (
-            <ProductCard key={product.slug} product={product} />
+        <Container className={cn("grid gap-6 md:grid-cols-2", products.length % 3 === 0 && "lg:grid-cols-3")}>
+          {products.map((product) => (
+            <ProductCard key={product.slug} product={product} headingLevel="h2" />
           ))}
         </Container>
       </section>

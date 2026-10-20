@@ -2,11 +2,10 @@ import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
 /**
- * 艾博纳官网设计令牌（Design Tokens）
- * - brand：主色，取自 Logo 天蓝 → 深蓝（#00AEEF → #0077B6）
- * - aqua ：辅助色，取自 Logo 右上角的青色高光
- * - ink  ：文字与中性色（深蓝灰，替代纯黑）
- * - night：页脚等深色区域背景
+ * 艾博纳官网设计令牌（Design Tokens）—— 纯白背景 + 深红强调色（正式企业风格）
+ * - brand：品牌主色，深红 / 酒红系。700 = 主色 #9B1B1B，800 = 深色版 #7F1D1D（悬停、页脚），50 = 浅色版 #FEF2F2
+ * - ink  ：文字与中性色。900/800 主文字，500/400 次要文字，100 边框与分割线，50 极浅灰背景
+ * - night：轮播、联系卡片等深色区域背景（深灰红）
  * 修改品牌色只需调整此处，全站组件统一引用这些 token。
  */
 const config: Config = {
@@ -21,43 +20,36 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#E8F8FE",
-          100: "#CDEFFC",
-          200: "#9DE0FA",
-          300: "#63CDF6",
-          400: "#2BBDF2",
-          500: "#00AEEF",
-          600: "#0092D4",
-          700: "#0077B6",
-          800: "#005D8F",
-          900: "#00466B",
-          950: "#032C45",
-          DEFAULT: "#00AEEF",
-        },
-        aqua: {
-          300: "#7FE7F2",
-          400: "#3FD8EA",
-          500: "#16C5DD",
-          600: "#0EA5BF",
-          DEFAULT: "#3FD8EA",
+          50: "#FEF2F2",
+          100: "#FBE0E0",
+          200: "#F5C7C7",
+          300: "#E99A9A",
+          400: "#D65C5C",
+          500: "#C43131",
+          600: "#B12525",
+          700: "#9B1B1B",
+          800: "#7F1D1D",
+          900: "#661A1A",
+          950: "#3F1212",
+          DEFAULT: "#9B1B1B",
         },
         ink: {
-          50: "#F6F8FB",
-          100: "#EEF2F6",
-          200: "#DCE3EA",
-          300: "#B4BECA",
-          400: "#8592A3",
-          500: "#5B6B80",
-          600: "#3E5269",
-          700: "#24384F",
-          800: "#13263D",
-          900: "#0B1B2E",
-          DEFAULT: "#0B1B2E",
+          50: "#F8FAFC",
+          100: "#E5E7EB",
+          200: "#D1D5DB",
+          300: "#9CA3AF",
+          400: "#6B7280",
+          500: "#4B5563",
+          600: "#374151",
+          700: "#283241",
+          800: "#1F2937",
+          900: "#111827",
+          DEFAULT: "#111827",
         },
         night: {
-          800: "#0A1E33",
-          900: "#061423",
-          DEFAULT: "#061423",
+          800: "#3F1A1A",
+          900: "#2B1315",
+          DEFAULT: "#2B1315",
         },
       },
       fontFamily: {
@@ -80,14 +72,12 @@ const config: Config = {
         ],
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #3FD8EA 0%, #00AEEF 45%, #0077B6 100%)",
-        // 按钮用较深的渐变，保证白色文字对比度
-        "brand-button": "linear-gradient(120deg, #00A3E6 0%, #0084C8 55%, #006AA8 100%)",
-        "brand-gradient-soft":
-          "linear-gradient(135deg, rgba(63,216,234,0.14) 0%, rgba(0,174,239,0.10) 45%, rgba(0,119,182,0.08) 100%)",
-        "night-gradient": "linear-gradient(160deg, #0A1E33 0%, #061423 60%, #032C45 100%)",
+        // 同色系的克制渐变（不跨色相），保证白色文字对比度
+        "brand-gradient": "linear-gradient(135deg, #B12525 0%, #9B1B1B 50%, #7F1D1D 100%)",
+        "brand-gradient-soft": "linear-gradient(135deg, rgba(155,27,27,0.07) 0%, rgba(155,27,27,0.02) 100%)",
+        "night-gradient": "linear-gradient(160deg, #3F1A1A 0%, #2B1315 100%)",
         "grid-light":
-          "linear-gradient(to right, rgba(0,119,182,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,119,182,0.07) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(17,24,39,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,24,39,0.045) 1px, transparent 1px)",
         "grid-dark":
           "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
       },
@@ -96,9 +86,9 @@ const config: Config = {
         "200%": "200% 200%",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(11,27,46,0.04), 0 8px 24px -8px rgba(11,27,46,0.10)",
-        "card-hover": "0 2px 4px rgba(11,27,46,0.04), 0 24px 48px -16px rgba(0,119,182,0.30)",
-        glow: "0 12px 32px -10px rgba(0,174,239,0.65)",
+        card: "0 1px 2px rgba(17,24,39,0.04), 0 8px 24px -8px rgba(17,24,39,0.08)",
+        "card-hover": "0 2px 4px rgba(17,24,39,0.04), 0 20px 40px -16px rgba(127,29,29,0.18)",
+        glow: "0 10px 24px -12px rgba(127,29,29,0.55)",
       },
       keyframes: {
         flow: {
@@ -128,7 +118,7 @@ const config: Config = {
             "--tw-prose-headings": theme("colors.ink.900"),
             "--tw-prose-links": theme("colors.brand.700"),
             "--tw-prose-bold": theme("colors.ink.900"),
-            "--tw-prose-bullets": theme("colors.brand.500"),
+            "--tw-prose-bullets": theme("colors.brand.700"),
             "--tw-prose-quotes": theme("colors.ink.700"),
             "--tw-prose-quote-borders": theme("colors.brand.300"),
           },

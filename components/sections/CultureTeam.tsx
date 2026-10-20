@@ -24,11 +24,11 @@ export function CultureTeam({ culture, team }: CultureTeamProps) {
                 key={value.title}
                 className="group rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition-all hover:-translate-y-0.5 hover:border-brand-200"
               >
-                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-gradient group-hover:text-white">
+                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-700 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-gradient group-hover:text-white">
                   <Icon name={value.icon} className="size-5" />
                 </span>
                 <h3 className="mt-5 text-lg font-bold text-ink-900">{value.title}</h3>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-500">{value.subtitle}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-600">{value.subtitle}</p>
                 <p className="mt-3 text-sm leading-relaxed text-ink-500">{value.description}</p>
               </article>
             ))}

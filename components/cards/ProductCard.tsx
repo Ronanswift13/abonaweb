@@ -7,7 +7,17 @@ import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 
 /** 核心产品卡片：图标 / 角标 / 标题 / 简述 / 关键词 / 了解更多 */
-export function ProductCard({ product, className }: { product: Product; className?: string }) {
+export function ProductCard({
+  product,
+  headingLevel = "h3",
+  className,
+}: {
+  product: Product;
+  /** 列表页直接位于 h1 之下时传 "h2"，保持标题层级连续 */
+  headingLevel?: "h2" | "h3";
+  className?: string;
+}) {
+  const Heading = headingLevel;
   const accent = getAccent(product.accent);
   const href = `/products/${product.slug}`;
 
@@ -40,11 +50,11 @@ export function ProductCard({ product, className }: { product: Product; classNam
         <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">{product.tag}</span>
       </div>
 
-      <h3 className="relative mt-7 text-xl font-bold text-ink-900">
+      <Heading className="relative mt-7 text-xl font-bold text-ink-900">
         <Link href={href} className="after:absolute after:inset-0 after:content-['']">
           {product.name}
         </Link>
-      </h3>
+      </Heading>
       {product.nameEn && <p className="relative mt-1 text-sm font-medium text-ink-400">{product.nameEn}</p>}
 
       <p className="relative mt-4 flex-1 text-[15px] leading-relaxed text-ink-500">{product.summary}</p>

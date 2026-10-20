@@ -19,6 +19,8 @@ export const metadata = pageMetadata({
 });
 
 export default function CapabilitiesPage() {
+  const products = getAllProducts();
+
   return (
     <>
       <PageHeader
@@ -75,8 +77,8 @@ export default function CapabilitiesPage() {
       <section className="bg-ink-50/70 py-20">
         <Container>
           <SectionHeading {...home.products} align="center" />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {getAllProducts().map((product) => (
+          <div className={cn("mt-12 grid gap-6 md:grid-cols-2", products.length % 3 === 0 && "lg:grid-cols-3")}>
+            {products.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
           </div>

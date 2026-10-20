@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 
+import { BaiduAnalytics } from "@/components/layout/BaiduAnalytics";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { BackToTop } from "@/components/ui/BackToTop";
 import { site } from "@/data/site";
 import { toJsonLd } from "@/lib/utils";
 import "./globals.css";
@@ -22,13 +24,19 @@ export const metadata: Metadata = {
     title: `${site.name} | ${site.brand}`,
     description: site.description,
     url: "/",
-    images: [{ url: site.logo.src, width: site.logo.width, height: site.logo.height, alt: site.logo.alt }],
+    images: [site.ogImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | ${site.brand}`,
+    description: site.description,
+    images: [site.ogImage.url],
   },
   formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#00AEEF",
+  themeColor: "#9B1B1B",
 };
 
 /** 组织结构化数据（SEO） */
@@ -49,6 +57,9 @@ const organizationJsonLd = {
   },
 };
 
+/** 百度统计站点 ID（构建时注入，未设置则不加载统计脚本） */
+const baiduTongjiId = process.env.NEXT_PUBLIC_BAIDU_TONGJI_ID;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="zh-CN" data-scroll-behavior="smooth" className="scroll-smooth">
@@ -64,7 +75,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <BackToTop />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(organizationJsonLd) }} />
+        {baiduTongjiId && <BaiduAnalytics siteId={baiduTongjiId} />}
       </body>
     </html>
   );
