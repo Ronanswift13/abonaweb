@@ -57,9 +57,15 @@ export const products: Product[] = [
       "作业现场安全管控",
       "二次设备智能运维",
     ],
+    // 视频画面为变电站现场巡视系统，讲解对照破夜绘明各插件的承接方式（口径见视频讲解文案）
     demo: {
-      title: "平台演示",
-      description: "演示视频整理中。如需了解平台实际效果，欢迎联系我们预约线上演示或现场交流。",
+      title: "110kV 主变 AI 自主巡视实录",
+      description:
+        "110kV 变电站主变 AI 自主巡视现场实录（已倍速与脱敏处理），逐段讲解每个巡视环节在破夜绘明变电站监测平台中由哪个插件承接，以及各项能力的当前验收状态。时长约 3 分 17 秒。",
+      video: {
+        src: "/videos/poye-substation-patrol-demo.mp4",
+        poster: "/videos/poye-substation-patrol-demo-poster.jpg",
+      },
     },
     stats: [
       { value: String(substationPluginCount), label: "标准化监测插件" },

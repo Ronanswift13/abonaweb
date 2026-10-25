@@ -305,6 +305,12 @@ export interface Product {
   demo?: {
     title: string;
     description: string;
+    /** 演示视频（public 下的路径或完整 URL）；不填则显示“预约演示”占位卡 */
+    video?: {
+      src: string;
+      /** 封面图，建议与视频同为 16:9 */
+      poster?: string;
+    };
   };
 
   /* ---- 技术方案（以下均为可选，有数据时详情页自动渲染对应区块） ---- */

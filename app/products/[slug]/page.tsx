@@ -173,8 +173,47 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
         </section>
       ))}
 
-      {/* 产品演示（占位） */}
-      {product.demo && (
+      {/* 产品演示：有视频时播放视频，否则显示预约演示占位卡 */}
+      {product.demo?.video && (
+        <section id="demo" className="py-20">
+          <Container>
+            <div className="relative isolate overflow-hidden rounded-[2rem] bg-night-gradient p-5 sm:p-8 lg:p-10">
+              <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-60" aria-hidden="true" />
+              <div
+                className="absolute -top-24 left-1/2 -z-10 size-96 -translate-x-1/2 rounded-full bg-brand-500/20 blur-3xl"
+                aria-hidden="true"
+              />
+              <SectionHeading
+                eyebrow="PRODUCT DEMO"
+                title={product.demo.title}
+                description={product.demo.description}
+                invert
+                action={
+                  <ButtonLink href="/contact" variant="light">
+                    预约演示
+                  </ButtonLink>
+                }
+              />
+              <video
+                className="mt-8 aspect-video w-full rounded-2xl bg-black shadow-2xl ring-1 ring-white/15"
+                controls
+                playsInline
+                preload="metadata"
+                poster={product.demo.video.poster}
+                aria-label={product.demo.title}
+              >
+                <source src={product.demo.video.src} type="video/mp4" />
+                您的浏览器不支持视频播放，请
+                <a href={product.demo.video.src} className="underline">
+                  下载视频
+                </a>
+                观看。
+              </video>
+            </div>
+          </Container>
+        </section>
+      )}
+      {product.demo && !product.demo.video && (
         <section id="demo" className="py-20">
           <Container>
             <div className="relative isolate flex aspect-video max-h-[520px] w-full flex-col items-center justify-center overflow-hidden rounded-[2rem] bg-night-gradient p-8 text-center">
