@@ -5,16 +5,19 @@ import { CirclePlay } from "lucide-react";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
+import { FieldPhotos, InteractionFlow, PhoneScreens, TwinShowcase } from "@/components/sections/ProductMedia";
 import {
   ArchitectureStack,
   FeatureGrid,
   PluginMatrix,
+  PluginOverview,
   ProductSectionNav,
   ProductStats,
   TechStack,
 } from "@/components/sections/ProductTech";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { ScreenGallery } from "@/components/ui/ScreenGallery";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { home } from "@/data/home";
 import { getAllProducts, getCasesByProduct, getProduct } from "@/lib/content";
@@ -41,6 +44,48 @@ function buildSections(product: Product): DetailSection[] {
       title: "核心功能",
       content: <FeatureGrid items={product.features} fallbackIcon={product.icon} />,
     },
+    !!product.flow && {
+      id: "flow",
+      label: "交互流程",
+      icon: "repeat",
+      eyebrow: "WORKFLOW",
+      title: product.flow.title,
+      description: product.flow.description,
+      content: <InteractionFlow steps={product.flow.steps} loop={product.flow.loop} guardrails={product.flow.guardrails} />,
+    },
+    !!product.screens && {
+      id: "screens",
+      label: "界面展示",
+      icon: "monitor",
+      eyebrow: "INTERFACE",
+      title: "界面展示",
+      description: product.screens.description,
+      content:
+        product.screens.device === "phone" ? (
+          <PhoneScreens items={product.screens.items} note={product.screens.note} />
+        ) : (
+          <>
+            <ScreenGallery items={product.screens.items} label={`${product.name}界面截图`} />
+            {product.screens.note && <p className="mt-6 text-xs leading-relaxed text-ink-400">注：{product.screens.note}</p>}
+          </>
+        ),
+    },
+    !!product.twin && {
+      id: "twin",
+      label: "数字孪生",
+      icon: "layers",
+      eyebrow: "DIGITAL TWIN",
+      title: "数字孪生",
+      description: product.twin.description,
+      content: (
+        <TwinShowcase
+          video={product.twin.video}
+          steps={product.twin.steps}
+          note={product.twin.note}
+          label={`${product.name}数字孪生演示`}
+        />
+      ),
+    },
     !!product.architecture && {
       id: "architecture",
       label: "技术架构",
@@ -57,7 +102,21 @@ function buildSections(product: Product): DetailSection[] {
       eyebrow: "PLUGINS",
       title: "监测插件矩阵",
       description: product.plugins.description,
-      content: <PluginMatrix groups={product.plugins.groups} note={product.plugins.note} />,
+      content: (
+        <>
+          <PluginOverview groups={product.plugins.groups} />
+          <PluginMatrix groups={product.plugins.groups} note={product.plugins.note} />
+        </>
+      ),
+    },
+    !!product.field && {
+      id: "field",
+      label: "现场实拍",
+      icon: "camera",
+      eyebrow: "FIELD",
+      title: "现场实拍",
+      description: product.field.description,
+      content: <FieldPhotos items={product.field.items} plugins={product.plugins?.groups} note={product.field.note} />,
     },
     !!product.technologies?.length && {
       id: "technology",

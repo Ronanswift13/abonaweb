@@ -9,6 +9,7 @@ import {
   Briefcase,
   Building2,
   Cable,
+  Camera,
   Car,
   Clock,
   Combine,
@@ -40,6 +41,7 @@ import {
   MessageCircle,
   MessageSquareText,
   Mic,
+  MonitorPlay,
   Network,
   Newspaper,
   PawPrint,
@@ -48,6 +50,7 @@ import {
   Radar,
   RadioTower,
   Rainbow,
+  Repeat,
   Rocket,
   Route,
   Satellite,
@@ -140,6 +143,9 @@ const ICONS: Record<IconName, LucideIcon> = {
   ban: Ban,
   landmark: Landmark,
   flag: Flag,
+  monitor: MonitorPlay,
+  camera: Camera,
+  repeat: Repeat,
 };
 
 interface IconProps extends LucideProps {

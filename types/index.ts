@@ -81,7 +81,11 @@ export type IconName =
   | "axis"
   | "ban"
   | "landmark"
-  | "flag";
+  | "flag"
+  // 产品演示（界面截图 / 现场实拍 / 交互闭环）
+  | "monitor"
+  | "camera"
+  | "repeat";
 
 /** 链接（站内路由以 "/" 开头；外链/电话以 http、tel:、mailto: 开头） */
 export interface LinkItem {
@@ -284,6 +288,48 @@ export interface TechStackGroup {
   items: string[];
 }
 
+/** 产品图片（界面截图 / 现场实拍）；src 为 public/ 下路径，宽高为原图像素，供 next/image 计算比例 */
+export interface ProductImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  /** 标签页名 / 图注标题 */
+  title: string;
+  caption?: string;
+}
+
+/** 演示视频（public 下的路径或完整 URL） */
+export interface ProductVideo {
+  src: string;
+  /** 封面图，建议与视频同为 16:9 */
+  poster?: string;
+}
+
+/** 界面展示：desktop 为标签切换的大屏截图；phone 为按操作步骤并排的手机界面 */
+export interface ProductScreens {
+  device: "desktop" | "phone";
+  description?: string;
+  items: ProductImage[];
+  note?: string;
+}
+
+/** 现场实拍；plugin 为承接该环节的监测插件 id（链接到 #plugin-{id}） */
+export interface FieldPhoto extends ProductImage {
+  plugin?: string;
+}
+
+/** 交互流程中的一步 */
+export interface FlowStep {
+  title: string;
+  description: string;
+  icon: IconName;
+  /** 执行方：系统自动完成，或需要值守人员操作（图中以不同样式区分，体现人在回路） */
+  actor: "system" | "human";
+  /** 要点短标签（2–4 个） */
+  points?: string[];
+}
+
 /** 核心产品（首页三列卡片 + /products/[slug] 详情页） */
 export interface Product {
   slug: string;
@@ -305,12 +351,27 @@ export interface Product {
   demo?: {
     title: string;
     description: string;
-    /** 演示视频（public 下的路径或完整 URL）；不填则显示“预约演示”占位卡 */
-    video?: {
-      src: string;
-      /** 封面图，建议与视频同为 16:9 */
-      poster?: string;
-    };
+    /** 演示视频；不填则显示“预约演示”占位卡 */
+    video?: ProductVideo;
+  };
+
+  /* ---- 产品演示素材（可选，有数据时详情页自动渲染对应区块） ---- */
+
+  /** 界面展示（#screens） */
+  screens?: ProductScreens;
+  /** 数字孪生示意（#twin）：循环播放的无声演示 + 逐级下钻步骤 */
+  twin?: { description: string; video: ProductVideo; steps: Feature[]; note?: string };
+  /** 现场实拍（#field） */
+  field?: { description: string; items: FieldPhoto[]; note?: string };
+  /** 交互流程闭环图（#flow） */
+  flow?: {
+    title: string;
+    description: string;
+    steps: FlowStep[];
+    /** 末步回到首步的说明，如“进入下一轮汇报” */
+    loop?: string;
+    /** 贯穿全流程的护栏 */
+    guardrails?: Feature[];
   };
 
   /* ---- 技术方案（以下均为可选，有数据时详情页自动渲染对应区块） ---- */

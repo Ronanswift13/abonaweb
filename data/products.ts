@@ -67,6 +67,105 @@ export const products: Product[] = [
         poster: "/videos/poye-substation-patrol-demo-poster.jpg",
       },
     },
+    // 截图录制自 DarkBreaker 演示档（DARKBREAKER_PROFILE=demo），未接入现场数据
+    screens: {
+      device: "desktop",
+      description: "从多站总览到单站设备，四个主要监测视图覆盖「看全局、看拓扑、看现场」的值守需要。",
+      items: [
+        {
+          src: "/images/products/poye/ui-region-overview.jpg",
+          width: 2400,
+          height: 1350,
+          title: "区域态势",
+          alt: "破夜绘明区域态势页面：地图上叠加输电线路与变电站，左侧为站点列表，右侧为区域告警汇总与插件健康",
+          caption:
+            "多站一屏：按电压等级筛选站点，地图叠加输电线路、变电站与行政区划，右侧汇总区域告警、平台接入与插件健康；点击站点即可下钻到单站驾驶舱。",
+        },
+        {
+          src: "/images/products/poye/ui-cockpit-sld.jpg",
+          width: 2400,
+          height: 1350,
+          title: "主控驾驶舱",
+          alt: "破夜绘明主控驾驶舱：中部为变电站主接线图与室内区域布局，右侧为实时告警中心与 SOE 动作时间线",
+          caption:
+            "单站主接线图与室内区域布局并排呈现，右侧为实时告警中心、SOE 动作时间线与快速处置入口，底部为最近事件流与插件健康矩阵。",
+        },
+        {
+          src: "/images/products/poye/ui-outdoor-twin.jpg",
+          width: 2400,
+          height: 1350,
+          title: "室外监测中心",
+          alt: "破夜绘明室外监测中心：户外站区三维数字孪生，左侧为一次设备状态与监测插件列表",
+          caption: "户外站区三维场景：一次设备按站区布局建模，左侧为设备状态与各监测插件接入情况，插件告警会自动落到对应设备上。",
+        },
+        {
+          src: "/images/products/poye/ui-indoor-twin.jpg",
+          width: 2400,
+          height: 1350,
+          title: "室内监测中心",
+          alt: "破夜绘明室内监测中心：二次设备楼三维数字孪生，右侧显示选中围栏对象的详情",
+          caption: "二次设备楼三维场景，覆盖主控室、开关柜室、蓄电池室与电缆层；点击机柜、围栏或传感器即可查看对象详情与关联插件。",
+        },
+      ],
+      note: "截图来自演示环境，未接入现场数据，因此设备状态均显示为「待接入」——平台在没有真实数据源时不生成读数。",
+    },
+    twin: {
+      description:
+        "布局与告警归因共用同一套设备 ID：从区域态势逐级下钻到单站主接线图，再进入室外、室内三维场景，插件报出的问题直接在孪生中高亮定位。",
+      video: {
+        src: "/videos/poye-digital-twin-loop.mp4",
+        poster: "/videos/poye-digital-twin-loop-poster.jpg",
+      },
+      steps: [
+        { icon: "map", title: "区域态势", description: "多站一屏总览，按电压等级与行政区筛选站点，点击站点逐级下钻。" },
+        { icon: "network", title: "单站驾驶舱", description: "主接线图呈现一次设备拓扑，室内、室外告警在同一张图上对照。" },
+        { icon: "layers", title: "室外三维孪生", description: "站区一次设备三维建模，支持旋转、缩放与俯视 / 正视切换。" },
+        { icon: "building", title: "室内三维孪生", description: "二次设备楼分楼层、分房间建模，告警定位到具体机柜与设备。" },
+      ],
+      note: "演示画面为平台默认站区布局（非现场测绘），录制于演示环境，约 27 秒循环播放。",
+    },
+    field: {
+      description: "以下画面截取自 110kV 变电站主变 AI 自主巡视现场实录，并标出每个巡视环节由哪个插件承接。",
+      items: [
+        {
+          src: "/images/products/poye/field-main-transformer.jpg",
+          width: 705,
+          height: 470,
+          title: "主变本体与散热器",
+          alt: "变电站主变压器本体、散热器与高压套管的现场画面",
+          caption: "先定位主变本体、套管、避雷器等 15 类构件，再按构件裁剪 ROI，分别进入外观缺陷与专项识别链。",
+          plugin: "transformer_inspection",
+        },
+        {
+          src: "/images/products/poye/field-bushing-conservator.jpg",
+          width: 705,
+          height: 470,
+          title: "高压套管与储油柜",
+          alt: "主变高压套管、绝缘子与储油柜的现场特写",
+          caption: "云台按预置位先全景、后特写，检查套管、绝缘子与连接部位；模糊、眩光、过暗的画面先被质量门拒收。",
+          plugin: "transformer_inspection",
+        },
+        {
+          src: "/images/products/poye/field-cooling-fan.jpg",
+          width: 705,
+          height: 470,
+          title: "冷却风扇与散热片",
+          alt: "主变冷却风扇与散热片的现场特写",
+          caption: "冷却系统与瓦斯继电器是主变巡视的重点；接入红外测温后，由热成像插件处理辐射测温数据。",
+          plugin: "thermal",
+        },
+        {
+          src: "/images/products/poye/field-oil-level-gauge.jpg",
+          width: 705,
+          height: 470,
+          title: "本体油位计读数",
+          alt: "主变本体油位计，绿色识别框框出表盘并标注读数",
+          caption: "绿色框为表计读取点位与读数；置信度不足或量程方向不明时拒识并交人工确认，不猜值。",
+          plugin: "meter_reading",
+        },
+      ],
+      note: "画面截取自本页产品演示视频（已裁去讲解字幕与站点信息）；视频为中期演示，各项能力的现场精度以试点验收为准。",
+    },
     stats: [
       { value: String(substationPluginCount), label: "标准化监测插件" },
       { value: "4 类", label: "视觉 · 时序 · 融合 · 空间" },
@@ -275,9 +374,111 @@ export const products: Product[] = [
       },
     ],
     scenarios: ["变电站运维值守", "集控中心大屏无人值守播报", "现场作业安全管控", "多路监测告警统一研判"],
+    // 视频与截图录制自 Proactive AI Interface 演示回放模式（PAI_RUN_MODE=demo，五幕剧本），语音为本地 Kokoro 合成
     demo: {
-      title: "智能体演示",
-      description: "支持演示与回放模式下的完整体验：主动汇报、语音追问、角色切换与数字孪生联动。欢迎联系我们预约演示。",
+      title: "值守交互演示",
+      description:
+        "演示回放模式下的一轮完整值守：围栏压线升级为越线时系统主动插话 → 确认已阅 → 续报下一项并拟工单 → 切换主管角色 → 进入二级对话追问依据。语音为本地离线合成，时长约 1 分 25 秒。",
+      video: {
+        src: "/videos/proactive-ai-duty-demo.mp4",
+        poster: "/videos/proactive-ai-duty-demo-poster.jpg",
+      },
+    },
+    flow: {
+      title: "值守交互流程",
+      description:
+        "一轮值守是一个闭环，而不是一次播报：系统负责汇聚、排序、开口与跟进，是否处置、怎么处置始终由值守人员决定。",
+      steps: [
+        {
+          actor: "system",
+          icon: "database",
+          title: "事件汇聚",
+          description: "电子围栏、人员违章、鸟类监测三路插件事件统一入库，带序号与证据引用，去重、乱序后实时推送。",
+          points: ["三路插件", "去重 / 乱序", "SSE 推送"],
+        },
+        {
+          actor: "system",
+          icon: "gauge",
+          title: "可解释排序",
+          description: "按严重度、时效、插件与角色加权计算优先分，紧急项永远排在观察项之前；分数只决定顺序，不改写插件原始等级。",
+          points: ["优先分 S", "权重热加载"],
+        },
+        {
+          actor: "system",
+          icon: "volume",
+          title: "主动汇报",
+          description: "虚拟同事先开口，按「结论、对象与位置、依据、建议」四拍播报最高优先项；讲到位置时，镜头和指向带到数字孪生上的设备。",
+          points: ["四拍播报", "孪生联动", "60 秒不重复"],
+        },
+        {
+          actor: "human",
+          icon: "usercheck",
+          title: "值守回应",
+          description: "点按或语音回应：确认已阅、拟工单、下一项，或直接追问「为什么先报这条」；关键指令识别置信不足时先反问、不执行。",
+          points: ["确认已阅", "拟工单", "下一项", "语音追问"],
+        },
+        {
+          actor: "system",
+          icon: "clock",
+          title: "续报与催办",
+          description: "回应后接着报下一项；超时未回应自动催办；只有最高项切换时才插话，不反复打扰。",
+          points: ["续报下一项", "超时催办"],
+        },
+        {
+          actor: "system",
+          icon: "checklist",
+          title: "收尾小结",
+          description: "事项消失时主动回报「不再检出」，一轮结束给出本轮小结；工单始终只是建议草稿。",
+          points: ["不再检出", "本轮小结"],
+        },
+      ],
+      loop: "新事件进入，开始下一轮汇报",
+      guardrails: [
+        { icon: "hardhat", title: "只建议、不遥控", description: "自动执行权限在代码中锁定关闭，工单仅为建议草稿，处置由人完成。" },
+        { icon: "eye", title: "诚实闸常驻", description: "现场精度、人工复核、控制权限等状态常驻顶栏，未验收前明确标注且不可关闭。" },
+        { icon: "users", title: "角色感知", description: "值班员、主管、专家、管理层四种角色，汇报深度与侧重点自动切换。" },
+        { icon: "layers", title: "两级界面", description: "一级主控面板看全局；点卡片或说「详细说说」进入二级插件对话。" },
+      ],
+    },
+    screens: {
+      device: "desktop",
+      description: "左侧数字孪生、中间虚拟同事、右侧风险卡片：值守人员不用找，系统把最重要的事项和它的位置一起送到眼前。",
+      items: [
+        {
+          src: "/images/products/proactive-ai/l1-proactive-briefing.jpg",
+          width: 2400,
+          height: 1350,
+          title: "一级主控 · 主动汇报",
+          alt: "主动 AI 一级主控面板：左侧数字孪生高亮开关柜位置，中间虚拟同事指向孪生地图，右侧为当前最高项与风险卡片",
+          caption:
+            "虚拟同事按四拍播报当前最高优先项，讲到位置时指向左侧数字孪生上的对应机柜；右侧为最高项速览、汇报闭环进度与按优先分排序的风险卡片。",
+        },
+        {
+          src: "/images/products/proactive-ai/l1-loop-ticket.jpg",
+          width: 2400,
+          height: 1350,
+          title: "汇报闭环 · 拟工单",
+          alt: "汇报闭环进度推进到待人工处置，右下角生成了建议工单草稿",
+          caption: "确认已阅后，系统接着报下一项；点「拟工单」只生成建议草稿（不派发、不执行），闭环进度同步推进。",
+        },
+        {
+          src: "/images/products/proactive-ai/l1-role-supervisor.jpg",
+          width: 2400,
+          height: 1350,
+          title: "角色切换 · 主管视角",
+          alt: "切换为主管角色后的主控面板，顶部角色标签显示主管关注的影响范围与优先级",
+          caption: "切换为主管后，同一事项的汇报侧重影响范围、优先级与预计处置时限；四种岗位角色各有侧重。",
+        },
+        {
+          src: "/images/products/proactive-ai/l2-plugin-dialogue.jpg",
+          width: 2400,
+          height: 1350,
+          title: "二级插件对话",
+          alt: "电子围栏插件的二级专业对话界面，值守人员追问依据，系统给出回答",
+          caption: "点击风险卡片进入插件专业对话：先说明「为什么先报这条」，再按四拍展开；追问只补答问到的那一拍。",
+        },
+      ],
+      note: "画面来自演示回放模式（预先编排的剧本，非现场数据）；顶栏 FIELD ACCURACY = FALSE 等为常驻诚实闸，现场精度未验收前不可关闭。",
     },
     stats: [
       { value: "3 路", label: "监测插件统一接入" },
@@ -434,6 +635,38 @@ export const products: Product[] = [
     demo: {
       title: "助手演示",
       description: "支持在模拟宿主环境中完整演示：语音提出预约 → 确认卡核对 → 业务系统返回申请单号。欢迎联系我们预约演示。",
+    },
+    // 截图录制自 AI_assistant_ 模拟宿主页（frontend/mock-host.html）
+    screens: {
+      device: "phone",
+      description: "以访客到访预约为例，从说出需求到拿到申请单号只需三步。",
+      items: [
+        {
+          src: "/images/products/logistics/step-1-request.jpg",
+          width: 1098,
+          height: 2208,
+          title: "一句话说出需求",
+          alt: "智慧后勤助手对话页：顶部为申请人与被访人信息，底部输入框中是到访预约需求",
+          caption: "嵌入宿主 App 后自动带出申请人与被访人；按住说话或切换文字输入，例如「明天下午三点到五点去后勤保障部开会」。",
+        },
+        {
+          src: "/images/products/logistics/step-2-confirm-card.jpg",
+          width: 1098,
+          height: 2208,
+          title: "确认卡核对",
+          alt: "确认卡页面：被访人与访客信息逐项列出，每个字段标注来源，底部为取消申请与确认提交按钮",
+          caption: "识别结果填入确认卡，每个字段标明来源（宿主 / 规则）；缺项标红追问，点击「确认提交」前不调用任何业务接口。",
+        },
+        {
+          src: "/images/products/logistics/step-3-submitted.jpg",
+          width: 1098,
+          height: 2208,
+          title: "提交并返回单号",
+          alt: "提交成功页面：顶部提示到访申请已提交并显示申请单号，状态为待审核",
+          caption: "确认后经 MCP 工具提交到访申请，业务系统返回申请单号，状态进入待审核。",
+        },
+      ],
+      note: "截图来自模拟宿主环境（模拟用户与模拟 e行），申请单号由进程内模拟业务系统生成。",
     },
     // 【待确认】以下为内部冻结测试集与压测结果，对外公开前请确认口径
     stats: [

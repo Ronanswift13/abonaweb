@@ -2,7 +2,16 @@ import { Info } from "lucide-react";
 
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
-import type { ArchitectureLayer, Feature, IconName, PluginGroup, ProductStat, TechStackGroup } from "@/types";
+import type {
+  ArchitectureLayer,
+  Feature,
+  IconName,
+  MonitoringPlugin,
+  PluginGroup,
+  PluginScene,
+  ProductStat,
+  TechStackGroup,
+} from "@/types";
 
 /**
  * 产品详情页的技术方案区块（/products/[slug]）
@@ -108,6 +117,160 @@ export function ArchitectureStack({ layers }: { layers: ArchitectureLayer[] }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+/** 部署场景的展示顺序；矩阵只显示至少有一个插件的场景 */
+const SCENE_ORDER: PluginScene[] = ["室外", "室内", "移动作业", "二次设备", "全站"];
+
+/** 四类插件的色阶（A 最深 → D 最浅），总览条与矩阵行标共用 */
+const GROUP_TONES = ["bg-brand-800", "bg-brand-600", "bg-brand-400", "bg-ink-400"];
+
+function PluginChip({ plugin }: { plugin: MonitoringPlugin }) {
+  return (
+    <a
+      href={`#plugin-${plugin.id}`}
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-ink-100 bg-white px-2.5 py-1.5 text-xs font-medium text-ink-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700"
+    >
+      <Icon name={plugin.icon} className="size-3.5 text-brand-600" />
+      {plugin.name}
+    </a>
+  );
+}
+
+/** 插件矩阵总览：类别占比条 + 「系统类别 × 部署场景」矩阵，芯片点击跳到下方插件详情卡片 */
+export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
+  const total = groups.reduce((sum, g) => sum + g.plugins.length, 0);
+  const scenes = SCENE_ORDER.filter((scene) => groups.some((g) => g.plugins.some((p) => p.scene === scene)));
+  const inScene = (group: PluginGroup, scene: PluginScene) => group.plugins.filter((p) => p.scene === scene);
+
+  return (
+    <div className="mt-12 rounded-3xl border border-ink-100 bg-white p-5 shadow-card sm:p-7">
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <h3 className="text-lg font-bold text-ink-900">插件矩阵总览</h3>
+        <p className="text-sm text-ink-500">
+          共 <span className="font-semibold text-ink-900">{total}</span> 个插件 · 点击插件查看详情
+        </p>
+      </div>
+
+      {/* 类别占比 */}
+      <div className="mt-5 flex h-3 overflow-hidden rounded-full bg-ink-100" aria-hidden="true">
+        {groups.map((group, i) => (
+          <span
+            key={group.code}
+            className={cn("h-full border-r-2 border-white last:border-r-0", GROUP_TONES[i % GROUP_TONES.length])}
+            style={{ width: `${(group.plugins.length / total) * 100}%` }}
+          />
+        ))}
+      </div>
+      <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-ink-500">
+        {groups.map((group, i) => (
+          <li key={group.code} className="inline-flex items-center gap-1.5">
+            <span className={cn("size-2.5 rounded-sm", GROUP_TONES[i % GROUP_TONES.length])} aria-hidden="true" />
+            {group.code} 类 · {group.title}
+            <span className="font-semibold text-ink-800">{group.plugins.length}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* 大屏：类别 × 场景矩阵 */}
+      <div className="mt-7 hidden overflow-x-auto lg:block">
+        <table className="w-full border-separate border-spacing-0 text-left">
+          <caption className="sr-only">监测插件按系统类别与部署场景分布</caption>
+          <thead>
+            <tr>
+              <th scope="col" className="w-56 pb-3 text-xs font-semibold text-ink-400">
+                系统类别 \ 部署场景
+              </th>
+              {scenes.map((scene) => (
+                <th key={scene} scope="col" className="pb-3 pl-3 text-xs font-semibold text-ink-500">
+                  {scene}
+                  <span className="ml-1.5 font-normal text-ink-400">
+                    {groups.reduce((sum, g) => sum + inScene(g, scene).length, 0)}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map((group, i) => (
+              <tr key={group.code}>
+                <th scope="row" className="border-t border-ink-100 py-4 pr-4 align-top">
+                  <span className="flex items-center gap-3">
+                    <span
+                      className={cn(
+                        "flex size-9 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white",
+                        GROUP_TONES[i % GROUP_TONES.length],
+                      )}
+                    >
+                      {group.code}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-bold text-ink-900">{group.title}</span>
+                      <span className="text-xs font-normal text-ink-400">{group.plugins.length} 个插件</span>
+                    </span>
+                  </span>
+                </th>
+                {scenes.map((scene) => {
+                  const plugins = inScene(group, scene);
+                  return (
+                    <td
+                      key={scene}
+                      className={cn("border-t border-ink-100 py-4 pl-3 align-top", plugins.length > 0 && "bg-ink-50/60")}
+                    >
+                      {plugins.length > 0 ? (
+                        <div className="flex flex-wrap gap-1.5">
+                          {plugins.map((plugin) => (
+                            <PluginChip key={plugin.id} plugin={plugin} />
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-ink-200" aria-label="无">
+                          —
+                        </span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* 小屏：按类别分组，再按场景列出 */}
+      <div className="mt-6 space-y-5 lg:hidden">
+        {groups.map((group, i) => (
+          <div key={group.code} className="rounded-2xl bg-ink-50/70 p-4">
+            <p className="flex items-center gap-2 text-sm font-bold text-ink-900">
+              <span
+                className={cn(
+                  "flex size-7 items-center justify-center rounded-lg text-xs text-white",
+                  GROUP_TONES[i % GROUP_TONES.length],
+                )}
+              >
+                {group.code}
+              </span>
+              {group.title}
+            </p>
+            <dl className="mt-3 space-y-2.5">
+              {scenes
+                .filter((scene) => inScene(group, scene).length > 0)
+                .map((scene) => (
+                  <div key={scene}>
+                    <dt className="text-xs text-ink-400">{scene}</dt>
+                    <dd className="mt-1.5 flex flex-wrap gap-1.5">
+                      {inScene(group, scene).map((plugin) => (
+                        <PluginChip key={plugin.id} plugin={plugin} />
+                      ))}
+                    </dd>
+                  </div>
+                ))}
+            </dl>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
