@@ -23,6 +23,7 @@ interface BusinessCarouselProps {
  * - 每屏卡片数：移动端 1 / 平板 2 / 小桌面 3 / 桌面 4（见 slide 的 basis 类）
  * - 支持左右按钮、指示点、鼠标拖动、触摸滑动、键盘方向键
  * - 自动轮播，鼠标悬停或键盘聚焦时暂停；系统开启“减少动态效果”时不自动轮播
+ * - 触屏设备不自动轮播：Embla 会吞掉滑动过程中按下的点击，自动翻页时点卡片容易“点不进去”
  */
 export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: BusinessCarouselProps) {
   const [plugins] = useState(() => [
@@ -30,7 +31,10 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
       delay: autoplayDelay,
       stopOnMouseEnter: true,
       stopOnInteraction: false,
-      active: !(typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches),
+      active: !(
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce), (hover: none)").matches
+      ),
     }),
   ]);
   const [viewportRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" }, plugins);

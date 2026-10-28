@@ -85,7 +85,8 @@ export type IconName =
   // 产品演示（界面截图 / 现场实拍 / 交互闭环）
   | "monitor"
   | "camera"
-  | "repeat";
+  | "repeat"
+  | "play";
 
 /** 链接（站内路由以 "/" 开头；外链/电话以 http、tel:、mailto: 开头） */
 export interface LinkItem {

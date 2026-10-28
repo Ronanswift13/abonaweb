@@ -8,6 +8,11 @@
     scroll-padding-top: 88px; /* 锚点跳转时避开吸顶导航 */
   }
 
+  /* 有吸顶页内导航（SectionNav）的页面，锚点再多避开一行 */
+  html:has([data-section-nav]) {
+    scroll-padding-top: 136px;
+  }
+
   body {
     @apply bg-white font-sans text-ink-800 antialiased;
     text-rendering: optimizeLegibility;

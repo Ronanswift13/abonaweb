@@ -10,6 +10,7 @@ import {
   Building2,
   Cable,
   Camera,
+  CirclePlay,
   Car,
   Clock,
   Combine,
@@ -146,6 +147,7 @@ const ICONS: Record<IconName, LucideIcon> = {
   monitor: MonitorPlay,
   camera: Camera,
   repeat: Repeat,
+  play: CirclePlay,
 };
 
 interface IconProps extends LucideProps {

@@ -11,13 +11,13 @@ import {
   FeatureGrid,
   PluginMatrix,
   PluginOverview,
-  ProductSectionNav,
   ProductStats,
   TechStack,
 } from "@/components/sections/ProductTech";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScreenGallery } from "@/components/ui/ScreenGallery";
+import { SectionNav } from "@/components/ui/SectionNav";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { home } from "@/data/home";
 import { getAllProducts, getCasesByProduct, getProduct } from "@/lib/content";
@@ -219,8 +219,16 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           )}
         </div>
         {product.stats && <ProductStats stats={product.stats} note={product.statsNote} />}
-        {sections.length > 2 && <ProductSectionNav items={sections} />}
       </PageHeader>
+
+      {sections.length > 2 && (
+        <SectionNav
+          items={[
+            ...sections.map(({ id, label, icon }) => ({ id, label, icon })),
+            ...(product.demo ? [{ id: "demo", label: "产品演示", icon: "play" as const }] : []),
+          ]}
+        />
+      )}
 
       {/* 技术方案各区块（白 / 浅灰交替） */}
       {sections.map((section, index) => (

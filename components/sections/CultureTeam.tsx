@@ -20,11 +20,9 @@ export function CultureTeam({ culture, team }: CultureTeamProps) {
           <SectionHeading {...culture.intro} />
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {culture.values.map((value) => (
-              <article
-                key={value.title}
-                className="group rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition-all hover:-translate-y-0.5 hover:border-brand-200"
-              >
-                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-700 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-gradient group-hover:text-white">
+              // 纯展示卡片：不加悬停上浮等“可点击”暗示
+              <article key={value.title} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card">
+                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-700 ring-1 ring-brand-100">
                   <Icon name={value.icon} className="size-5" />
                 </span>
                 <h3 className="mt-5 text-lg font-bold text-ink-900">{value.title}</h3>

@@ -1,7 +1,9 @@
-import { ArrowRight, Ban, Check, Info } from "lucide-react";
+import Link from "next/link";
+import { Ban, Check, ChevronRight, Info } from "lucide-react";
 
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { LinkArrow } from "@/components/ui/LinkArrow";
 import { cn } from "@/lib/utils";
 import type { DevelopmentPlan, PlanStep, PlanTable, PlanTrack, SubPlan } from "@/types";
 
@@ -302,15 +304,24 @@ export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
         <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
         <ul className="space-y-4">
           {plan.subPlans.map((sub) => (
-            <li key={sub.id} className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur">
-              <p className="flex items-center gap-2 font-semibold">
-                <Icon name={sub.icon} className="size-5 text-brand-200" />
-                {sub.name}
-                <span className="ml-auto rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-normal text-white/80">
-                  {sub.domain}
+            <li key={sub.id}>
+              <Link
+                href={`${href}#${sub.id}`}
+                className="group block rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur transition-colors hover:border-brand-300/50 hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
+              >
+                <span className="flex items-center gap-2 font-semibold">
+                  <Icon name={sub.icon} className="size-5 text-brand-200" />
+                  {sub.name}
+                  <span className="ml-auto rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-normal text-white/80">
+                    {sub.domain}
+                  </span>
+                  <ChevronRight
+                    className="size-4 text-white/50 transition-transform group-hover:translate-x-0.5 group-hover:text-white"
+                    aria-hidden="true"
+                  />
                 </span>
-              </p>
-              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/70">{sub.summary}</p>
+                <span className="mt-2 line-clamp-2 block text-sm leading-relaxed text-white/70">{sub.summary}</span>
+              </Link>
             </li>
           ))}
         </ul>
@@ -323,13 +334,13 @@ export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
             </li>
           ))}
         </ol>
-        <a
+        <Link
           href={`${href}#interfaces`}
-          className="mt-6 inline-flex items-center gap-1.5 text-sm text-brand-200 transition-colors hover:text-white"
+          className="group mt-6 inline-flex items-center gap-1.5 text-sm text-brand-200 transition-colors hover:text-white"
         >
           {plan.interfaces.items.map((item) => item.title).join(" · ")}
-          <ArrowRight className="size-4" aria-hidden="true" />
-        </a>
+          <LinkArrow />
+        </Link>
       </div>
     </article>
   );

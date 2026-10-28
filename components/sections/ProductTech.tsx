@@ -35,27 +35,6 @@ export function ProductStats({ stats, note }: { stats: ProductStat[]; note?: str
   );
 }
 
-/** 页内锚点导航（页头内） */
-export function ProductSectionNav({ items }: { items: { id: string; label: string; icon: IconName }[] }) {
-  return (
-    <nav aria-label="页内导航" className="mt-8">
-      <ul className="flex flex-wrap gap-2">
-        {items.map((item) => (
-          <li key={item.id}>
-            <a
-              href={`#${item.id}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm text-ink-700 transition-colors hover:border-brand-300 hover:text-brand-700"
-            >
-              <Icon name={item.icon} className="size-4 text-brand-600" />
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
 /** 图标 + 标题 + 描述的卡片网格（核心功能 / 关键技术 / 安全设计共用） */
 export function FeatureGrid({
   items,
