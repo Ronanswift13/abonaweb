@@ -3,7 +3,7 @@ import type { BusinessDirection } from "@/types";
 /**
  * 首页“业务方向”滑动卡片
  * 新增一项即自动生成一张卡片与指示点。
- * 【占位】业务方向名称与描述请按公司正式口径确认。
+ * 描述写具体场景和当前限制，不写口号。
  */
 export const businessDirections: BusinessDirection[] = [
   {
@@ -12,7 +12,7 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Development Plan",
     icon: "satellite",
     accent: "sky",
-    description: "空天地物理测绘、网络空间资产测绘与主动智能体协同，服务新能源系统稳定运行与关键信息基础设施可见性。",
+    description: "用卫星、无人机和地面测量看清新能源场站的物理状态，同时摸清关键信息系统的网络资产，两张图对齐到同一套编号。目前处于计划阶段。",
     tags: ["空轴稳网", "元隐测绘"],
     href: "/directions/yuanyin-kongzhou",
   },
@@ -22,8 +22,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Industry LLM",
     icon: "brain",
     accent: "cyan",
-    description: "以「艾博纳幺儿」为底座，提供行业知识增强、微调训练与私有化部署服务。",
-    tags: ["知识问答", "私有化"],
+    description: "把「艾博纳幺儿」部署在客户内网，用企业自己的规程和台账回答问题、起草报告。模型已完成阶段性内部验证，评测结果尚未公开。",
+    tags: ["内网部署", "规程问答"],
     href: "/products/abonayaoer",
   },
   {
@@ -32,8 +32,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Substation Monitoring",
     icon: "radar",
     accent: "sky",
-    description: "破夜绘明平台以 20 个标准化监测插件，实现全天候设备监测、缺陷识别与主动预警。",
-    tags: ["插件化", "缺陷识别"],
+    description: "主变、开关、母线、表计、红外、气体等 20 个插件各管一类设备或信号，异常结果附原图和模型版本；现场精度按链路逐条验收。",
+    tags: ["20 个插件", "证据链"],
     href: "/products/poye-substation-monitoring",
   },
   {
@@ -42,8 +42,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Proactive Agents",
     icon: "bot",
     accent: "ocean",
-    description: "虚拟值守同事主动汇报、语音交互、跟进闭环，成为业务一线的智能协作者。",
-    tags: ["主动汇报", "人在回路"],
+    description: "值守员不用盯着十几个画面：虚拟同事按优先级先报最要紧的一件，说清对象、位置、依据和建议，等人回应后再报下一件。",
+    tags: ["语音汇报", "人来决定"],
     href: "/products/proactive-ai-agent",
   },
   {
@@ -52,8 +52,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Digital Twin",
     icon: "layers",
     accent: "indigo",
-    description: "构建设备、场站与区域的数字孪生体，告警在三维场景中直接定位，状态可视、过程可溯。",
-    tags: ["三维可视化", "仿真推演"],
+    description: "告警直接落到三维场景里的那台设备或那面柜子上，从区域地图逐级点到单站、房间和机柜。目前用的是默认站区布局，现场测绘绑定还没做。",
+    tags: ["三维定位", "逐级下钻"],
     href: "/capabilities#digital-twin",
   },
   {
@@ -62,8 +62,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Multimodal Perception",
     icon: "eye",
     accent: "teal",
-    description: "融合可见光、红外、高光谱、声学、气体与雷达数据，让机器“看得清、听得懂”。",
-    tags: ["视觉", "声学", "雷达"],
+    description: "夜里和雨雾天可见光看不清时，红外、激光雷达和毫米波雷达继续工作；画面模糊、过暗会先被质量门拦下，提示复核。",
+    tags: ["红外", "雷达", "质量门"],
     href: "/capabilities#multimodal",
   },
   {
@@ -72,8 +72,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Smart Energy",
     icon: "zap",
     accent: "sky",
-    description: "面向发电、输变电与配用电环节，提供智能运维与决策支持解决方案。",
-    tags: ["智能运维", "决策支持"],
+    description: "从变电站巡视延伸到二次设备动作事件、作业违章识别和检修辅助，每一项都按现场验收契约推进，不先报指标。",
+    tags: ["二次运维", "作业安全"],
     href: "/capabilities#energy",
   },
   {
@@ -82,8 +82,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Smart Services",
     icon: "building",
     accent: "cyan",
-    description: "语音一句话办理后勤业务，确认卡把关、MCP 工具闭环，首个试点为访客到访预约。",
-    tags: ["语音办理", "MCP"],
+    description: "员工说「明天下午三点到五点去后勤保障部开会」，助手填好确认卡；本人核对点确认后才提交。首个业务是访客预约。",
+    tags: ["访客预约", "确认后提交"],
     href: "/products/smart-logistics-assistant",
   },
   {
@@ -92,8 +92,8 @@ export const businessDirections: BusinessDirection[] = [
     subtitle: "Cyber & Data Security",
     icon: "shield",
     accent: "ocean",
-    description: "统一身份认证、数据加密与全程审计、大模型安全护栏，以及面向工业物联网的数字孪生主动防御。",
-    tags: ["可信 AI", "主动防御"],
+    description: "证件号和手机号在日志里打码，语音转写完立即丢弃，大模型只允许连内网地址；工业物联网诱饵防御仍是研究项目。",
+    tags: ["日志掩码", "内网模型"],
     href: "/capabilities#security",
   },
 ];

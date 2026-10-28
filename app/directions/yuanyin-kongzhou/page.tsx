@@ -11,17 +11,15 @@ import {
   SubPlanPanel,
   TrackCard,
 } from "@/components/sections/PlanSections";
-import { SectionNav } from "@/components/ui/SectionNav";
+import { SectionNav, type SectionNavItem } from "@/components/ui/SectionNav";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { directionsIntro } from "@/data/directions";
 import { home } from "@/data/home";
 import { yuanyinPlan as plan } from "@/data/plans";
 import { pageMetadata } from "@/lib/metadata";
-import type { IconName } from "@/types";
 
 const path = `/directions/${plan.slug}`;
 
@@ -30,17 +28,17 @@ export const metadata = pageMetadata({ title: plan.name, description: plan.summa
 const [kongzhou, yuanyin] = plan.subPlans;
 
 /** 页内导航（顺序与下方区块一致） */
-const sectionNav: { id: string; label: string; icon: IconName }[] = [
-  { id: "overview", label: "计划概述", icon: "target" },
-  { id: "naming", label: "计划释义", icon: "compass" },
-  { id: "tracks", label: "三条技术线", icon: "layers" },
-  { id: kongzhou.id, label: kongzhou.name, icon: kongzhou.icon },
-  { id: yuanyin.id, label: yuanyin.name, icon: yuanyin.icon },
-  { id: "fusion", label: "双图融合", icon: "merge" },
-  { id: "roadmap", label: "推进布局", icon: "route" },
-  { id: "policy", label: "政策衔接", icon: "landmark" },
-  { id: "acceptance", label: "验收与风控", icon: "checklist" },
-  { id: "outcomes", label: "预期成果", icon: "flag" },
+const sectionNav: SectionNavItem[] = [
+  { id: "overview", label: "计划概述" },
+  { id: "naming", label: "计划释义" },
+  { id: "tracks", label: "三条技术线" },
+  { id: kongzhou.id, label: kongzhou.name },
+  { id: yuanyin.id, label: yuanyin.name },
+  { id: "fusion", label: "双图融合" },
+  { id: "roadmap", label: "推进布局" },
+  { id: "policy", label: "政策衔接" },
+  { id: "acceptance", label: "验收与风控" },
+  { id: "outcomes", label: "预期成果" },
 ];
 
 /**
@@ -97,10 +95,7 @@ export default function YuanyinKongzhouPage() {
             </div>
             <div className="space-y-4 lg:col-span-7">
               {plan.overview.gaps.map((gap) => (
-                <article key={gap.title} className="flex gap-5 rounded-3xl border border-ink-100 bg-white p-6 shadow-card">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-                    <Icon name={gap.icon ?? "target"} className="size-6" />
-                  </span>
+                <article key={gap.title} className="rounded-xl border border-ink-200 bg-white p-6">
                   <div>
                     <h4 className="font-bold text-ink-900">{gap.title}</h4>
                     <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{gap.description}</p>
@@ -115,7 +110,7 @@ export default function YuanyinKongzhouPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {plan.overview.goals.map((goal) => (
               <article key={goal.year} className="rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
-                <p className="text-gradient text-4xl font-extrabold">{goal.year}</p>
+                <p className="text-brand-700 text-4xl font-extrabold">{goal.year}</p>
                 <p className="mt-4 leading-relaxed text-ink-600">{goal.description}</p>
               </article>
             ))}
@@ -135,7 +130,7 @@ export default function YuanyinKongzhouPage() {
             {plan.terms.map((term) => (
               <li key={term.term} className="rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="text-gradient text-4xl font-extrabold">{term.term}</span>
+                  <span className="text-brand-700 text-4xl font-extrabold">{term.term}</span>
                   <span className="rounded-full bg-ink-50 px-2.5 py-1 text-xs text-ink-500">{term.group}</span>
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-ink-600">{term.description}</p>
@@ -158,9 +153,8 @@ export default function YuanyinKongzhouPage() {
               <TrackCard key={track.id} track={track} />
             ))}
           </div>
-          <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-night-gradient p-7 text-white xl:flex-row xl:items-center">
-            <span className="flex shrink-0 items-center gap-3 font-semibold">
-              <Icon name="brain" className="size-6 text-brand-200" />
+          <div className="mt-6 flex flex-col gap-4 rounded-2xl bg-night p-7 text-white xl:flex-row xl:items-center">
+            <span className="shrink-0 font-semibold">
               大模型在运行时中的角色限定为
             </span>
             <ul className="flex flex-wrap gap-2">
@@ -179,10 +173,7 @@ export default function YuanyinKongzhouPage() {
       {[kongzhou, yuanyin].map((sub, index) => (
         <section key={sub.id} id={sub.id} className={index === 0 ? "bg-ink-50/70 py-20" : "py-20"}>
           <Container>
-            <div className="flex items-start gap-5">
-              <span className="hidden size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-glow sm:flex">
-                <Icon name={sub.icon} className="size-7" />
-              </span>
+            <div>
               <SectionHeading
                 eyebrow={`SUB-PLAN 0${index + 1} · ${sub.domain}`}
                 title={sub.name}
@@ -208,11 +199,11 @@ export default function YuanyinKongzhouPage() {
                   key={step}
                   className={
                     last
-                      ? "relative rounded-2xl bg-brand-gradient p-5 text-white shadow-glow"
+                      ? "relative rounded-2xl bg-brand-700 p-5 text-white"
                       : "relative rounded-2xl border border-ink-100 bg-white p-5 shadow-card"
                   }
                 >
-                  <span className={last ? "text-sm font-bold text-white/70" : "text-gradient text-sm font-bold"}>
+                  <span className={last ? "text-sm font-bold text-white/70" : "text-brand-700 text-sm font-bold"}>
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <p className={last ? "mt-2 font-semibold" : "mt-2 font-semibold text-ink-900"}>{step}</p>
@@ -251,7 +242,7 @@ export default function YuanyinKongzhouPage() {
             {plan.phases.map((phase, index) => (
               <li key={phase.name} className="relative rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-full bg-brand-gradient text-sm font-bold text-white shadow-glow">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-brand-700 text-sm font-bold text-white">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="text-xl font-bold text-ink-900">{phase.name}</h3>
@@ -274,11 +265,8 @@ export default function YuanyinKongzhouPage() {
             <p className="mb-6 mt-2 text-sm text-ink-500">{plan.interfaces.intro}</p>
             <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {plan.interfaces.items.map((item) => (
-                <li key={item.title} className="rounded-3xl border border-ink-100 bg-white p-6 shadow-card">
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-                    <Icon name={item.icon ?? "globe"} className="size-5" />
-                  </span>
-                  <h4 className="mt-4 font-bold text-ink-900">{item.title}</h4>
+                <li key={item.title} className="rounded-xl border border-ink-200 bg-white p-6">
+                  <h4 className="font-bold text-ink-900">{item.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-ink-500">{item.description}</p>
                 </li>
               ))}
@@ -328,13 +316,12 @@ export default function YuanyinKongzhouPage() {
             <ol className="space-y-4 lg:col-span-7">
               {plan.outcomes.map((item, index) => (
                 <li key={item} className="flex gap-4 rounded-2xl border border-ink-100 bg-white p-5 shadow-card">
-                  <span className="text-gradient text-2xl font-bold">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="text-brand-700 text-2xl font-bold">{String(index + 1).padStart(2, "0")}</span>
                   <p className="leading-relaxed text-ink-700">{item}</p>
                 </li>
               ))}
             </ol>
-            <div className="relative isolate overflow-hidden rounded-3xl bg-night-gradient p-7 text-white lg:col-span-5">
-              <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
+            <div className="rounded-2xl bg-night p-7 text-white lg:col-span-5">
               <h3 className="text-lg font-bold">规划期内明确不做</h3>
               <p className="mt-2 text-sm text-white/60">能力边界写进计划，而不是事后补一条安全说明。</p>
               <ul className="mt-5 space-y-3">
@@ -357,11 +344,8 @@ export default function YuanyinKongzhouPage() {
                   href={item.href}
                   className="group block h-full rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-4"
                 >
-                  <span className="flex h-full flex-col rounded-3xl border border-ink-100 bg-white p-6 shadow-card transition-[transform,box-shadow,border-color] duration-300 group-hover:-translate-y-1 group-hover:border-brand-200 group-hover:shadow-card-hover">
-                    <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient text-white shadow-glow">
-                      <Icon name={item.icon ?? "sparkles"} className="size-5" />
-                    </span>
-                    <h4 className="mt-4 font-bold text-ink-900">{item.title}</h4>
+                  <span className="flex h-full flex-col rounded-xl border border-ink-200 bg-white p-6 transition-[transform,box-shadow,border-color] duration-300 group-hover:-translate-y-1 group-hover:border-brand-300 group-hover:shadow-card-hover">
+                    <h4 className="font-bold text-ink-900">{item.title}</h4>
                     <span className="mt-2 flex-1 text-sm leading-relaxed text-ink-500">{item.description}</span>
                     <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700">
                       了解更多

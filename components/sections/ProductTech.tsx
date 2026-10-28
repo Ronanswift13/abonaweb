@@ -1,11 +1,9 @@
 import { Info } from "lucide-react";
 
-import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 import type {
   ArchitectureLayer,
   Feature,
-  IconName,
   MonitoringPlugin,
   PluginGroup,
   PluginScene,
@@ -26,7 +24,7 @@ export function ProductStats({ stats, note }: { stats: ProductStat[]; note?: str
         {stats.map((stat) => (
           <div key={stat.label} className="flex flex-col-reverse justify-end bg-white px-5 py-5">
             <dt className="mt-1 text-sm text-ink-500">{stat.label}</dt>
-            <dd className="text-gradient text-2xl font-bold sm:text-3xl">{stat.value}</dd>
+            <dd className="text-brand-700 text-2xl font-bold sm:text-3xl">{stat.value}</dd>
           </div>
         ))}
       </dl>
@@ -35,36 +33,17 @@ export function ProductStats({ stats, note }: { stats: ProductStat[]; note?: str
   );
 }
 
-/** 图标 + 标题 + 描述的卡片网格（核心功能 / 关键技术 / 安全设计共用） */
-export function FeatureGrid({
-  items,
-  fallbackIcon,
-  columns = 2,
-}: {
-  items: Feature[];
-  fallbackIcon: IconName;
-  columns?: 2 | 3;
-}) {
+/** 标题 + 说明的条目列表（核心功能 / 关键技术 / 安全设计共用）；不配图标，靠文字本身说清楚 */
+export function FeatureGrid({ items, columns = 2 }: { items: Feature[]; columns?: 2 | 3 }) {
   return (
-    <div className={cn("mt-12 grid gap-6 sm:grid-cols-2", columns === 3 && "lg:grid-cols-3")}>
+    <dl className={cn("mt-10 grid gap-x-10 sm:grid-cols-2", columns === 3 && "lg:grid-cols-3")}>
       {items.map((item) => (
-        <article
-          key={item.title}
-          className={cn(
-            "rounded-3xl border border-ink-100 bg-white shadow-card",
-            columns === 2 ? "flex gap-5 p-7" : "p-7",
-          )}
-        >
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-            <Icon name={item.icon ?? fallbackIcon} className="size-6" />
-          </span>
-          <div className={cn(columns === 3 && "mt-5")}>
-            <h3 className="text-lg font-bold text-ink-900">{item.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-500">{item.description}</p>
-          </div>
-        </article>
+        <div key={item.title} className="border-t border-ink-200 py-6">
+          <dt className="text-lg font-bold text-ink-900">{item.title}</dt>
+          <dd className="mt-2 text-[15px] leading-relaxed text-ink-600">{item.description}</dd>
+        </div>
       ))}
-    </div>
+    </dl>
   );
 }
 
@@ -78,9 +57,7 @@ export function ArchitectureStack({ layers }: { layers: ArchitectureLayer[] }) {
           className="rounded-2xl border border-ink-100 bg-white p-5 shadow-card lg:grid lg:grid-cols-12 lg:items-center lg:gap-6"
         >
           <div className="flex items-center gap-4 lg:col-span-3">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-gradient text-sm font-bold text-white shadow-glow">
-              L{layers.length - index}
-            </span>
+            <span className="w-8 shrink-0 font-mono text-sm text-ink-400">L{layers.length - index}</span>
             <div>
               <h3 className="font-bold text-ink-900">{layer.name}</h3>
               <p className="text-xs text-ink-500">{layer.description}</p>
@@ -109,9 +86,8 @@ function PluginChip({ plugin }: { plugin: MonitoringPlugin }) {
   return (
     <a
       href={`#plugin-${plugin.id}`}
-      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-ink-100 bg-white px-2.5 py-1.5 text-xs font-medium text-ink-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700"
+      className="inline-flex whitespace-nowrap rounded border border-ink-200 bg-white px-2 py-1 text-xs text-ink-700 transition-colors hover:border-brand-300 hover:text-brand-700"
     >
-      <Icon name={plugin.icon} className="size-3.5 text-brand-600" />
       {plugin.name}
     </a>
   );
@@ -259,17 +235,12 @@ export function PluginMatrix({ groups, note }: { groups: PluginGroup[]; note?: s
     <div className="mt-12 space-y-14">
       {groups.map((group) => (
         <div key={group.code}>
-          <div className="flex items-start gap-4">
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-xl font-bold text-white shadow-glow">
-              {group.code}
-            </span>
-            <div>
-              <h3 className="text-xl font-bold text-ink-900">
-                {group.code} 类 · {group.title}
-                <span className="ml-2 align-middle text-sm font-medium text-ink-400">{group.plugins.length} 个插件</span>
-              </h3>
-              <p className="mt-1 text-sm text-ink-500">{group.description}</p>
-            </div>
+          <div className="border-l-2 border-brand-700 pl-4">
+            <h3 className="text-xl font-bold text-ink-900">
+              {group.code} 类 · {group.title}
+              <span className="ml-2 align-middle text-sm font-medium text-ink-400">{group.plugins.length} 个插件</span>
+            </h3>
+            <p className="mt-1 text-sm text-ink-500">{group.description}</p>
           </div>
 
           <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -277,15 +248,12 @@ export function PluginMatrix({ groups, note }: { groups: PluginGroup[]; note?: s
               <article
                 key={plugin.id}
                 id={`plugin-${plugin.id}`}
-                className="flex flex-col rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition-shadow target:border-brand-300 target:shadow-card-hover hover:shadow-card-hover"
+                className="flex flex-col rounded-xl border border-ink-100 bg-white p-6 transition-colors target:border-brand-400 target:bg-brand-50/40"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-                    <Icon name={plugin.icon} className="size-5" />
-                  </span>
-                  <span className="rounded-full bg-ink-50 px-2.5 py-1 text-xs text-ink-500">{plugin.scene}</span>
+                <div className="flex items-baseline justify-between gap-3">
+                  <h4 className="text-base font-bold text-ink-900">{plugin.name}</h4>
+                  <span className="shrink-0 text-xs text-ink-400">{plugin.scene}</span>
                 </div>
-                <h4 className="mt-4 text-base font-bold text-ink-900">{plugin.name}</h4>
                 <p className="mt-0.5 font-mono text-[11px] text-ink-400">{plugin.id}</p>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-500">{plugin.description}</p>
                 <ul className="mt-4 flex flex-wrap gap-1.5">

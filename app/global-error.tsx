@@ -12,14 +12,14 @@ export default function GlobalError({ retry }: { error: unknown; retry: () => vo
       <body className="flex min-h-screen items-center justify-center bg-white px-4">
         <title>页面出错了 | 北京艾博纳信息技术有限公司</title>
         <main className="text-center">
-          <p className="text-gradient text-6xl font-extrabold">出错了</p>
+          <p className="text-brand-700 text-6xl font-extrabold">出错了</p>
           <h1 className="mt-6 text-2xl font-bold text-ink-900">网站暂时无法访问</h1>
           <p className="mt-3 text-ink-500">请稍后重试。</p>
           <div className="mt-10 flex justify-center gap-3">
             <button
               type="button"
               onClick={() => retry()}
-              className="h-11 rounded-full bg-brand-gradient px-6 text-sm font-semibold text-white"
+              className="h-11 rounded-full bg-brand-700 px-6 text-sm font-semibold text-white"
             >
               重新加载
             </button>

@@ -44,7 +44,7 @@ export default function AboutPage() {
             ))}
             <div className="grid gap-4 pt-4 sm:grid-cols-2">
               {about.mission.map((m) => (
-                <div key={m.title} className="rounded-2xl bg-brand-gradient-soft p-6 ring-1 ring-brand-100">
+                <div key={m.title} className="border-l-2 border-brand-700 pl-5">
                   <p className="text-sm font-semibold text-brand-700">{m.title}</p>
                   <p className="mt-2 text-base font-medium leading-relaxed text-ink-800">{m.text}</p>
                 </div>
@@ -72,7 +72,7 @@ export default function AboutPage() {
           <ol className="mt-12 grid gap-6 md:grid-cols-3">
             {about.milestones.map((m) => (
               <li key={m.title} className="relative rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
-                <span className="text-gradient text-3xl font-extrabold">{m.year}</span>
+                <span className="text-brand-700 text-3xl font-extrabold">{m.year}</span>
                 <h3 className="mt-3 text-lg font-bold text-ink-900">{m.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-500">{m.description}</p>
               </li>

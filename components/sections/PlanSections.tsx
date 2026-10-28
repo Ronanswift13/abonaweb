@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Ban, Check, ChevronRight, Info } from "lucide-react";
 
 import { ButtonLink } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { cn } from "@/lib/utils";
 import type { DevelopmentPlan, PlanStep, PlanTable, PlanTrack, SubPlan } from "@/types";
@@ -71,7 +70,7 @@ export function StepList({ steps, className }: { steps: PlanStep[]; className?: 
     <ol className={cn("space-y-5", className)}>
       {steps.map((step, index) => (
         <li key={step.title} className="flex gap-4">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-sm font-bold text-white">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-700 text-sm font-bold text-white">
             {index + 1}
           </span>
           <div>
@@ -119,26 +118,16 @@ export function TrackCard({ track }: { track: PlanTrack }) {
   return (
     <article
       id={`track-${track.id}`}
-      className={cn("rounded-3xl border border-ink-100 bg-white p-7 shadow-card sm:p-8", track.wide && "lg:col-span-2")}
+      className={cn("rounded-xl border border-ink-200 bg-white p-7 sm:p-8", track.wide && "lg:col-span-2")}
     >
-      <div className="flex items-center gap-4">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-glow">
-          <Icon name={track.icon} className="size-6" />
-        </span>
-        <div>
-          <h3 className="text-xl font-bold text-ink-900">{track.title}</h3>
-          <p className="text-sm text-ink-500">{track.subtitle}</p>
-        </div>
-      </div>
+      <h3 className="text-xl font-bold text-ink-900">{track.title}</h3>
+      <p className="text-sm text-ink-500">{track.subtitle}</p>
       <p className="mt-5 leading-relaxed text-ink-600">{track.goal}</p>
 
       {track.layers && (
         <ul className="mt-6 space-y-2.5">
           {track.layers.map((layer) => (
-            <li key={layer.title} className="flex gap-3 rounded-2xl bg-ink-50 p-4">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white text-brand-600 ring-1 ring-ink-100">
-                <Icon name={layer.icon ?? track.icon} className="size-4" />
-              </span>
+            <li key={layer.title} className="rounded-lg bg-ink-50 p-4">
               <div>
                 <p className="text-sm font-semibold text-ink-900">{layer.title}</p>
                 <p className="mt-1 text-xs leading-relaxed text-ink-500">{layer.description}</p>
@@ -259,7 +248,7 @@ export function PhaseGantt({ steps, totalDays = 180 }: { steps: { days: string; 
             <p className="text-sm leading-relaxed text-ink-600 sm:col-span-6">{step.content}</p>
             <div className="relative h-2.5 rounded-full bg-ink-100 sm:col-span-4" aria-hidden="true">
               <span
-                className="absolute inset-y-0 rounded-full bg-brand-gradient"
+                className="absolute inset-y-0 rounded-full bg-brand-700"
                 style={{
                   left: `${((start - 1) / totalDays) * 100}%`,
                   width: `${((end - start + 1) / totalDays) * 100}%`,
@@ -279,10 +268,6 @@ export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
   return (
     <article className="grid overflow-hidden rounded-[2rem] border border-brand-100 bg-white shadow-card lg:grid-cols-12">
       <div className="relative p-8 sm:p-10 lg:col-span-7">
-        <div
-          className="pointer-events-none absolute -left-20 -top-20 size-64 rounded-full bg-brand-100/60 blur-3xl"
-          aria-hidden="true"
-        />
         <p className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
           <span className="h-px w-6 bg-current" aria-hidden="true" />
           <span className="hidden sm:inline">Development Plan · </span>公司发展计划
@@ -300,8 +285,7 @@ export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
         </div>
       </div>
 
-      <div className="relative isolate bg-night-gradient p-8 text-white sm:p-10 lg:col-span-5">
-        <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
+      <div className="bg-night p-8 text-white sm:p-10 lg:col-span-5">
         <ul className="space-y-4">
           {plan.subPlans.map((sub) => (
             <li key={sub.id}>
@@ -310,7 +294,6 @@ export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
                 className="group block rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur transition-colors hover:border-brand-300/50 hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
               >
                 <span className="flex items-center gap-2 font-semibold">
-                  <Icon name={sub.icon} className="size-5 text-brand-200" />
                   {sub.name}
                   <span className="ml-auto rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-normal text-white/80">
                     {sub.domain}

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const title = "产品与解决方案";
 const description =
-  "变电站智能监测平台、自研行业大模型、主动 AI 智能体与智慧后勤 AI 助手，覆盖感知、认知、决策与服务全链路。";
+  "四个产品：变电站巡视与监测平台、值守用的语音汇报助手、办后勤业务的语音助手，以及自研行业大模型。每张卡片都写明了现在做到哪一步。";
 
 export const metadata = pageMetadata({ title, description, path: "/products" });
 

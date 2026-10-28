@@ -8,7 +8,7 @@ type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   // 深红主按钮，悬停加深
-  primary: "bg-brand-700 text-white shadow-glow hover:bg-brand-800",
+  primary: "bg-brand-700 text-white hover:bg-brand-800",
   // 白底红色描边按钮
   secondary: "border border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
   ghost: "text-brand-700 hover:bg-brand-50",

@@ -1,7 +1,6 @@
 import { TeamMemberCard } from "@/components/cards/TeamMemberCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { CultureValue, LinkItem, SectionIntro, TeamMember } from "@/types";
 
@@ -18,19 +17,18 @@ export function CultureTeam({ culture, team }: CultureTeamProps) {
         {/* 企业文化 */}
         <div>
           <SectionHeading {...culture.intro} />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {culture.values.map((value) => (
-              // 纯展示卡片：不加悬停上浮等“可点击”暗示
-              <article key={value.title} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card">
-                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-700 ring-1 ring-brand-100">
-                  <Icon name={value.icon} className="size-5" />
-                </span>
-                <h3 className="mt-5 text-lg font-bold text-ink-900">{value.title}</h3>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-600">{value.subtitle}</p>
-                <p className="mt-3 text-sm leading-relaxed text-ink-500">{value.description}</p>
-              </article>
+          <ol className="mt-10 space-y-6">
+            {culture.values.map((value, index) => (
+              <li key={value.title} className="flex gap-4 border-t border-ink-200 pt-5">
+                <span className="w-6 shrink-0 font-mono text-sm text-ink-400">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="text-lg font-bold text-ink-900">{value.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{value.description}</p>
+                  <p className="mt-2 text-xs text-ink-400">出处：{value.subtitle}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
 
         {/* 核心团队 */}

@@ -71,45 +71,9 @@ const config: Config = {
           "sans-serif",
         ],
       },
-      backgroundImage: {
-        // 同色系的克制渐变（不跨色相），保证白色文字对比度
-        "brand-gradient": "linear-gradient(135deg, #B12525 0%, #9B1B1B 50%, #7F1D1D 100%)",
-        "brand-gradient-soft": "linear-gradient(135deg, rgba(155,27,27,0.07) 0%, rgba(155,27,27,0.02) 100%)",
-        "night-gradient": "linear-gradient(160deg, #3F1A1A 0%, #2B1315 100%)",
-        "grid-light":
-          "linear-gradient(to right, rgba(17,24,39,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,24,39,0.045) 1px, transparent 1px)",
-        "grid-dark":
-          "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
-      },
-      backgroundSize: {
-        grid: "48px 48px",
-        "200%": "200% 200%",
-      },
       boxShadow: {
         card: "0 1px 2px rgba(17,24,39,0.04), 0 8px 24px -8px rgba(17,24,39,0.08)",
         "card-hover": "0 2px 4px rgba(17,24,39,0.04), 0 20px 40px -16px rgba(127,29,29,0.18)",
-        glow: "0 10px 24px -12px rgba(127,29,29,0.55)",
-      },
-      keyframes: {
-        flow: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
-        float: {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
-          "50%": { transform: "translate3d(2%, -4%, 0) scale(1.06)" },
-        },
-        "fade-up": {
-          from: { opacity: "0", transform: "translateY(16px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
-        },
-      },
-      animation: {
-        flow: "flow 12s ease-in-out infinite",
-        float: "float 14s ease-in-out infinite",
-        "float-slow": "float 20s ease-in-out infinite reverse",
-        "spin-slow": "spin 40s linear infinite",
-        "fade-up": "fade-up 0.7s ease-out both",
       },
       typography: ({ theme }: { theme: (path: string) => string }) => ({
         DEFAULT: {

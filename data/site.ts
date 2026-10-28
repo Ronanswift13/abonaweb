@@ -13,7 +13,7 @@ export const site: SiteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.abonatech.com",
   domain: "abonatech.com",
   description:
-    "北京艾博纳信息技术有限公司专注行业大模型、主动 AI 智能体、变电站智能监测、数字孪生与网络安全技术，以自研大模型「艾博纳幺儿」（Abonayaoer）赋能电力能源与工业场景的智能化升级。",
+    "北京艾博纳信息技术有限公司为变电站、值守中心和企业后勤开发 AI 软件：破夜绘明变电站监测平台、主动 AI 值守交互系统、智慧后勤 AI 助手，以及自研行业大模型「艾博纳幺儿」（Abonayaoer）。",
   keywords: [
     "艾博纳",
     "Abonayaoer",

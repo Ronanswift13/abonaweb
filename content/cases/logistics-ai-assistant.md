@@ -7,6 +7,7 @@ client: 某大型能源企业
 summary: 面向后勤多场景服务的语音 AI 助手，首个试点业务为访客到访预约的创建与审批：一句话说清需求，确认卡把关，MCP 工具闭环办理。
 icon: mic
 accent: cyan
+cover: /images/products/logistics/step-3-submitted.jpg
 products:
   - smart-logistics-assistant
 results:

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ArrowDown, ArrowRight, ArrowUp, Info } from "lucide-react";
 
-import { Icon } from "@/components/ui/Icon";
 import { LoopVideo } from "@/components/ui/LoopVideo";
 import { cn } from "@/lib/utils";
 import type { Feature, FieldPhoto, FlowStep, PluginGroup, ProductImage, ProductVideo } from "@/types";
@@ -40,7 +39,7 @@ export function PhoneScreens({ items, note }: { items: ProductImage[]; note?: st
               </div>
               <figcaption className="mt-5">
                 <p className="flex items-center gap-2 font-bold text-ink-900">
-                  <span className="flex size-7 items-center justify-center rounded-full bg-brand-gradient text-xs text-white">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-brand-700 text-xs text-white">
                     {index + 1}
                   </span>
                   {item.title}
@@ -77,26 +76,17 @@ export function TwinShowcase({
   return (
     <div className="mt-12">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-        <div className="relative isolate overflow-hidden rounded-[1.75rem] bg-night-gradient p-3 shadow-card-hover sm:p-4 lg:col-span-8">
-          <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
-          <LoopVideo video={video} label={label} className="aspect-video w-full rounded-2xl bg-black" />
+        <div className="overflow-hidden rounded-xl border border-ink-200 bg-black lg:col-span-8">
+          <LoopVideo video={video} label={label} className="aspect-video w-full" />
         </div>
-        <ol className="space-y-1 lg:col-span-4">
+        <ol className="lg:col-span-4">
           {steps.map((step, index) => (
-            <li key={step.title} className="relative flex gap-4 pb-6 last:pb-0">
-              {index < steps.length - 1 && (
-                <span className="absolute left-5 top-11 h-[calc(100%-2.75rem)] w-px bg-brand-200" aria-hidden="true" />
-              )}
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-                <Icon name={step.icon ?? "layers"} className="size-5" />
-              </span>
-              <div>
-                <h3 className="font-bold text-ink-900">
-                  <span className="mr-2 text-sm text-brand-600">{String(index + 1).padStart(2, "0")}</span>
-                  {step.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-ink-500">{step.description}</p>
-              </div>
+            <li key={step.title} className="border-t border-ink-200 py-4 first:border-t-0 first:pt-0">
+              <h3 className="font-bold text-ink-900">
+                <span className="mr-2 font-mono text-sm text-ink-400">{String(index + 1).padStart(2, "0")}</span>
+                {step.title}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-ink-500">{step.description}</p>
             </li>
           ))}
         </ol>
@@ -187,24 +177,14 @@ export function InteractionFlow({
             <li
               key={step.title}
               className={cn(
-                "relative flex flex-col rounded-2xl border p-5 shadow-card",
-                human ? "border-brand-300 bg-brand-50/70" : "border-ink-100 bg-white",
+                "relative flex flex-col rounded-xl border p-5",
+                human ? "border-brand-400 bg-brand-50/70" : "border-ink-200 bg-white",
               )}
             >
-              <div className="flex items-center justify-between gap-2">
-                <span
-                  className={cn(
-                    "flex size-10 items-center justify-center rounded-xl",
-                    human ? "bg-brand-gradient text-white shadow-glow" : "bg-ink-50 text-brand-600 ring-1 ring-ink-100",
-                  )}
-                >
-                  <Icon name={step.icon} className="size-5" />
-                </span>
-                <span className={cn("text-xs font-semibold", human ? "text-brand-700" : "text-ink-400")}>
-                  {String(index + 1).padStart(2, "0")} · {ACTOR_LABEL[step.actor]}
-                </span>
-              </div>
-              <h3 className="mt-4 font-bold text-ink-900">{step.title}</h3>
+              <span className={cn("text-xs font-semibold", human ? "text-brand-700" : "text-ink-400")}>
+                {String(index + 1).padStart(2, "0")} · {ACTOR_LABEL[step.actor]}
+              </span>
+              <h3 className="mt-2 font-bold text-ink-900">{step.title}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-500">{step.description}</p>
               {step.points && (
                 <ul className="mt-4 flex flex-wrap gap-1.5">
@@ -245,27 +225,19 @@ export function InteractionFlow({
             <ArrowUp className="absolute -left-[0.7rem] -top-1 size-5 bg-white text-brand-400" />
           </div>
           <p className="mt-3 flex items-center justify-center gap-2 text-sm font-medium text-brand-700 lg:-mt-3">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 ring-1 ring-brand-200">
-              <Icon name="repeat" className="size-4" />
-              {loop}
-            </span>
+            <span className="rounded-full bg-white px-3 py-1 ring-1 ring-brand-200">{loop}</span>
           </p>
         </>
       )}
 
       {guardrails && guardrails.length > 0 && (
-        <div className="mt-10 rounded-3xl bg-night-gradient p-6 sm:p-8">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-200">全流程护栏</h3>
-          <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 rounded-2xl bg-night p-6 sm:p-8">
+          <h3 className="text-base font-bold text-white">每一步都有的限制</h3>
+          <ul className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {guardrails.map((item) => (
-              <li key={item.title} className="flex gap-3">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white ring-1 ring-white/15">
-                  <Icon name={item.icon ?? "shield"} className="size-4" />
-                </span>
-                <div>
-                  <p className="font-semibold text-white">{item.title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-300">{item.description}</p>
-                </div>
+              <li key={item.title} className="border-t border-white/15 pt-4">
+                <p className="font-semibold text-white">{item.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-300">{item.description}</p>
               </li>
             ))}
           </ul>

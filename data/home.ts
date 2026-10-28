@@ -7,83 +7,79 @@ import type { HomeContent } from "@/types";
  */
 export const home: HomeContent = {
   hero: {
-    badge: "行业大模型 · 主动 AI · 智能监测 · 可信安全",
+    badge: "2026 年 10 月：智慧后勤 AI 助手六个研发阶段完成复验，等待客户环境试点",
     title: "北京艾博纳信息技术有限公司",
     model: {
       name: "艾博纳幺儿",
       nameEn: "Abonayaoer",
-      tagline: "面向电力能源与工业场景的自研大模型",
+      tagline: "已完成阶段性内部验证，评测结果尚未公开",
     },
     description:
-      "我们以自研大模型为核心，融合多模态感知、主动 AI 智能体与数字孪生技术，并以贯穿全链路的安全设计，为电力能源与工业企业提供“看得见、想得到、做得准”的智能化解决方案。",
-    primaryCta: { label: "了解我们的解决方案", href: "/capabilities" },
-    secondaryCta: { label: "观看产品演示", href: "/products/abonayaoer#demo" },
-    // 【占位】亮点数据请替换为经确认可公开的表述（插件数量取自 data/plugins.ts）
+      "我们给变电站和企业后勤写 AI 软件。夜里巡视时，监测平台把异常落到具体设备上，同时留下原图、置信度和模型版本，方便事后复核；值守时，虚拟同事先开口报最要紧的一件事，处不处置由值班员决定；办访客预约时，员工说一句话，在确认卡上核对无误才提交。模型和语音服务都可以部署在客户内网。",
+    primaryCta: { label: "看三款产品各做到哪一步", href: "/products" },
+    secondaryCta: { label: "看 1 分 25 秒值守演示", href: "/products/proactive-ai-agent#demo" },
+    // 数字均可在产品研发仓库中核对：插件数取自 data/plugins.ts；语音时延见主动 AI 仓库 README；试点方案见后勤助手 docs/12
     highlights: [
-      { value: String(substationPluginCount), label: "变电站监测插件" },
-      { value: "全链路", label: "感知 · 认知 · 决策" },
-      { value: "私有化", label: "安全可控部署" },
+      { value: String(substationPluginCount), label: "个变电站监测插件，每个都能单独部署" },
+      { value: "0.2 秒", label: "本地语音识别出字，离线跑在 CPU 上" },
+      { value: "4 周", label: "访客预约试点周期，第 1 周先测人工填写用时" },
     ],
-    // 【占位】示意对话，仅用于视觉展示
-    demo: {
-      title: "艾博纳幺儿",
-      status: "在线 · 主动分析中",
-      messages: [
-        { role: "user", text: "汇总 3 号主变近 24 小时的红外测温与声纹数据，有异常吗？" },
-        {
-          role: "assistant",
-          text: "已比对历史基线：B 相套管温升偏高 6.8℃，声纹无异常。建议 2 小时内复测，并已生成巡检工单。",
-        },
-      ],
-      chips: ["多模态感知", "主动预警", "数字孪生", "工单联动"],
+    // 真实界面截图（演示回放数据），见产品页 /products/proactive-ai-agent#screens
+    visual: {
+      src: "/images/products/proactive-ai/l1-proactive-briefing.jpg",
+      width: 2400,
+      height: 1350,
+      title: "主动 AI 值守界面",
+      alt: "主动 AI 值守界面：虚拟同事指向左侧数字孪生，地图上高亮开关柜 01 前的黄线，右侧是按优先级排序的风险卡片",
+      caption: "虚拟同事正在报「一号机柜压线」，左侧数字孪生同步定位到开关柜 01 前的黄线。画面为演示回放数据，不是现场。",
     },
   },
 
   products: {
     eyebrow: "CORE PRODUCTS",
     title: "核心产品",
-    description: "从感知到认知，从平台到智能体，以自研技术构建行业智能化的关键能力。",
+    description: "每张卡片的「进展」一栏写的是现在实际做到哪一步；没做到的，不写成已完成。",
   },
 
   business: {
     eyebrow: "BUSINESS DIRECTIONS",
     title: "业务方向",
-    description: "围绕大模型与行业场景持续拓展，覆盖电力能源、企业服务、工业物联网与网络安全等领域。",
+    description: "这些方向都是从已有项目里长出来的：先在变电站和后勤场景跑通，再看能不能复制到别处。",
   },
 
   casesNews: {
     cases: {
       eyebrow: "CASE STUDIES",
       title: "项目案例",
-      description: "来自真实场景的落地实践。",
+      description: "客户名称在授权前匿名；涉及指标的地方，都注明是内部测试集还是现场数据。",
       more: { label: "全部案例", href: "/cases" },
     },
     news: {
       eyebrow: "NEWSROOM",
       title: "新闻动态",
-      description: "公司新闻、项目进展与行业观察。",
+      description: "研发进展和版本发布记录，按时间倒序。",
       more: { label: "更多新闻", href: "/news" },
     },
   },
 
   culture: {
-    eyebrow: "OUR CULTURE",
-    title: "企业文化",
-    description: "以技术创造价值，以价值赢得信任。",
+    eyebrow: "HOW WE WORK",
+    title: "我们做事的几条规矩",
+    description: "这几条都写进了产品代码和验收流程，每条下面注明出处。",
   },
 
   team: {
     eyebrow: "CORE TEAM",
     title: "核心团队",
-    description: "汇聚人工智能、电力系统与工业软件领域的复合型人才。",
+    description: "做算法的、懂变电站运维的、做工业软件交付的人在一个项目组里干活。成员姓名和简历征得本人同意后公开。",
     more: { label: "了解我们", href: "/about" },
   },
 
   cta: {
-    eyebrow: "LET'S BUILD TOGETHER",
-    title: "让大模型真正走进您的业务现场",
+    eyebrow: "START SMALL",
+    title: "先拿一个具体场景来试",
     description:
-      "无论是变电站智能监测、行业大模型私有化部署、主动 AI 智能体定制，还是智慧后勤 AI 助手，我们都将为您提供从咨询、方案到落地运维的一站式服务。",
+      "比如一座变电站的开关状态识别，或者一个部门的访客预约。我们先把演示版部署到您的环境里，用您的数据跑一遍，看结果再决定要不要扩大范围。",
     primary: { label: "获取解决方案", href: "/contact#solution" },
     secondary: { label: "联系我们", href: "/contact" },
     contactTitle: "商务联系人",

@@ -23,13 +23,12 @@ import { home } from "@/data/home";
 import { getAllProducts, getCasesByProduct, getProduct } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
-import type { IconName, Product, SectionIntro } from "@/types";
+import type { Product, SectionIntro } from "@/types";
 
 interface DetailSection extends SectionIntro {
   id: string;
   /** 页内导航上的短名称 */
   label: string;
-  icon: IconName;
   content: React.ReactNode;
 }
 
@@ -39,15 +38,13 @@ function buildSections(product: Product): DetailSection[] {
     {
       id: "features",
       label: "核心功能",
-      icon: "sparkles",
       eyebrow: "FEATURES",
       title: "核心功能",
-      content: <FeatureGrid items={product.features} fallbackIcon={product.icon} />,
+      content: <FeatureGrid items={product.features} />,
     },
     !!product.flow && {
       id: "flow",
       label: "交互流程",
-      icon: "repeat",
       eyebrow: "WORKFLOW",
       title: product.flow.title,
       description: product.flow.description,
@@ -56,7 +53,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.screens && {
       id: "screens",
       label: "界面展示",
-      icon: "monitor",
       eyebrow: "INTERFACE",
       title: "界面展示",
       description: product.screens.description,
@@ -73,7 +69,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.twin && {
       id: "twin",
       label: "数字孪生",
-      icon: "layers",
       eyebrow: "DIGITAL TWIN",
       title: "数字孪生",
       description: product.twin.description,
@@ -89,7 +84,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.architecture && {
       id: "architecture",
       label: "技术架构",
-      icon: "layers",
       eyebrow: "ARCHITECTURE",
       title: "技术架构",
       description: product.architecture.description,
@@ -98,7 +92,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.plugins && {
       id: "plugins",
       label: "监测插件",
-      icon: "puzzle",
       eyebrow: "PLUGINS",
       title: "监测插件矩阵",
       description: product.plugins.description,
@@ -112,7 +105,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.field && {
       id: "field",
       label: "现场实拍",
-      icon: "camera",
       eyebrow: "FIELD",
       title: "现场实拍",
       description: product.field.description,
@@ -121,15 +113,13 @@ function buildSections(product: Product): DetailSection[] {
     !!product.technologies?.length && {
       id: "technology",
       label: "关键技术",
-      icon: "cpu",
       eyebrow: "KEY TECHNOLOGIES",
       title: "关键技术",
-      content: <FeatureGrid items={product.technologies} fallbackIcon={product.icon} columns={3} />,
+      content: <FeatureGrid items={product.technologies} columns={3} />,
     },
     {
       id: "scenarios",
       label: "应用场景",
-      icon: "target",
       eyebrow: "SCENARIOS",
       title: "应用场景",
       content: (
@@ -141,7 +131,7 @@ function buildSections(product: Product): DetailSection[] {
         >
           {product.scenarios.map((scenario, index) => (
             <li key={scenario} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card">
-              <span className="text-gradient text-2xl font-bold">{String(index + 1).padStart(2, "0")}</span>
+              <span className="text-brand-700 text-2xl font-bold">{String(index + 1).padStart(2, "0")}</span>
               <p className="mt-3 font-semibold text-ink-800">{scenario}</p>
             </li>
           ))}
@@ -151,16 +141,14 @@ function buildSections(product: Product): DetailSection[] {
     !!product.security && {
       id: "security",
       label: "安全设计",
-      icon: "shield",
       eyebrow: "SECURITY",
       title: "安全设计",
       description: product.security.description,
-      content: <FeatureGrid items={product.security.items} fallbackIcon="shield" columns={3} />,
+      content: <FeatureGrid items={product.security.items} columns={3} />,
     },
     !!product.techStack?.length && {
       id: "stack",
       label: "技术栈",
-      icon: "server",
       eyebrow: "TECH STACK",
       title: "技术栈",
       content: <TechStack groups={product.techStack} />,
@@ -224,8 +212,8 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       {sections.length > 2 && (
         <SectionNav
           items={[
-            ...sections.map(({ id, label, icon }) => ({ id, label, icon })),
-            ...(product.demo ? [{ id: "demo", label: "产品演示", icon: "play" as const }] : []),
+            ...sections.map(({ id, label }) => ({ id, label })),
+            ...(product.demo ? [{ id: "demo", label: "产品演示" }] : []),
           ]}
         />
       )}
@@ -244,12 +232,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       {product.demo?.video && (
         <section id="demo" className="py-20">
           <Container>
-            <div className="relative isolate overflow-hidden rounded-[2rem] bg-night-gradient p-5 sm:p-8 lg:p-10">
-              <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-60" aria-hidden="true" />
-              <div
-                className="absolute -top-24 left-1/2 -z-10 size-96 -translate-x-1/2 rounded-full bg-brand-500/20 blur-3xl"
-                aria-hidden="true"
-              />
+            <div className="rounded-2xl bg-night p-5 sm:p-8 lg:p-10">
               <SectionHeading
                 eyebrow="PRODUCT DEMO"
                 title={product.demo.title}
@@ -283,16 +266,11 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       {product.demo && !product.demo.video && (
         <section id="demo" className="py-20">
           <Container>
-            <div className="relative isolate flex aspect-video max-h-[520px] w-full flex-col items-center justify-center overflow-hidden rounded-[2rem] bg-night-gradient p-8 text-center">
-              <div className="absolute inset-0 -z-10 bg-grid-dark bg-grid opacity-60" aria-hidden="true" />
-              <div className="absolute -z-10 size-72 rounded-full bg-brand-500/25 blur-3xl" aria-hidden="true" />
-              {/* 【占位】替换为 <video> 或第三方视频嵌入 */}
-              <span className="flex size-20 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/30 backdrop-blur">
-                <CirclePlay className="size-10" aria-hidden="true" />
-              </span>
-              <h2 className="mt-6 text-2xl font-bold text-white">{product.demo.title}</h2>
-              <p className="mt-3 max-w-lg text-sm leading-relaxed text-ink-300 sm:text-base">{product.demo.description}</p>
-              <ButtonLink href="/contact" variant="light" className="mt-6">
+            {/* 暂无演示视频：不放播放按钮，直接说明如何预约 */}
+            <div className="rounded-2xl border border-dashed border-ink-200 bg-ink-50/60 p-8 sm:p-10">
+              <h2 className="text-2xl font-bold text-ink-900">{product.demo.title}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-500 sm:text-base">{product.demo.description}</p>
+              <ButtonLink href="/contact" className="mt-6">
                 预约演示
               </ButtonLink>
             </div>

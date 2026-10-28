@@ -2,7 +2,6 @@ import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { PlanSpotlight } from "@/components/sections/PlanSections";
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
 import { directions, directionsIntro, horizons } from "@/data/directions";
 import { home } from "@/data/home";
 import { yuanyinPlan } from "@/data/plans";
@@ -33,14 +32,14 @@ export default function DirectionsPage() {
 
       <section className="py-20">
         <Container>
-          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-gradient-to-b before:from-brand-300 before:via-brand-200 before:to-transparent md:before:left-[23px]">
+          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-ink-200 md:before:left-[23px]">
             {horizons.map((horizon, index) => {
               const items = directions.filter((d) => d.horizon === horizon.key);
               if (items.length === 0) return null;
               return (
                 <li key={horizon.key} className="relative pl-14 md:pl-20">
                   {/* 时间轴节点 */}
-                  <span className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full bg-brand-gradient text-sm font-bold text-white shadow-glow md:size-12">
+                  <span className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full border-2 border-brand-700 bg-white text-sm font-bold text-brand-700 md:size-12">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h2 className="text-2xl font-bold text-ink-900">{horizon.label}</h2>
@@ -51,14 +50,9 @@ export default function DirectionsPage() {
                       <article
                         key={d.id}
                         id={d.id}
-                        className="rounded-3xl border border-ink-100 bg-white p-7 shadow-card transition-shadow hover:shadow-card-hover"
+                        className="rounded-xl border border-ink-200 bg-white p-7"
                       >
-                        <div className="flex items-center gap-4">
-                          <span className="flex size-12 items-center justify-center rounded-2xl bg-brand-gradient-soft text-brand-600 ring-1 ring-brand-100">
-                            <Icon name={d.icon} className="size-6" />
-                          </span>
-                          <h3 className="text-lg font-bold text-ink-900">{d.title}</h3>
-                        </div>
+                        <h3 className="text-lg font-bold text-ink-900">{d.title}</h3>
                         <p className="mt-4 text-sm leading-relaxed text-ink-500">{d.summary}</p>
                         <ul className="mt-5 flex flex-wrap gap-2">
                           {d.focus.map((f) => (

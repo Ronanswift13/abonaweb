@@ -8,13 +8,7 @@ export function CTA({ content }: { content: CtaContent }) {
   return (
     <section className="bg-white py-20 sm:py-24">
       <Container>
-        <div className="relative isolate overflow-hidden rounded-[2rem] bg-brand-gradient bg-200% px-6 py-12 shadow-card-hover animate-flow sm:px-12 sm:py-16 lg:px-16">
-          {/* 装饰 */}
-          <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-            <div className="absolute inset-0 bg-grid-dark bg-grid opacity-40" />
-            <div className="absolute -right-24 -top-24 size-80 rounded-full bg-white/20 blur-3xl" />
-            <div className="absolute -bottom-32 left-1/3 size-96 rounded-full bg-brand-900/30 blur-3xl" />
-          </div>
+        <div className="rounded-2xl bg-brand-800 px-6 py-12 sm:px-12 sm:py-16 lg:px-16">
 
           <div className="grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-7">

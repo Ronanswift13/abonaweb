@@ -103,6 +103,7 @@ export const getAllCases = cache((): CaseStudy[] =>
     summary: str(data, "summary", file),
     icon: str(data, "icon", file) as IconName,
     accent: accent(data, file),
+    cover: typeof data.cover === "string" && data.cover.trim() ? data.cover.trim() : undefined,
     products: strList(data, "products", file),
     results: strList(data, "results", file),
     featured: data.featured === true,

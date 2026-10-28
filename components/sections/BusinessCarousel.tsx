@@ -73,14 +73,8 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
     "flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-brand-300 hover:bg-white/10 disabled:opacity-40";
 
   return (
-    <section className="relative overflow-hidden bg-night-gradient py-20 sm:py-24" aria-roledescription="carousel" aria-label={intro.title}>
-      <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
-      <div
-        className="pointer-events-none absolute -left-40 top-1/3 size-[520px] animate-float rounded-full bg-brand-700/20 blur-3xl"
-        aria-hidden="true"
-      />
-
-      <Container className="relative">
+    <section className="bg-night py-20 sm:py-24" aria-roledescription="carousel" aria-label={intro.title}>
+      <Container>
         <SectionHeading
           {...intro}
           invert
@@ -114,7 +108,7 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
                 aria-label={`${index + 1} / ${items.length}：${item.title}`}
                 className="min-w-0 shrink-0 grow-0 basis-full pl-5 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
-                <BusinessCard item={item} />
+                <BusinessCard item={item} index={index} />
               </div>
             ))}
           </div>
@@ -140,7 +134,7 @@ export function BusinessCarousel({ intro, items, autoplayDelay = 4500 }: Busines
                   aria-hidden="true"
                   className={cn(
                     "block h-2 rounded-full transition-all duration-300",
-                    index === selected ? "w-8 bg-brand-gradient" : "w-2 bg-white/25 group-hover:bg-white/50",
+                    index === selected ? "w-8 bg-brand-700" : "w-2 bg-white/25 group-hover:bg-white/50",
                   )}
                 />
               </button>

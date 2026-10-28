@@ -31,10 +31,8 @@ export default function ContactPage() {
       <section className="py-20">
         <Container className="grid gap-8 lg:grid-cols-12">
           {/* 联系方式卡片 */}
-          <div className="relative overflow-hidden rounded-[2rem] bg-night-gradient p-8 text-white shadow-card-hover sm:p-10 lg:col-span-5">
-            <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-50" aria-hidden="true" />
-            <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-brand-500/25 blur-3xl" aria-hidden="true" />
-            <div className="relative">
+          <div className="rounded-2xl bg-night p-8 text-white sm:p-10 lg:col-span-5">
+            <div>
               <h2 className="text-2xl font-bold">{site.name}</h2>
               <p className="mt-1 text-sm text-ink-300">{site.nameEn}</p>
               <ContactList invert extended showQr className="mt-8" />
@@ -67,7 +65,7 @@ export default function ContactPage() {
             <ol className="mt-4 grid gap-4 sm:grid-cols-4">
               {process.map((step, index) => (
                 <li key={step.title} className="rounded-2xl border border-ink-100 p-4">
-                  <span className="text-gradient text-xl font-bold">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="text-brand-700 text-xl font-bold">{String(index + 1).padStart(2, "0")}</span>
                   <p className="mt-2 font-semibold text-ink-900">{step.title}</p>
                   <p className="mt-1 text-xs leading-relaxed text-ink-500">{step.description}</p>
                 </li>

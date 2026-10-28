@@ -23,7 +23,7 @@ export function TeamMemberCard({ member, className }: { member: TeamMember; clas
           />
         ) : (
           <span
-            className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-lg font-bold text-white"
+            className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-700 text-lg font-bold text-white"
             aria-hidden="true"
           >
             {member.initial ?? member.name.slice(0, 1)}

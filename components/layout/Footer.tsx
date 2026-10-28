@@ -12,14 +12,8 @@ export function Footer() {
   const copyrightYears = year > site.foundedYear ? `${site.foundedYear}–${year}` : `${year}`;
 
   return (
-    <footer className="relative overflow-hidden bg-brand-800 text-white/75">
-      <div className="pointer-events-none absolute inset-0 bg-grid-dark bg-grid opacity-30" aria-hidden="true" />
-      <div
-        className="pointer-events-none absolute -top-40 right-0 size-[480px] rounded-full bg-brand-600/30 blur-3xl"
-        aria-hidden="true"
-      />
-
-      <Container className="relative">
+    <footer className="bg-ink-900 text-white/75">
+      <Container>
         <div className="grid gap-12 py-16 lg:grid-cols-12">
           {/* 公司信息 */}
           <div className="lg:col-span-4">

@@ -30,13 +30,7 @@ export function PageHeader({ eyebrow, title, description, breadcrumbs = [], chil
   };
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-ink-100 bg-white">
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-grid-light bg-grid [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-        <div className="absolute -right-24 -top-32 size-[480px] rounded-full bg-ink-100/60 blur-3xl" />
-        <div className="absolute -left-24 top-10 size-[360px] rounded-full bg-brand-100/50 blur-3xl" />
-      </div>
-
+    <section className="border-b border-ink-100 bg-ink-50/60">
       <Container className="py-14 sm:py-20">
         <nav aria-label="面包屑">
           <ol className="flex flex-wrap items-center gap-1 text-sm text-ink-400">

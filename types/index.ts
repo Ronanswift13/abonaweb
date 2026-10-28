@@ -185,13 +185,8 @@ export interface HeroHighlight {
   label: string;
 }
 
-export interface HeroDemoMessage {
-  role: "user" | "assistant";
-  text: string;
-}
-
 export interface HeroContent {
-  /** 顶部徽标文案 */
+  /** 顶部一行近况（写具体进展，不写口号） */
   badge: string;
   /** 主标题（公司全称） */
   title: string;
@@ -206,13 +201,8 @@ export interface HeroContent {
   primaryCta: LinkItem;
   secondaryCta: LinkItem;
   highlights: HeroHighlight[];
-  /** 右侧示意面板（模拟对话） */
-  demo: {
-    title: string;
-    status: string;
-    messages: HeroDemoMessage[];
-    chips: string[];
-  };
+  /** 右侧真实产品截图（title 作为图注标题） */
+  visual: ProductImage;
 }
 
 export interface CtaContent {
@@ -344,8 +334,8 @@ export interface Product {
   summary: string;
   /** 详情页导语 */
   description: string;
-  /** 卡片上展示的 2–3 个关键词 */
-  keywords: string[];
+  /** 卡片上的“现在做到哪一步”：一句话写清已完成什么、还差什么 */
+  status: string;
   features: Feature[];
   scenarios: string[];
   /** 演示区说明（详情页 #demo 锚点） */
@@ -607,6 +597,8 @@ export interface CaseMeta {
   summary: string;
   icon: IconName;
   accent: Accent;
+  /** 卡片封面图（public/ 下路径）；不填时显示行业与客户文字封面 */
+  cover?: string;
   /** 关联产品 slug */
   products: string[];
   /** 成果要点 */

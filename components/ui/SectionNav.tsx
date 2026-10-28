@@ -3,14 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
-import type { IconName } from "@/types";
 
 export interface SectionNavItem {
   id: string;
   label: string;
-  icon: IconName;
 }
 
 /**
@@ -75,11 +72,10 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
                   aria-current={current ? "location" : undefined}
                   onClick={() => setActive(item.id)}
                   className={cn(
-                    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500",
+                    "inline-flex whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500",
                     current ? "bg-brand-700 font-medium text-white" : "text-ink-600 hover:bg-ink-50 hover:text-brand-700",
                   )}
                 >
-                  <Icon name={item.icon} className={cn("size-4", current ? "text-white" : "text-brand-600")} />
                   {item.label}
                 </a>
               </li>
