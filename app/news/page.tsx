@@ -15,7 +15,7 @@ export default function NewsPage() {
 
   return (
     <>
-      <PageHeader eyebrow="NEWSROOM" title={title} description={description} breadcrumbs={[{ label: title, href: "/news" }]} />
+      <PageHeader title={title} description={description} breadcrumbs={[{ label: title, href: "/news" }]} />
       <section className="py-20">
         <Container className="max-w-4xl">
           {news.length > 0 ? (

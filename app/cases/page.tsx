@@ -8,7 +8,7 @@ import { getAllCases } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
 const title = "项目案例";
-const description = "来自电力能源、企业服务与工业互联网等领域的落地实践。";
+const description = "电力能源、企业服务和工业互联网领域的项目。";
 
 export const metadata = pageMetadata({ title, description, path: "/cases" });
 
@@ -17,7 +17,7 @@ export default function CasesPage() {
 
   return (
     <>
-      <PageHeader eyebrow="CASE STUDIES" title={title} description={description} breadcrumbs={[{ label: title, href: "/cases" }]} />
+      <PageHeader title={title} description={description} breadcrumbs={[{ label: title, href: "/cases" }]} />
       <section className="py-20">
         <Container>
           {cases.length > 0 ? (

@@ -17,7 +17,6 @@ export default function DirectionsPage() {
   return (
     <>
       <PageHeader
-        eyebrow={directionsIntro.eyebrow}
         title={directionsIntro.title}
         description={directionsIntro.description}
         breadcrumbs={[{ label: directionsIntro.title, href: "/directions" }]}
@@ -32,16 +31,12 @@ export default function DirectionsPage() {
 
       <section className="py-20">
         <Container>
-          <ol className="relative space-y-16 before:absolute before:bottom-0 before:left-[19px] before:top-2 before:w-px before:bg-ink-200 md:before:left-[23px]">
-            {horizons.map((horizon, index) => {
+          <div className="space-y-16">
+            {horizons.map((horizon) => {
               const items = directions.filter((d) => d.horizon === horizon.key);
               if (items.length === 0) return null;
               return (
-                <li key={horizon.key} className="relative pl-14 md:pl-20">
-                  {/* 时间轴节点 */}
-                  <span className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full border-2 border-brand-700 bg-white text-sm font-bold text-brand-700 md:size-12">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                <div key={horizon.key}>
                   <h2 className="text-2xl font-bold text-ink-900">{horizon.label}</h2>
                   <p className="mt-2 text-ink-500">{horizon.description}</p>
 
@@ -64,10 +59,10 @@ export default function DirectionsPage() {
                       </article>
                     ))}
                   </div>
-                </li>
+                </div>
               );
             })}
-          </ol>
+          </div>
         </Container>
       </section>
 

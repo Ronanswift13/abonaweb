@@ -80,10 +80,9 @@ export function TwinShowcase({
           <LoopVideo video={video} label={label} className="aspect-video w-full" />
         </div>
         <ol className="lg:col-span-4">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <li key={step.title} className="border-t border-ink-200 py-4 first:border-t-0 first:pt-0">
               <h3 className="font-bold text-ink-900">
-                <span className="mr-2 font-mono text-sm text-ink-400">{String(index + 1).padStart(2, "0")}</span>
                 {step.title}
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-ink-500">{step.description}</p>
@@ -182,7 +181,7 @@ export function InteractionFlow({
               )}
             >
               <span className={cn("text-xs font-semibold", human ? "text-brand-700" : "text-ink-400")}>
-                {String(index + 1).padStart(2, "0")} · {ACTOR_LABEL[step.actor]}
+                步骤 {index + 1} · {ACTOR_LABEL[step.actor]}
               </span>
               <h3 className="mt-2 font-bold text-ink-900">{step.title}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-500">{step.description}</p>
@@ -232,7 +231,7 @@ export function InteractionFlow({
 
       {guardrails && guardrails.length > 0 && (
         <div className="mt-10 rounded-2xl bg-night p-6 sm:p-8">
-          <h3 className="text-base font-bold text-white">每一步都有的限制</h3>
+          <h3 className="text-base font-bold text-white">系统限制</h3>
           <ul className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {guardrails.map((item) => (
               <li key={item.title} className="border-t border-white/15 pt-4">

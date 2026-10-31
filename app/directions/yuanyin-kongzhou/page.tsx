@@ -49,7 +49,6 @@ export default function YuanyinKongzhouPage() {
   return (
     <>
       <PageHeader
-        eyebrow="DEVELOPMENT PLAN · 公司发展计划"
         title={plan.name}
         description={plan.statement}
         breadcrumbs={[
@@ -83,7 +82,7 @@ export default function YuanyinKongzhouPage() {
       {/* 计划概述 */}
       <section id="overview" className="py-20">
         <Container>
-          <SectionHeading eyebrow="OVERVIEW" title="计划概述" description={plan.summary} />
+          <SectionHeading title="计划概述" description={plan.summary} />
           <div className="mt-12 grid gap-8 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <h3 className="text-lg font-bold text-ink-900">要解决的工程问题</h3>
@@ -122,7 +121,6 @@ export default function YuanyinKongzhouPage() {
       <section id="naming" className="bg-ink-50/70 py-20">
         <Container>
           <SectionHeading
-            eyebrow="NAMING"
             title="计划释义"
             description="对同一能源与交通基础设施对象做两类测绘——空天地物理测绘与网络空间资产测绘，再用主动智能体维持测绘结果的时效。"
           />
@@ -144,7 +142,6 @@ export default function YuanyinKongzhouPage() {
       <section id="tracks" className="py-20">
         <Container>
           <SectionHeading
-            eyebrow="TECH LINES"
             title="三条技术线"
             description="物理空间、网络空间与主动智能体并行研发，最终在统一的对象编号上汇合。"
           />
@@ -175,7 +172,6 @@ export default function YuanyinKongzhouPage() {
           <Container>
             <div>
               <SectionHeading
-                eyebrow={`SUB-PLAN 0${index + 1} · ${sub.domain}`}
                 title={sub.name}
                 description={sub.summary}
               />
@@ -188,7 +184,7 @@ export default function YuanyinKongzhouPage() {
       {/* 双图融合 */}
       <section id="fusion" className="bg-ink-50/70 py-20">
         <Container>
-          <SectionHeading eyebrow="DUAL-MAP FUSION" title="双图融合与大模型用法" description={plan.fusion.unit} />
+          <SectionHeading title="双图融合与大模型用法" description={plan.fusion.unit} />
 
           <h3 className="mt-12 text-lg font-bold text-ink-900">大模型调用链</h3>
           <ol className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
@@ -203,10 +199,7 @@ export default function YuanyinKongzhouPage() {
                       : "relative rounded-2xl border border-ink-100 bg-white p-5 shadow-card"
                   }
                 >
-                  <span className={last ? "text-sm font-bold text-white/70" : "text-brand-700 text-sm font-bold"}>
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <p className={last ? "mt-2 font-semibold" : "mt-2 font-semibold text-ink-900"}>{step}</p>
+                  <p className={last ? "font-semibold" : "font-semibold text-ink-900"}>{step}</p>
                   {!last && (
                     <ChevronRight
                       className="absolute -right-3 top-1/2 z-10 hidden size-5 -translate-y-1/2 rounded-full bg-white text-brand-600 shadow-card lg:block"
@@ -234,19 +227,13 @@ export default function YuanyinKongzhouPage() {
       <section id="roadmap" className="py-20">
         <Container>
           <SectionHeading
-            eyebrow="ROADMAP"
             title="推进布局"
             description="三个阶段与国家政策窗口对齐：先在单站验证，再复制到多个场站，最后扩展到主配微、交通与算力节点。"
           />
           <ol className="mt-12 grid gap-6 md:grid-cols-3">
-            {plan.phases.map((phase, index) => (
+            {plan.phases.map((phase) => (
               <li key={phase.name} className="relative rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-full bg-brand-700 text-sm font-bold text-white">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="text-xl font-bold text-ink-900">{phase.name}</h3>
-                </div>
+                <h3 className="text-xl font-bold text-ink-900">{phase.name}</h3>
                 <p className="mt-4 text-sm font-semibold text-brand-700">{phase.period}</p>
                 <p className="mt-2 leading-relaxed text-ink-700">{phase.content}</p>
                 <p className="mt-4 border-t border-ink-100 pt-4 text-xs leading-relaxed text-ink-400">
@@ -279,7 +266,6 @@ export default function YuanyinKongzhouPage() {
       <section id="policy" className="bg-ink-50/70 py-20">
         <Container>
           <SectionHeading
-            eyebrow="POLICY ALIGNMENT"
             title="国家战略衔接"
             description="计划承接“人工智能+”行动、新型电力系统建设与电力监控安全防护等政策要求；只读、分区和工单定位与政策文件一致，不改变调度管辖或安全分区原则。"
           />
@@ -293,7 +279,6 @@ export default function YuanyinKongzhouPage() {
       <section id="acceptance" className="py-20">
         <Container>
           <SectionHeading
-            eyebrow="ACCEPTANCE & RISK"
             title="验收与风险控制"
             description="以连续班次的现场记录为据验收，越权动作与穿区通道必须为零。"
           />
@@ -308,7 +293,6 @@ export default function YuanyinKongzhouPage() {
       <section id="outcomes" className="bg-ink-50/70 py-20">
         <Container>
           <SectionHeading
-            eyebrow="DELIVERABLES"
             title="预期成果"
             description="成果用于新能源系统的主动运维和关键信息基础设施的资产可见性。"
           />
@@ -323,7 +307,6 @@ export default function YuanyinKongzhouPage() {
             </ol>
             <div className="rounded-2xl bg-night p-7 text-white lg:col-span-5">
               <h3 className="text-lg font-bold">规划期内明确不做</h3>
-              <p className="mt-2 text-sm text-white/60">能力边界写进计划，而不是事后补一条安全说明。</p>
               <ul className="mt-5 space-y-3">
                 {plan.boundaries.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-white/85">
@@ -344,7 +327,7 @@ export default function YuanyinKongzhouPage() {
                   href={item.href}
                   className="group block h-full rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-4"
                 >
-                  <span className="flex h-full flex-col rounded-xl border border-ink-200 bg-white p-6 transition-[transform,box-shadow,border-color] duration-300 group-hover:-translate-y-1 group-hover:border-brand-300 group-hover:shadow-card-hover">
+                  <span className="flex h-full flex-col rounded-xl border border-ink-200 bg-white p-6 transition-colors duration-200 group-hover:border-brand-300">
                     <h4 className="font-bold text-ink-900">{item.title}</h4>
                     <span className="mt-2 flex-1 text-sm leading-relaxed text-ink-500">{item.description}</span>
                     <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700">

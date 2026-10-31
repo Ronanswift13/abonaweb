@@ -22,18 +22,17 @@ export default function CapabilitiesPage() {
   return (
     <>
       <PageHeader
-        eyebrow={capabilitiesIntro.eyebrow}
         title={capabilitiesIntro.title}
         description={capabilitiesIntro.description}
         breadcrumbs={[{ label: capabilitiesIntro.title, href: "/capabilities" }]}
       >
         {/* 能力锚点导航 */}
-        <ul className="mt-8 flex flex-wrap gap-2">
+        <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
           {capabilities.map((c) => (
             <li key={c.id}>
               <a
                 href={`#${c.id}`}
-                className="inline-flex rounded-full border border-ink-200 bg-white px-4 py-2 text-sm text-ink-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+                className="text-sm text-brand-700 underline-offset-4 hover:underline"
               >
                 {c.title}
               </a>
@@ -47,7 +46,7 @@ export default function CapabilitiesPage() {
           {capabilities.map((c) => (
             <article id={c.id} key={c.id} className="grid gap-6 py-12 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-5">
-                <h2 className="text-2xl font-bold text-ink-900 sm:text-3xl">{c.title}</h2>
+                <h2 className="text-2xl font-bold text-ink-900">{c.title}</h2>
                 <p className="mt-4 leading-relaxed text-ink-600">{c.summary}</p>
               </div>
               <ul className="space-y-3 lg:col-span-7">
@@ -66,7 +65,12 @@ export default function CapabilitiesPage() {
       <section className="bg-ink-50/70 py-20">
         <Container>
           <SectionHeading {...home.products} align="center" />
-          <div className={cn("mt-12 grid gap-6 md:grid-cols-2", products.length % 3 === 0 && "lg:grid-cols-3")}>
+          <div
+            className={cn(
+              "mt-12 grid grid-cols-1 items-stretch gap-6 md:grid-cols-2",
+              products.length % 3 === 0 && "lg:grid-cols-3 lg:gap-8",
+            )}
+          >
             {products.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}

@@ -1,10 +1,10 @@
 import { CTA } from "@/components/sections/CTA";
-import { CultureTeam } from "@/components/sections/CultureTeam";
+import { OrgChart } from "@/components/sections/OrgChart";
 import { PageHeader } from "@/components/sections/PageHeader";
+import { TeamSection } from "@/components/sections/TeamSection";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { about } from "@/data/about";
-import { cultureValues } from "@/data/culture";
 import { home } from "@/data/home";
 import { site } from "@/data/site";
 import { team } from "@/data/team";
@@ -29,7 +29,6 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow={about.intro.eyebrow}
         title={about.intro.title}
         description={about.intro.description}
         breadcrumbs={[{ label: "关于我们", href: "/about" }]}
@@ -65,15 +64,17 @@ export default function AboutPage() {
         </Container>
       </section>
 
+      <OrgChart organization={about.organization} />
+
       {/* 发展历程 */}
-      <section className="bg-ink-50/70 py-20">
+      <section className="bg-white py-20">
         <Container>
-          <SectionHeading eyebrow="MILESTONES" title="发展历程" />
+          <SectionHeading title="发展历程" />
           <ol className="mt-12 grid gap-6 md:grid-cols-3">
             {about.milestones.map((m) => (
               <li key={m.title} className="relative rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
-                <span className="text-brand-700 text-3xl font-extrabold">{m.year}</span>
-                <h3 className="mt-3 text-lg font-bold text-ink-900">{m.title}</h3>
+                <span className="text-sm font-semibold text-brand-700">{m.year}</span>
+                <h3 className="mt-1 text-lg font-bold text-ink-900">{m.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-500">{m.description}</p>
               </li>
             ))}
@@ -81,7 +82,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <CultureTeam culture={{ intro: home.culture, values: cultureValues }} team={{ intro: home.team, members: team }} />
+      <TeamSection intro={home.team} members={team} />
 
       <CTA content={home.cta} />
     </>

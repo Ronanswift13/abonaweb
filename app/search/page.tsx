@@ -16,7 +16,7 @@ export const metadata = {
 export default function SearchPage() {
   return (
     <>
-      <PageHeader eyebrow="SEARCH" title="站内搜索" breadcrumbs={[{ label: "站内搜索", href: "/search" }]} />
+      <PageHeader title="站内搜索" breadcrumbs={[{ label: "站内搜索", href: "/search" }]} />
       <section className="py-16">
         <Container className="max-w-3xl">
           <Suspense fallback={<SearchForm />}>

@@ -31,7 +31,7 @@ export function CaseCard({
         className,
       )}
     >
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-card transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-card-hover">
+      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-card transition-[box-shadow] duration-200 group-hover:shadow-card-hover">
         <div className="relative h-40 overflow-hidden border-b border-ink-100 bg-ink-50">
           {item.cover ? (
             <>
@@ -40,7 +40,7 @@ export function CaseCard({
                 fill
                 alt=""
                 sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
-                className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                className="object-cover object-top"
               />
               <span className="absolute left-4 top-4 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-ink-700">
                 {item.industry}

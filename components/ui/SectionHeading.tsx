@@ -10,9 +10,8 @@ interface SectionHeadingProps extends SectionIntro {
   className?: string;
 }
 
-/** 区块标题：英文小标题 + 中文标题 + 描述 */
+/** 区块标题：标题 + 描述 */
 export function SectionHeading({
-  eyebrow,
   title,
   description,
   align = "left",
@@ -31,18 +30,9 @@ export function SectionHeading({
       )}
     >
       <div className={cn("max-w-2xl", centered && "mx-auto")}>
-        <p
-          className={cn(
-            "mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]",
-            invert ? "text-brand-200" : "text-brand-700",
-          )}
-        >
-          <span className="h-px w-6 bg-current" aria-hidden="true" />
-          {eyebrow}
-        </p>
         <h2
           className={cn(
-            "text-3xl font-bold tracking-tight sm:text-4xl",
+            "text-2xl font-bold sm:text-3xl",
             invert ? "text-white" : "text-ink-900",
           )}
         >

@@ -24,7 +24,7 @@ export function ProductStats({ stats, note }: { stats: ProductStat[]; note?: str
         {stats.map((stat) => (
           <div key={stat.label} className="flex flex-col-reverse justify-end bg-white px-5 py-5">
             <dt className="mt-1 text-sm text-ink-500">{stat.label}</dt>
-            <dd className="text-brand-700 text-2xl font-bold sm:text-3xl">{stat.value}</dd>
+            <dd className="text-2xl font-semibold text-ink-900">{stat.value}</dd>
           </div>
         ))}
       </dl>

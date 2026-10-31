@@ -101,9 +101,6 @@ export function ScreenGallery({ items, label }: { items: ProductImage[]; label: 
               className={cn("aspect-video w-full object-cover", index !== active && "opacity-75 group-hover:opacity-100")}
             />
             <span className="flex items-center gap-2 px-3 py-2.5 text-sm">
-              <span className={cn("font-bold", index === active ? "text-brand-700" : "text-ink-300")}>
-                {String(index + 1).padStart(2, "0")}
-              </span>
               <span className={cn("truncate font-medium", index === active ? "text-ink-900" : "text-ink-600")}>
                 {item.title}
               </span>

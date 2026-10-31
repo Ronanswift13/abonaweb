@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { Ban, Check, ChevronRight, Info } from "lucide-react";
+import { Ban, Check, Info } from "lucide-react";
 
 import { ButtonLink } from "@/components/ui/Button";
-import { LinkArrow } from "@/components/ui/LinkArrow";
 import { cn } from "@/lib/utils";
 import type { DevelopmentPlan, PlanStep, PlanTable, PlanTrack, SubPlan } from "@/types";
 
@@ -266,65 +265,35 @@ export function PhaseGantt({ steps, totalDays = 180 }: { steps: { days: string; 
 export function PlanSpotlight({ plan }: { plan: DevelopmentPlan }) {
   const href = `/directions/${plan.slug}`;
   return (
-    <article className="grid overflow-hidden rounded-[2rem] border border-brand-100 bg-white shadow-card lg:grid-cols-12">
-      <div className="relative p-8 sm:p-10 lg:col-span-7">
-        <p className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-          <span className="h-px w-6 bg-current" aria-hidden="true" />
-          <span className="hidden sm:inline">Development Plan · </span>公司发展计划
-        </p>
-        <h2 className="relative mt-4 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">{plan.name}</h2>
-        <p className="relative mt-2 font-semibold text-brand-700">{plan.subtitle}</p>
-        <p className="relative mt-5 leading-relaxed text-ink-600">{plan.statement}</p>
-        <div className="relative mt-8 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href={href} arrow>
-            了解计划详情
-          </ButtonLink>
+    <article className="grid gap-8 rounded-2xl border border-ink-200 bg-white p-8 sm:p-10 lg:grid-cols-12 lg:gap-12">
+      <div className="lg:col-span-7">
+        <p className="text-sm font-medium text-brand-700">公司发展计划</p>
+        <h2 className="mt-2 text-2xl font-bold text-ink-900 sm:text-3xl">{plan.name}</h2>
+        <p className="mt-4 leading-relaxed text-ink-600">{plan.statement}</p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href={href}>了解计划详情</ButtonLink>
           <ButtonLink href={`${href}#roadmap`} variant="secondary">
             查看推进布局
           </ButtonLink>
         </div>
       </div>
 
-      <div className="bg-night p-8 text-white sm:p-10 lg:col-span-5">
-        <ul className="space-y-4">
-          {plan.subPlans.map((sub) => (
-            <li key={sub.id}>
-              <Link
-                href={`${href}#${sub.id}`}
-                className="group block rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur transition-colors hover:border-brand-300/50 hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
-              >
-                <span className="flex items-center gap-2 font-semibold">
-                  {sub.name}
-                  <span className="ml-auto rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-normal text-white/80">
-                    {sub.domain}
-                  </span>
-                  <ChevronRight
-                    className="size-4 text-white/50 transition-transform group-hover:translate-x-0.5 group-hover:text-white"
-                    aria-hidden="true"
-                  />
-                </span>
-                <span className="mt-2 line-clamp-2 block text-sm leading-relaxed text-white/70">{sub.summary}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <ol className="mt-6 grid grid-cols-3 gap-2 text-center">
-          {plan.phases.map((phase, index) => (
-            <li key={phase.name} className="rounded-xl bg-white/[0.06] px-2 py-3">
-              <p className="text-xs text-white/60">0{index + 1}</p>
-              <p className="mt-0.5 font-semibold">{phase.name}</p>
-              <p className="mt-1 text-[11px] leading-snug text-white/60">{phase.period.replace(/ /g, "")}</p>
-            </li>
-          ))}
-        </ol>
-        <Link
-          href={`${href}#interfaces`}
-          className="group mt-6 inline-flex items-center gap-1.5 text-sm text-brand-200 transition-colors hover:text-white"
-        >
-          {plan.interfaces.items.map((item) => item.title).join(" · ")}
-          <LinkArrow />
-        </Link>
-      </div>
+      <ul className="space-y-3 lg:col-span-5">
+        {plan.subPlans.map((sub) => (
+          <li key={sub.id}>
+            <Link
+              href={`${href}#${sub.id}`}
+              className="group block rounded-lg border border-ink-200 p-5 transition-colors hover:border-brand-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+            >
+              <span className="flex items-center justify-between gap-3 font-semibold text-ink-900 transition-colors group-hover:text-brand-700">
+                {sub.name}
+                <span className="text-xs font-normal text-ink-400">{sub.domain}</span>
+              </span>
+              <span className="mt-2 line-clamp-2 block text-sm leading-relaxed text-ink-500">{sub.summary}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }

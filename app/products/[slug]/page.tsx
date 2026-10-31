@@ -38,14 +38,12 @@ function buildSections(product: Product): DetailSection[] {
     {
       id: "features",
       label: "核心功能",
-      eyebrow: "FEATURES",
       title: "核心功能",
       content: <FeatureGrid items={product.features} />,
     },
     !!product.flow && {
       id: "flow",
       label: "交互流程",
-      eyebrow: "WORKFLOW",
       title: product.flow.title,
       description: product.flow.description,
       content: <InteractionFlow steps={product.flow.steps} loop={product.flow.loop} guardrails={product.flow.guardrails} />,
@@ -53,7 +51,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.screens && {
       id: "screens",
       label: "界面展示",
-      eyebrow: "INTERFACE",
       title: "界面展示",
       description: product.screens.description,
       content:
@@ -69,7 +66,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.twin && {
       id: "twin",
       label: "数字孪生",
-      eyebrow: "DIGITAL TWIN",
       title: "数字孪生",
       description: product.twin.description,
       content: (
@@ -84,7 +80,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.architecture && {
       id: "architecture",
       label: "技术架构",
-      eyebrow: "ARCHITECTURE",
       title: "技术架构",
       description: product.architecture.description,
       content: <ArchitectureStack layers={product.architecture.layers} />,
@@ -92,7 +87,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.plugins && {
       id: "plugins",
       label: "监测插件",
-      eyebrow: "PLUGINS",
       title: "监测插件矩阵",
       description: product.plugins.description,
       content: (
@@ -105,7 +99,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.field && {
       id: "field",
       label: "现场实拍",
-      eyebrow: "FIELD",
       title: "现场实拍",
       description: product.field.description,
       content: <FieldPhotos items={product.field.items} plugins={product.plugins?.groups} note={product.field.note} />,
@@ -113,26 +106,18 @@ function buildSections(product: Product): DetailSection[] {
     !!product.technologies?.length && {
       id: "technology",
       label: "关键技术",
-      eyebrow: "KEY TECHNOLOGIES",
       title: "关键技术",
       content: <FeatureGrid items={product.technologies} columns={3} />,
     },
     {
       id: "scenarios",
       label: "应用场景",
-      eyebrow: "SCENARIOS",
       title: "应用场景",
       content: (
-        <ul
-          className={cn(
-            "mt-10 grid gap-4 sm:grid-cols-2",
-            product.scenarios.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-4",
-          )}
-        >
-          {product.scenarios.map((scenario, index) => (
-            <li key={scenario} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card">
-              <span className="text-brand-700 text-2xl font-bold">{String(index + 1).padStart(2, "0")}</span>
-              <p className="mt-3 font-semibold text-ink-800">{scenario}</p>
+        <ul className="mt-8 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+          {product.scenarios.map((scenario) => (
+            <li key={scenario} className="border-t border-ink-200 pt-3 text-[15px] leading-relaxed text-ink-700">
+              {scenario}
             </li>
           ))}
         </ul>
@@ -141,7 +126,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.security && {
       id: "security",
       label: "安全设计",
-      eyebrow: "SECURITY",
       title: "安全设计",
       description: product.security.description,
       content: <FeatureGrid items={product.security.items} columns={3} />,
@@ -149,7 +133,6 @@ function buildSections(product: Product): DetailSection[] {
     !!product.techStack?.length && {
       id: "stack",
       label: "技术栈",
-      eyebrow: "TECH STACK",
       title: "技术栈",
       content: <TechStack groups={product.techStack} />,
     },
@@ -193,7 +176,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
         {product.nameEn && <p className="mt-2 text-lg font-semibold text-brand-700">{product.nameEn}</p>}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/contact#solution" size="lg" arrow>
-            获取解决方案
+            预约演示
           </ButtonLink>
           {product.demo && (
             <ButtonLink
@@ -222,7 +205,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       {sections.map((section, index) => (
         <section key={section.id} id={section.id} className={cn("py-20", index % 2 === 1 && "bg-ink-50/70")}>
           <Container>
-            <SectionHeading eyebrow={section.eyebrow} title={section.title} description={section.description} />
+            <SectionHeading title={section.title} description={section.description} />
             {section.content}
           </Container>
         </section>
@@ -234,7 +217,6 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           <Container>
             <div className="rounded-2xl bg-night p-5 sm:p-8 lg:p-10">
               <SectionHeading
-                eyebrow="PRODUCT DEMO"
                 title={product.demo.title}
                 description={product.demo.description}
                 invert
@@ -282,7 +264,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       {relatedCases.length > 0 && (
         <section className="pb-4 pt-4">
           <Container>
-            <SectionHeading eyebrow="CASE STUDIES" title="相关案例" />
+            <SectionHeading title="相关案例" />
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {relatedCases.map((item) => (
                 <CaseCard key={item.slug} item={item} />

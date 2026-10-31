@@ -30,13 +30,8 @@ export function NewsCard({
         className,
       )}
     >
-      {/* 日期块 */}
-      <time
-        dateTime={item.date}
-        className="flex w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-brand-50 py-2 text-brand-700"
-      >
-        <span className="text-xl font-bold leading-none">{item.date.slice(8, 10)}</span>
-        <span className="mt-1 text-[11px]">{item.date.slice(0, 7)}</span>
+      <time dateTime={item.date} className="w-24 shrink-0 whitespace-nowrap pt-0.5 text-sm text-ink-400">
+        {item.date}
       </time>
 
       <div className="min-w-0 flex-1">

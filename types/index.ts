@@ -99,8 +99,6 @@ export type Accent = "sky" | "cyan" | "ocean" | "indigo" | "teal";
 
 /** 区块标题（首页及子页面各 Section 共用） */
 export interface SectionIntro {
-  /** 英文小标题，如 "CORE PRODUCTS" */
-  eyebrow: string;
   title: string;
   description?: string;
 }
@@ -180,39 +178,22 @@ export interface FooterColumn {
 /* 首页                                                                */
 /* ------------------------------------------------------------------ */
 
-export interface HeroHighlight {
-  value: string;
-  label: string;
-}
-
 export interface HeroContent {
-  /** 顶部一行近况（写具体进展，不写口号） */
-  badge: string;
   /** 主标题（公司全称） */
   title: string;
-  /** 大模型介绍行：名称 + 一句话 */
-  model: {
-    name: string;
-    nameEn: string;
-    tagline: string;
-  };
-  /** 企业定位 / 价值主张 */
+  /** 公司做什么，一段话 */
   description: string;
   primaryCta: LinkItem;
   secondaryCta: LinkItem;
-  highlights: HeroHighlight[];
   /** 右侧真实产品截图（title 作为图注标题） */
   visual: ProductImage;
 }
 
 export interface CtaContent {
-  eyebrow: string;
   title: string;
   description: string;
   primary: LinkItem;
   secondary: LinkItem;
-  /** 联系卡片标题 */
-  contactTitle: string;
 }
 
 export interface HomeContent {
@@ -223,7 +204,6 @@ export interface HomeContent {
     cases: SectionIntro & { more: LinkItem };
     news: SectionIntro & { more: LinkItem };
   };
-  culture: SectionIntro;
   team: SectionIntro & { more: LinkItem };
   cta: CtaContent;
 }
@@ -388,16 +368,11 @@ export interface Product {
   order: number;
 }
 
-/** 业务方向（首页滑动卡片） */
+/** 业务方向（首页） */
 export interface BusinessDirection {
   id: string;
   title: string;
-  /** 英文副标题 */
-  subtitle: string;
-  icon: IconName;
-  accent: Accent;
   description: string;
-  tags: string[];
   href: string;
 }
 
@@ -405,7 +380,6 @@ export interface BusinessDirection {
 export interface Capability {
   id: string;
   title: string;
-  subtitle: string;
   icon: IconName;
   summary: string;
   points: string[];
@@ -525,14 +499,18 @@ export interface DevelopmentPlan {
 }
 
 /* ------------------------------------------------------------------ */
-/* 企业文化 / 团队 / 关于                                               */
+/* 团队 / 关于                                               */
 /* ------------------------------------------------------------------ */
 
-export interface CultureValue {
+/** 简历中的一段经历。没有内容的栏目不渲染。 */
+export interface TeamResumeEntry {
+  /** 起止时间，如 2016–2020 */
+  period?: string;
+  /** 学历、职务或项目名称 */
   title: string;
-  subtitle: string;
-  icon: IconName;
-  description: string;
+  /** 学校或单位 */
+  org?: string;
+  detail?: string;
 }
 
 export interface TeamMember {
@@ -540,12 +518,51 @@ export interface TeamMember {
   name: string;
   title: string;
   bio: string;
-  /** 专长标签 */
+  /** 专长。简历未另写研究方向时，用这一列 */
   expertise: string[];
-  /** 头像路径（public/ 下）；缺省时显示 initial */
+  /** 宣传头像路径（public/ 下）。缺省时显示 initial */
   avatar?: string;
+  /**
+   * 卡片小图的裁切焦点，如 "center 42%"。
+   * 简介里的大图始终完整显示，不按这个焦点裁切。
+   */
+  avatarPosition?: string;
   /** 无头像时显示的字符，缺省为姓名首字 */
   initial?: string;
+  /** 性别。没有则不写入简历 */
+  gender?: string;
+  /** 所在单位。缺省为公司全称 */
+  affiliation?: string;
+  /** 研究方向。缺省时用 expertise */
+  research?: string[];
+  education?: TeamResumeEntry[];
+  experience?: TeamResumeEntry[];
+  projects?: TeamResumeEntry[];
+  /** 论文、专利、标准等，一条写一项 */
+  publications?: string[];
+}
+
+/** 架构中的一个部门或中心 */
+export interface OrgUnit {
+  name: string;
+  /** 职责，一句话 */
+  duty: string;
+}
+
+/** 总经理下设的一个体系 */
+export interface OrgSystem {
+  name: string;
+  /** 这个体系在做什么，由下属部门的职责归纳，不另加范围 */
+  summary: string;
+  units: OrgUnit[];
+}
+
+/** 公司架构：董事会 → 总经理 → 若干并列体系 */
+export interface Organization {
+  intro: SectionIntro;
+  board: { name: string; duty: string };
+  executive: { name: string; duty: string };
+  systems: OrgSystem[];
 }
 
 export interface AboutContent {
@@ -554,6 +571,7 @@ export interface AboutContent {
   paragraphs: string[];
   mission: { title: string; text: string }[];
   milestones: { year: string; title: string; description: string }[];
+  organization: Organization;
 }
 
 export interface ContactPageContent {

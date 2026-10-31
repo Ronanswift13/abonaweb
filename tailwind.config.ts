@@ -71,9 +71,13 @@ const config: Config = {
           "sans-serif",
         ],
       },
+      borderRadius: {
+        "2xl": "0.625rem",
+        "3xl": "0.75rem",
+      },
       boxShadow: {
-        card: "0 1px 2px rgba(17,24,39,0.04), 0 8px 24px -8px rgba(17,24,39,0.08)",
-        "card-hover": "0 2px 4px rgba(17,24,39,0.04), 0 20px 40px -16px rgba(127,29,29,0.18)",
+        card: "0 1px 2px rgba(17,24,39,0.05)",
+        "card-hover": "0 2px 8px rgba(17,24,39,0.10)",
       },
       typography: ({ theme }: { theme: (path: string) => string }) => ({
         DEFAULT: {

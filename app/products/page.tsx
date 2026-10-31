@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const title = "产品与解决方案";
 const description =
-  "四个产品：变电站巡视与监测平台、值守用的语音汇报助手、办后勤业务的语音助手，以及自研行业大模型。每张卡片都写明了现在做到哪一步。";
+  "变电站监测平台、值守语音汇报系统、后勤语音助手和自研行业大模型。";
 
 export const metadata = pageMetadata({ title, description, path: "/products" });
 
@@ -19,13 +19,17 @@ export default function ProductsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="PRODUCTS & SOLUTIONS"
         title={title}
         description={description}
         breadcrumbs={[{ label: title, href: "/products" }]}
       />
       <section className="py-20">
-        <Container className={cn("grid gap-6 md:grid-cols-2", products.length % 3 === 0 && "lg:grid-cols-3")}>
+        <Container
+          className={cn(
+            "grid grid-cols-1 items-stretch gap-6 md:grid-cols-2",
+            products.length % 3 === 0 && "lg:grid-cols-3 lg:gap-8",
+          )}
+        >
           {products.map((product) => (
             <ProductCard key={product.slug} product={product} headingLevel="h2" />
           ))}

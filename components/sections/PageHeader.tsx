@@ -3,10 +3,11 @@ import { ChevronRight } from "lucide-react";
 
 import { Container } from "@/components/ui/Container";
 import { site } from "@/data/site";
-import { toJsonLd } from "@/lib/utils";
+import { cn, toJsonLd } from "@/lib/utils";
 import type { LinkItem } from "@/types";
 
 interface PageHeaderProps {
+  /** 标题上方的中文分类，如产品标签、新闻分类 */
   eyebrow?: string;
   title: string;
   description?: string;
@@ -57,9 +58,9 @@ export function PageHeader({ eyebrow, title, description, breadcrumbs = [], chil
         </nav>
 
         {eyebrow && (
-          <p className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">{eyebrow}</p>
+          <p className="mt-8 text-sm font-medium text-brand-700">{eyebrow}</p>
         )}
-        <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight tracking-tight text-ink-900 sm:text-5xl">
+        <h1 className={cn("max-w-4xl text-3xl font-bold leading-tight text-ink-900 sm:text-4xl", eyebrow ? "mt-2" : "mt-8")}>
           {title}
         </h1>
         {description && <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-500 sm:text-lg">{description}</p>}

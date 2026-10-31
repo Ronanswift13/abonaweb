@@ -45,7 +45,7 @@ export function ButtonLink({
   className,
 }: ButtonLinkProps) {
   const classes = cn(
-    "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-all duration-300",
+    "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-colors duration-200",
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700",
     variants[variant],
     sizes[size],
@@ -56,7 +56,7 @@ export function ButtonLink({
     <>
       {icon}
       {children}
-      {arrow && <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />}
+      {arrow && <ArrowRight className="size-4" aria-hidden="true" />}
     </>
   );
 
