@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
   poweredByHeader: false,
   reactStrictMode: true,
+  // 开发时允许用 127.0.0.1 或局域网地址打开（手机、其他电脑联调）。
+  // 缺这一项时 Next.js 会拦截这些来源的 /_next/hmr，页面不水合，弹窗、标签页、轮播等全部点不动。
+  // 只对 next dev 生效，不影响生产构建。
+  allowedDevOrigins: ["127.0.0.1", "192.168.*.*"],
   images: {
     formats: ["image/avif", "image/webp"],
   },
