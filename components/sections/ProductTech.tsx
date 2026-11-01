@@ -1,5 +1,5 @@
-import { Info } from "lucide-react";
-
+import { Container } from "@/components/ui/Container";
+import { InlineList } from "@/components/ui/InlineList";
 import { cn } from "@/lib/utils";
 import type {
   ArchitectureLayer,
@@ -16,31 +16,33 @@ import type {
  * 均为纯展示组件，数据来自 data/products.ts 中对应产品的可选字段。
  */
 
-/** 关键数据条（页头内） */
+/** 关键数据：放在阅读区开头，不进首屏 */
 export function ProductStats({ stats, note }: { stats: ProductStat[]; note?: string }) {
   return (
-    <div className="mt-10">
-      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-100 bg-ink-100 sm:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="flex flex-col-reverse justify-end bg-white px-5 py-5">
-            <dt className="mt-1 text-sm text-ink-500">{stat.label}</dt>
-            <dd className="text-2xl font-semibold text-ink-900">{stat.value}</dd>
-          </div>
-        ))}
-      </dl>
-      {note && <p className="mt-3 text-xs leading-relaxed text-ink-400">注：{note}</p>}
-    </div>
+    <section className="pt-20 sm:pt-24">
+      <Container>
+        <dl className="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col-reverse justify-end">
+              <dt className="mt-1 text-[15px] leading-snug">{stat.label}</dt>
+              <dd className="text-5xl font-bold text-theme-heading lg:text-6xl">{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
+        {note && <p className="mt-6 max-w-[38em] text-[15px] leading-relaxed">注：{note}</p>}
+      </Container>
+    </section>
   );
 }
 
-/** 标题 + 说明的条目列表（核心功能 / 关键技术 / 安全设计共用）；不配图标，靠文字本身说清楚 */
-export function FeatureGrid({ items, columns = 2 }: { items: Feature[]; columns?: 2 | 3 }) {
+/** 标题 + 说明的条目列表（核心功能 / 关键技术 / 安全设计共用） */
+export function FeatureGrid({ items }: { items: Feature[] }) {
   return (
-    <dl className={cn("mt-10 grid gap-x-10 sm:grid-cols-2", columns === 3 && "lg:grid-cols-3")}>
+    <dl className="grid gap-10">
       {items.map((item) => (
-        <div key={item.title} className="border-t border-ink-200 py-6">
-          <dt className="text-lg font-bold text-ink-900">{item.title}</dt>
-          <dd className="mt-2 text-[15px] leading-relaxed text-ink-600">{item.description}</dd>
+        <div key={item.title}>
+          <dt className="font-display text-2xl font-black leading-snug">{item.title}</dt>
+          <dd className="mt-1.5 max-w-[36em]">{item.description}</dd>
         </div>
       ))}
     </dl>
@@ -50,24 +52,19 @@ export function FeatureGrid({ items, columns = 2 }: { items: Feature[]; columns?
 /** 分层架构图：自上而下逐层排列 */
 export function ArchitectureStack({ layers }: { layers: ArchitectureLayer[] }) {
   return (
-    <ol className="mt-12 space-y-3">
+    <ol className="mt-12 border-b border-theme-fg/15">
       {layers.map((layer, index) => (
-        <li
-          key={layer.name}
-          className="rounded-2xl border border-ink-100 bg-white p-5 shadow-card lg:grid lg:grid-cols-12 lg:items-center lg:gap-6"
-        >
-          <div className="flex items-center gap-4 lg:col-span-3">
-            <span className="w-8 shrink-0 font-mono text-sm text-ink-400">L{layers.length - index}</span>
+        <li key={layer.name} className="border-t border-theme-fg/15 py-5 lg:grid lg:grid-cols-12 lg:items-baseline lg:gap-6">
+          <div className="flex items-baseline gap-4 lg:col-span-4">
+            <span className="w-7 shrink-0 text-sm font-bold text-theme-heading">L{layers.length - index}</span>
             <div>
-              <h3 className="font-bold text-ink-900">{layer.name}</h3>
-              <p className="text-xs text-ink-500">{layer.description}</p>
+              <h3 className="font-bold text-theme-fg">{layer.name}</h3>
+              <p className="mt-0.5 text-sm text-theme-fg">{layer.description}</p>
             </div>
           </div>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:col-span-9 lg:mt-0 lg:grid-cols-4">
+          <ul className="ml-11 mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-theme-fg lg:col-span-8 lg:ml-0 lg:mt-0">
             {layer.items.map((item) => (
-              <li key={item} className="rounded-xl bg-ink-50 px-3 py-2.5 text-sm text-ink-700">
-                {item}
-              </li>
+              <li key={item}>{item}</li>
             ))}
           </ul>
         </li>
@@ -80,13 +77,13 @@ export function ArchitectureStack({ layers }: { layers: ArchitectureLayer[] }) {
 const SCENE_ORDER: PluginScene[] = ["室外", "室内", "移动作业", "二次设备", "全站"];
 
 /** 四类插件的色阶（A 最深 → D 最浅），总览条与矩阵行标共用 */
-const GROUP_TONES = ["bg-brand-800", "bg-brand-600", "bg-brand-400", "bg-ink-400"];
+const GROUP_TONES = ["bg-theme-accent", "bg-theme-accent/70", "bg-theme-accent/45", "bg-theme-accent/25"];
 
 function PluginChip({ plugin }: { plugin: MonitoringPlugin }) {
   return (
     <a
       href={`#plugin-${plugin.id}`}
-      className="inline-flex whitespace-nowrap rounded border border-ink-200 bg-white px-2 py-1 text-xs text-ink-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+      className="inline-flex whitespace-nowrap border border-theme-fg/15 bg-theme-bg px-2 py-1 text-sm text-theme-fg transition-colors hover:border-theme-heading hover:text-theme-heading"
     >
       {plugin.name}
     </a>
@@ -100,30 +97,30 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
   const inScene = (group: PluginGroup, scene: PluginScene) => group.plugins.filter((p) => p.scene === scene);
 
   return (
-    <div className="mt-12 rounded-3xl border border-ink-100 bg-white p-5 shadow-card sm:p-7">
+    <div className="mt-12">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="text-lg font-bold text-ink-900">插件矩阵总览</h3>
-        <p className="text-sm text-ink-500">
-          共 <span className="font-semibold text-ink-900">{total}</span> 个插件 · 点击插件查看详情
+        <h3 className="text-lg font-bold text-theme-fg">插件矩阵总览</h3>
+        <p className="text-sm text-theme-fg">
+          共 <span className="font-bold">{total}</span> 个插件，点击插件查看详情
         </p>
       </div>
 
       {/* 类别占比 */}
-      <div className="mt-5 flex h-3 overflow-hidden rounded-full bg-ink-100" aria-hidden="true">
+      <div className="mt-5 flex h-2 overflow-hidden bg-theme-fg/10" aria-hidden="true">
         {groups.map((group, i) => (
           <span
             key={group.code}
-            className={cn("h-full border-r-2 border-white last:border-r-0", GROUP_TONES[i % GROUP_TONES.length])}
+            className={cn("h-full border-r-2 border-theme-fg/15 last:border-r-0", GROUP_TONES[i % GROUP_TONES.length])}
             style={{ width: `${(group.plugins.length / total) * 100}%` }}
           />
         ))}
       </div>
-      <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-ink-500">
+      <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-theme-fg">
         {groups.map((group, i) => (
           <li key={group.code} className="inline-flex items-center gap-1.5">
-            <span className={cn("size-2.5 rounded-sm", GROUP_TONES[i % GROUP_TONES.length])} aria-hidden="true" />
-            {group.code} 类 · {group.title}
-            <span className="font-semibold text-ink-800">{group.plugins.length}</span>
+            <span className={cn("size-2.5", GROUP_TONES[i % GROUP_TONES.length])} aria-hidden="true" />
+            {group.code} 类 {group.title}
+            <span className="font-bold">{group.plugins.length}</span>
           </li>
         ))}
       </ul>
@@ -134,13 +131,13 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
           <caption className="sr-only">监测插件按系统类别与部署场景分布</caption>
           <thead>
             <tr>
-              <th scope="col" className="w-56 pb-3 text-xs font-semibold text-ink-400">
-                系统类别 \ 部署场景
+              <th scope="col" className="w-56 pb-3 text-sm font-bold text-theme-fg">
+                类别和场景
               </th>
               {scenes.map((scene) => (
-                <th key={scene} scope="col" className="pb-3 pl-3 text-xs font-semibold text-ink-500">
+                <th key={scene} scope="col" className="pb-3 pl-3 text-sm font-bold text-theme-fg">
                   {scene}
-                  <span className="ml-1.5 font-normal text-ink-400">
+                  <span className="ml-1.5 font-normal text-theme-fg">
                     {groups.reduce((sum, g) => sum + inScene(g, scene).length, 0)}
                   </span>
                 </th>
@@ -148,21 +145,20 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
             </tr>
           </thead>
           <tbody>
-            {groups.map((group, i) => (
+            {groups.map((group) => (
               <tr key={group.code}>
-                <th scope="row" className="border-t border-ink-100 py-4 pr-4 align-top">
+                <th scope="row" className="border-t border-theme-fg/15 py-4 pr-4 align-top">
                   <span className="flex items-center gap-3">
                     <span
                       className={cn(
-                        "flex size-9 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white",
-                        GROUP_TONES[i % GROUP_TONES.length],
+                        "flex size-9 shrink-0 items-center justify-center border border-theme-heading text-sm font-bold text-theme-heading",
                       )}
                     >
                       {group.code}
                     </span>
                     <span>
-                      <span className="block text-sm font-bold text-ink-900">{group.title}</span>
-                      <span className="text-xs font-normal text-ink-400">{group.plugins.length} 个插件</span>
+                      <span className="block text-sm font-bold text-theme-fg">{group.title}</span>
+                      <span className="text-sm font-normal text-theme-fg">{group.plugins.length} 个插件</span>
                     </span>
                   </span>
                 </th>
@@ -171,7 +167,7 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
                   return (
                     <td
                       key={scene}
-                      className={cn("border-t border-ink-100 py-4 pl-3 align-top", plugins.length > 0 && "bg-ink-50/60")}
+                      className={cn("border-t border-theme-fg/15 py-4 pl-3 align-top", plugins.length > 0 && "bg-theme-fg/5")}
                     >
                       {plugins.length > 0 ? (
                         <div className="flex flex-wrap gap-1.5">
@@ -180,7 +176,7 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
                           ))}
                         </div>
                       ) : (
-                        <span className="text-ink-200" aria-label="无">
+                        <span className="text-theme-fg" aria-label="无">
                           —
                         </span>
                       )}
@@ -195,13 +191,12 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
 
       {/* 小屏：按类别分组，再按场景列出 */}
       <div className="mt-6 space-y-5 lg:hidden">
-        {groups.map((group, i) => (
-          <div key={group.code} className="rounded-2xl bg-ink-50/70 p-4">
-            <p className="flex items-center gap-2 text-sm font-bold text-ink-900">
+        {groups.map((group) => (
+          <div key={group.code} className="border-t border-theme-fg/15 pt-4">
+            <p className="flex items-center gap-2 text-sm font-bold text-theme-fg">
               <span
                 className={cn(
-                  "flex size-7 items-center justify-center rounded-lg text-xs text-white",
-                  GROUP_TONES[i % GROUP_TONES.length],
+                  "flex size-7 items-center justify-center border border-theme-heading text-sm text-theme-heading",
                 )}
               >
                 {group.code}
@@ -213,7 +208,7 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
                 .filter((scene) => inScene(group, scene).length > 0)
                 .map((scene) => (
                   <div key={scene}>
-                    <dt className="text-xs text-ink-400">{scene}</dt>
+                    <dt className="text-sm text-theme-fg">{scene}</dt>
                     <dd className="mt-1.5 flex flex-wrap gap-1.5">
                       {inScene(group, scene).map((plugin) => (
                         <PluginChip key={plugin.id} plugin={plugin} />
@@ -229,71 +224,51 @@ export function PluginOverview({ groups }: { groups: PluginGroup[] }) {
   );
 }
 
-/** 监测插件矩阵：按类别分组的插件卡片；每张卡片带锚点 #plugin-{id} */
+/** 监测插件清单：按类别分组的规格表，一行一个插件；每行带锚点 #plugin-{id} */
 export function PluginMatrix({ groups, note }: { groups: PluginGroup[]; note?: string }) {
   return (
-    <div className="mt-12 space-y-14">
+    <div className="mt-14 space-y-12">
       {groups.map((group) => (
         <div key={group.code}>
-          <div className="border-l-2 border-brand-700 pl-4">
-            <h3 className="text-xl font-bold text-ink-900">
-              {group.code} 类 · {group.title}
-              <span className="ml-2 align-middle text-sm font-medium text-ink-400">{group.plugins.length} 个插件</span>
-            </h3>
-            <p className="mt-1 text-sm text-ink-500">{group.description}</p>
-          </div>
+          <h3 className="text-xl font-bold text-theme-fg">
+            {group.code} 类 {group.title}
+            <span className="ml-2 text-sm font-normal">{group.plugins.length} 个插件</span>
+          </h3>
+          <p className="mt-1 text-sm text-theme-fg">{group.description}</p>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-5 border-b border-theme-fg/15">
             {group.plugins.map((plugin) => (
               <article
                 key={plugin.id}
                 id={`plugin-${plugin.id}`}
-                className="flex flex-col rounded-xl border border-ink-100 bg-white p-6 transition-colors target:border-brand-400 target:bg-brand-50/40"
+                className="grid gap-x-8 gap-y-2 border-t border-theme-fg/15 py-5 transition-colors target:bg-theme-fg/10 lg:grid-cols-12"
               >
-                <div className="flex items-baseline justify-between gap-3">
-                  <h4 className="text-base font-bold text-ink-900">{plugin.name}</h4>
-                  <span className="shrink-0 text-xs text-ink-400">{plugin.scene}</span>
+                <div className="lg:col-span-3">
+                  <h4 className="font-bold text-theme-fg">{plugin.name}</h4>
+                  <p className="mt-0.5 text-sm">{plugin.scene}</p>
                 </div>
-                <p className="mt-0.5 font-mono text-[11px] text-ink-400">{plugin.id}</p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-500">{plugin.description}</p>
-                <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {plugin.techniques.map((t) => (
-                    <li key={t} className="rounded-md border border-brand-100 bg-brand-50/60 px-2 py-0.5 text-xs text-brand-800">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-sm leading-relaxed text-theme-fg lg:col-span-5">{plugin.description}</p>
+                <InlineList items={plugin.techniques} className="text-[15px] leading-relaxed lg:col-span-4" />
               </article>
             ))}
           </div>
         </div>
       ))}
 
-      {note && (
-        <p className="flex items-start gap-3 rounded-2xl border border-brand-100 bg-brand-50/50 p-5 text-sm leading-relaxed text-ink-600">
-          <Info className="mt-0.5 size-5 shrink-0 text-brand-600" aria-hidden="true" />
-          {note}
-        </p>
-      )}
+      {note && <p className="max-w-3xl border-l-2 border-theme-heading pl-5 text-sm leading-relaxed text-theme-fg">{note}</p>}
     </div>
   );
 }
 
-/** 技术栈：类别 + 标签 */
+/** 技术栈：类别 + 名称 */
 export function TechStack({ groups }: { groups: TechStackGroup[] }) {
   return (
-    <dl className="mt-12 divide-y divide-ink-100 overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-card">
+    <dl className="grid gap-6">
       {groups.map((group) => (
-        <div key={group.category} className="grid gap-3 p-5 sm:grid-cols-12 sm:items-center sm:gap-6 sm:px-7">
-          <dt className="text-sm font-semibold text-ink-900 sm:col-span-3">{group.category}</dt>
-          <dd className="sm:col-span-9">
-            <ul className="flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <li key={item} className="rounded-full bg-ink-50 px-3 py-1 text-sm text-ink-700">
-                  {item}
-                </li>
-              ))}
-            </ul>
+        <div key={group.category}>
+          <dt className="font-bold">{group.category}</dt>
+          <dd>
+            <InlineList items={group.items} />
           </dd>
         </div>
       ))}

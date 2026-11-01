@@ -56,7 +56,7 @@ npm run dev        # http://localhost:3000
 │   ├── sections/             # Hero、ProductSection、BusinessCarousel、CasesNewsSection、
 │   │                         # CultureTeam、CTA、PageHeader、SearchResults
 │   ├── cards/                # ProductCard、BusinessCard、CaseCard、NewsCard、TeamMemberCard
-│   └── ui/                   # Button、Container、SectionHeading、Icon、Logo、ContactList …
+│   └── ui/                   # Button、Container、SectionHeading、Logo、Phrases …
 ├── data/                     # 结构化内容（TypeScript，类型见 types/）
 │   ├── site.ts               # ★ 公司信息、联系方式、备案号、Logo
 │   ├── navigation.ts         # 主导航、页脚链接
@@ -78,7 +78,7 @@ npm run dev        # http://localhost:3000
 ├── deploy/nginx/conf.d/      # Nginx 反向代理配置
 ├── .github/workflows/        # CI（检查 + 构建）、Deploy（SSH 发布到生产），见第 5 节
 ├── Dockerfile  docker-compose.yml  .dockerignore  .env.example
-└── tailwind.config.ts        # ★ 品牌色、渐变、阴影、动画等设计令牌
+└── tailwind.config.ts        # ★ 公司色、产品主题色令牌和字体
 ```
 
 ---
@@ -104,7 +104,7 @@ grep -rn "【占位】" data content app components
 | 核心能力 / 发展方向 | `data/capabilities.ts` / `data/directions.ts` |
 | 企业文化 / 核心团队 | `data/culture.ts` / `data/team.ts` |
 | 关于我们、联系我们页 | `data/about.ts` |
-| 品牌色、渐变、阴影、字体 | `tailwind.config.ts` |
+| 品牌色、字体 | `tailwind.config.ts` |
 
 ### 新增一条新闻
 
@@ -134,11 +134,8 @@ date: "2026-11-01"
 industry: 电力能源
 client: 某省级电网公司          # 未获授权时不写真实客户名
 summary: 摘要
-icon: radar                    # 可选值见 types/index.ts → IconName
-accent: sky                    # sky | cyan | ocean | indigo | teal
 products: [poye-substation-monitoring]   # 关联产品 slug，可为空 []
 results: [成果一, 成果二]
-featured: true                 # 首页优先展示
 ```
 
 ### 新增一个产品 / 业务方向
@@ -168,14 +165,13 @@ featured: true                 # 首页优先展示
 
 将二维码图片放入 `public/images/wechat-qr.png`（建议 400×400 以上正方形），在 `data/site.ts` 中取消 `wechatQr` 一行的注释。联系我们页与页脚会自动显示“微信扫码添加”。
 
-### 新增图标
+### 产品循环视频
 
-1. 在 `types/index.ts` 的 `IconName` 中添加名称
-2. 在 `components/ui/Icon.tsx` 中注册对应的 [lucide-react](https://lucide.dev/icons) 图标
+首页和产品页头的循环视频在 `public/videos/`（`twin-orbit`、`field-patrol`、`duty-briefing`、`logistics-flow`），规格见 `DESIGN.md` 第 6 节：H.264、无音轨、不超过 5MB、首尾无缝、带封面图。画面都来自真实产品，不做单色调色。
 
 ### 字体
 
-为保证国内服务器构建与访问稳定，默认使用系统字体栈（苹方 / 微软雅黑 / 思源黑体等），不依赖 Google Fonts。如需统一字体，可将 Inter / 思源黑体字体文件放入项目，用 `next/font/local` 加载，并在 `tailwind.config.ts` 的 `fontFamily.sans` 前置。
+字体全部自托管，不依赖 Google Fonts。标题用思源黑体 Black 子集（`app/fonts/`，只含站内用到的字），西文和数字用 D-DIN，中文正文用系统字体。文案出现新字后运行 `npm run fonts:subset` 重新生成子集。
 
 ---
 
@@ -277,7 +273,6 @@ ssh-keygen -t ed25519 -N "" -C github-actions-deploy -f abona-deploy
 
 - **渲染方式**：全部页面在构建期静态生成（SSG），访问速度快、服务器压力小；内容修改后重新构建即可生效。
 - **Next.js 16**：未启用 Cache Components（`cacheComponents`），沿用经典的静态 / 动态渲染模型，对内容型官网更简单直接；后续需要时可在 `next.config.ts` 开启。
-- **轮播**：Embla Carousel，支持拖动、触摸滑动、左右按钮、指示点、自动轮播、悬停暂停；系统开启“减少动态效果”时不自动播放。
 - **SEO**：每页独立 Title / Description / Canonical / Open Graph / Twitter 卡片（`lib/metadata.ts`），统一分享图，组织、新闻与面包屑结构化数据（JSON-LD），自动 sitemap / robots。
 - **可用性**：新闻按分类、案例按行业筛选；返回顶部按钮；页面出错时有兜底页（`app/error.tsx`、`app/global-error.tsx`）；按 Lighthouse 无障碍规则检查（触控尺寸、可访问名称等）。
 - **内容层**：页面只通过 `lib/content.ts` 取数。V2.0 引入 CMS / API 时，只需改写该文件。

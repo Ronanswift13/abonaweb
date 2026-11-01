@@ -1,54 +1,33 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { cn, isExternalHref } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "light" | "outline-light";
-type Size = "sm" | "md" | "lg";
+/**
+ * primary 是公司红实心按钮，页面上红色主要出现在这里；theme 用在产品屏上，跟随这一屏的强调色；
+ * onDark 用在深色底上，onLight 用在浅色底上
+ */
+type Variant = "primary" | "theme" | "onDark" | "onLight";
 
 const variants: Record<Variant, string> = {
-  // 深红主按钮，悬停加深
-  primary: "bg-brand-700 text-white hover:bg-brand-800",
-  // 白底红色描边按钮
-  secondary: "border border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
-  ghost: "text-brand-700 hover:bg-brand-50",
-  // 深色/渐变背景上的白色按钮
-  light: "bg-white text-brand-800 shadow-card hover:bg-brand-50",
-  "outline-light": "border border-white/40 text-white hover:border-white hover:bg-white/10",
-};
-
-const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm",
-  md: "h-11 px-5 text-sm",
-  lg: "h-12 px-7 text-base",
+  primary: "border-red bg-red text-paper hover:border-red-deep hover:bg-red-deep",
+  theme: "border-theme-accent bg-theme-accent text-theme-on-accent hover:bg-theme-fg hover:border-theme-fg hover:text-theme-bg",
+  onDark: "border-paper text-paper hover:bg-paper hover:text-ink",
+  onLight: "border-ink text-ink hover:bg-ink hover:text-paper",
 };
 
 interface ButtonLinkProps {
   href: string;
   children: React.ReactNode;
   variant?: Variant;
-  size?: Size;
-  /** 是否显示右箭头 */
-  arrow?: boolean;
   icon?: React.ReactNode;
   className?: string;
 }
 
-/** 链接样式按钮：站内链接使用 next/link，tel:/mailto:/http 使用原生 <a> */
-export function ButtonLink({
-  href,
-  children,
-  variant = "primary",
-  size = "md",
-  arrow = false,
-  icon,
-  className,
-}: ButtonLinkProps) {
+/** 描边按钮：站内链接使用 next/link，tel:/mailto:/http 使用原生 <a>。文字要写清点了之后发生什么 */
+export function ButtonLink({ href, children, variant = "onLight", icon, className }: ButtonLinkProps) {
   const classes = cn(
-    "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-colors duration-200",
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700",
+    "inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap border-[1.5px] px-6 text-[15px] font-bold transition-colors duration-150 active:translate-y-px",
     variants[variant],
-    sizes[size],
     className,
   );
 
@@ -56,7 +35,6 @@ export function ButtonLink({
     <>
       {icon}
       {children}
-      {arrow && <ArrowRight className="size-4" aria-hidden="true" />}
     </>
   );
 

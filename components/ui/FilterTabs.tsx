@@ -39,14 +39,14 @@ export function FilterTabs({ categories, label, allLabel = "全部", className, 
                 aria-pressed={selected}
                 onClick={() => setActive(option)}
                 className={cn(
-                  "inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors",
+                  "inline-flex h-10 items-center gap-2 border px-4 text-sm transition-colors",
                   selected
-                    ? "border-brand-700 bg-brand-700 text-white"
-                    : "border-ink-200 bg-white text-ink-600 hover:border-brand-300 hover:text-brand-700",
+                    ? "border-ink/15 bg-ink text-paper"
+                    : "border-ink/15 text-ink hover:border-ink/15 hover:text-ink",
                 )}
               >
                 {option ?? allLabel}
-                <span className={cn("text-xs tabular-nums", selected ? "text-white/80" : "text-ink-400")}>{count}</span>
+                <span className={cn("text-sm tabular-nums", selected ? "text-paper" : "text-ink")}>{count}</span>
               </button>
             );
           })}

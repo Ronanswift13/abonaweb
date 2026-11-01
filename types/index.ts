@@ -4,98 +4,17 @@
  * 约定：
  * - 所有对外展示的文案都放在 data/*.ts（结构化数据）或 content/**.md（新闻、案例正文）中，
  *   组件只负责展示，不写死业务文案。
- * - 图标统一使用 IconName（字符串），由 components/ui/Icon.tsx 映射为 lucide-react 图标，
- *   因此数据文件保持可序列化，后续可平滑迁移到 JSON / CMS（V2.0）。
  */
 
 /* ------------------------------------------------------------------ */
 /* 通用                                                                */
 /* ------------------------------------------------------------------ */
 
-/** 可用图标名称；新增图标时需同步在 components/ui/Icon.tsx 中注册 */
-export type IconName =
-  | "brain"
-  | "bot"
-  | "radar"
-  | "scan"
-  | "zap"
-  | "layers"
-  | "network"
-  | "eye"
-  | "shield"
-  | "cpu"
-  | "factory"
-  | "building"
-  | "sparkles"
-  | "rocket"
-  | "target"
-  | "users"
-  | "handshake"
-  | "lightbulb"
-  | "gauge"
-  | "message"
-  | "briefcase"
-  | "compass"
-  | "newspaper"
-  | "phone"
-  | "wechat"
-  | "mail"
-  | "map"
-  | "globe"
-  | "clock"
-  // 监测插件 / 技术方案
-  | "toggle"
-  | "cable"
-  | "battery"
-  | "thermometer"
-  | "flame"
-  | "rainbow"
-  | "bird"
-  | "paw"
-  | "hardhat"
-  | "waveform"
-  | "wind"
-  | "server"
-  | "workflow"
-  | "merge"
-  | "fence"
-  | "route"
-  | "puzzle"
-  | "history"
-  | "database"
-  | "mic"
-  | "volume"
-  | "checklist"
-  // 安全
-  | "lock"
-  | "key"
-  | "fingerprint"
-  | "usercheck"
-  | "filecheck"
-  // 发展计划（空天地 / 行业接口）
-  | "satellite"
-  | "drone"
-  | "car"
-  | "radiotower"
-  | "eyeoff"
-  | "axis"
-  | "ban"
-  | "landmark"
-  | "flag"
-  // 产品演示（界面截图 / 现场实拍 / 交互闭环）
-  | "monitor"
-  | "camera"
-  | "repeat"
-  | "play";
-
 /** 链接（站内路由以 "/" 开头；外链/电话以 http、tel:、mailto: 开头） */
 export interface LinkItem {
   label: string;
   href: string;
 }
-
-/** 卡片主题色：对应 ProductCard / BusinessCard 的渐变配色 */
-export type Accent = "sky" | "cyan" | "ocean" | "indigo" | "teal";
 
 /** 区块标题（首页及子页面各 Section 共用） */
 export interface SectionIntro {
@@ -169,43 +88,36 @@ export interface NavItem extends LinkItem {
   external?: boolean;
 }
 
-export interface FooterColumn {
-  title: string;
-  links: LinkItem[];
-}
-
 /* ------------------------------------------------------------------ */
 /* 首页                                                                */
 /* ------------------------------------------------------------------ */
 
 export interface HeroContent {
-  /** 主标题（公司全称） */
+  /** 主标题；竖线处允许换行，词组内部不断开 */
   title: string;
-  /** 公司做什么，一段话 */
   description: string;
-  primaryCta: LinkItem;
-  secondaryCta: LinkItem;
-  /** 右侧真实产品截图（title 作为图注标题） */
-  visual: ProductImage;
+  action: LinkItem;
+  /** 首屏循环视频 */
+  video: ProductVideo;
+  label: string;
 }
 
-export interface CtaContent {
+/** 一屏一件产品：say 是这一屏的大字，竖线处允许换行 */
+export interface Scene {
   title: string;
-  description: string;
-  primary: LinkItem;
-  secondary: LinkItem;
+  say: string;
+  body: string;
+  action: LinkItem;
 }
 
 export interface HomeContent {
   hero: HeroContent;
-  products: SectionIntro;
-  business: SectionIntro;
+  scenes: { poye: Scene; agent: Scene; logistics: Scene; yaoer: Scene; plan: Omit<Scene, "say"> };
   casesNews: {
     cases: SectionIntro & { more: LinkItem };
     news: SectionIntro & { more: LinkItem };
   };
   team: SectionIntro & { more: LinkItem };
-  cta: CtaContent;
 }
 
 /* ------------------------------------------------------------------ */
@@ -215,7 +127,6 @@ export interface HomeContent {
 export interface Feature {
   title: string;
   description: string;
-  icon?: IconName;
 }
 
 /** 产品关键数据（详情页顶部数字条） */
@@ -238,7 +149,6 @@ export type PluginScene = "室外" | "室内" | "移动作业" | "二次设备" 
 export interface MonitoringPlugin {
   id: string;
   name: string;
-  icon: IconName;
   scene: PluginScene;
   description: string;
   /** 关键技术标签（2–4 个） */
@@ -282,6 +192,8 @@ export interface ProductScreens {
   device: "desktop" | "phone";
   description?: string;
   items: ProductImage[];
+  /** 产品卡片用哪一张（items 的下标），默认第一张 */
+  cover?: number;
   note?: string;
 }
 
@@ -294,7 +206,6 @@ export interface FieldPhoto extends ProductImage {
 export interface FlowStep {
   title: string;
   description: string;
-  icon: IconName;
   /** 执行方：系统自动完成，或需要值守人员操作（图中以不同样式区分，体现人在回路） */
   actor: "system" | "human";
   /** 要点短标签（2–4 个） */
@@ -306,16 +217,20 @@ export interface Product {
   slug: string;
   name: string;
   nameEn?: string;
-  /** 卡片角标，如 "自研大模型" */
-  tag: string;
-  icon: IconName;
-  accent: Accent;
+  /** 页头大标题；竖线处允许换行，不写时用 name */
+  headline?: string;
+  /** 主题色，取自产品代码，见 globals.css */
+  theme: "poye" | "agent" | "logi" | "yaoer";
+  /** 页头循环视频：stage 铺满，phone 是竖屏录屏 */
+  hero?: { video: ProductVideo; label: string; kind: "stage" | "phone" };
+  /** 没有界面的产品放人物形象 */
+  figure?: { src: string; width: number; height: number; alt: string };
   /** 卡片短描述（约 40–60 字） */
   summary: string;
   /** 详情页导语 */
   description: string;
-  /** 卡片上的“现在做到哪一步”：一句话写清已完成什么、还差什么 */
-  status: string;
+  /** 现在做到哪一步，显示在详情页页头 */
+  status?: string;
   features: Feature[];
   scenarios: string[];
   /** 演示区说明（详情页 #demo 锚点） */
@@ -361,9 +276,6 @@ export interface Product {
   security?: { description: string; items: Feature[] };
   /** 技术栈（#stack） */
   techStack?: TechStackGroup[];
-
-  /** 是否在首页核心产品区展示 */
-  featured: boolean;
   /** 排序，数字越小越靠前 */
   order: number;
 }
@@ -380,7 +292,6 @@ export interface BusinessDirection {
 export interface Capability {
   id: string;
   title: string;
-  icon: IconName;
   summary: string;
   points: string[];
 }
@@ -391,7 +302,6 @@ export type Horizon = "近期" | "中期" | "远期";
 export interface DevelopmentDirection {
   id: string;
   title: string;
-  icon: IconName;
   horizon: Horizon;
   summary: string;
   focus: string[];
@@ -427,7 +337,6 @@ export interface PlanTrack {
   id: string;
   title: string;
   subtitle: string;
-  icon: IconName;
   goal: string;
   /** 分层观测（如天基 / 空基 / 地基） */
   layers?: Feature[];
@@ -444,7 +353,6 @@ export interface SubPlan {
   name: string;
   /** 领域，如 "能源" */
   domain: string;
-  icon: IconName;
   summary: string;
   goals: string[];
   nonGoals: string[];
@@ -594,8 +502,6 @@ export interface NewsMeta {
   date: string;
   category: string;
   summary: string;
-  /** 是否在列表中置顶/突出展示 */
-  featured?: boolean;
 }
 
 export interface NewsArticle extends NewsMeta {
@@ -613,15 +519,12 @@ export interface CaseMeta {
   /** 客户名称（未授权公开时使用"某省级电网公司"等表述） */
   client: string;
   summary: string;
-  icon: IconName;
-  accent: Accent;
   /** 卡片封面图（public/ 下路径）；不填时显示行业与客户文字封面 */
   cover?: string;
   /** 关联产品 slug */
   products: string[];
   /** 成果要点 */
   results: string[];
-  featured?: boolean;
 }
 
 export interface CaseStudy extends CaseMeta {

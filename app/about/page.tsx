@@ -1,4 +1,3 @@
-import { CTA } from "@/components/sections/CTA";
 import { OrgChart } from "@/components/sections/OrgChart";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { TeamSection } from "@/components/sections/TeamSection";
@@ -21,9 +20,9 @@ export default function AboutPage() {
   const facts = [
     { label: "公司名称", value: site.name },
     { label: "英文名称", value: site.nameEn },
-    { label: "品牌 / 大模型", value: `${site.brand}（艾博纳幺儿）` },
+    { label: "大模型", value: `艾博纳幺儿（${site.brand}）` },
     { label: "官方网站", value: site.domain },
-    { label: "联系人", value: `${site.contact.name} · ${formatPhone(site.contact.phone)}` },
+    { label: "联系人", value: `${site.contact.name} ${formatPhone(site.contact.phone)}` },
   ];
 
   return (
@@ -35,47 +34,50 @@ export default function AboutPage() {
       />
 
       {/* 公司简介 */}
-      <section className="py-20">
-        <Container className="grid gap-12 lg:grid-cols-12">
-          <div className="space-y-5 text-base leading-loose text-ink-600 sm:text-lg lg:col-span-7">
+      <section className="bg-paper py-20 sm:py-24">
+        <Container className="grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14">
+          <div className="space-y-5">
             {about.paragraphs.map((p) => (
-              <p key={p}>{p}</p>
+              <p key={p} className="max-w-[38em]">
+                {p}
+              </p>
             ))}
-            <div className="grid gap-4 pt-4 sm:grid-cols-2">
-              {about.mission.map((m) => (
-                <div key={m.title} className="border-l-2 border-brand-700 pl-5">
-                  <p className="text-sm font-semibold text-brand-700">{m.title}</p>
-                  <p className="mt-2 text-base font-medium leading-relaxed text-ink-800">{m.text}</p>
-                </div>
-              ))}
-            </div>
           </div>
-
-          <aside className="lg:col-span-5">
-            <dl className="rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
+          <aside className="space-y-8">
+            <dl className="grid gap-3">
               {facts.map((f) => (
-                <div key={f.label} className="flex flex-col gap-1 border-b border-ink-100 py-4 first:pt-0 last:border-0 last:pb-0">
-                  <dt className="text-xs text-ink-400">{f.label}</dt>
-                  <dd className="font-medium text-ink-800">{f.value}</dd>
+                <div key={f.label}>
+                  <dt className="text-sm">{f.label}</dt>
+                  <dd className="font-bold">{f.value}</dd>
                 </div>
               ))}
             </dl>
+            {about.mission.map((m) => (
+              <div key={m.title}>
+                <p className="font-display text-2xl font-black">{m.title}</p>
+                <p className="mt-1">{m.text}</p>
+              </div>
+            ))}
           </aside>
         </Container>
       </section>
 
       <OrgChart organization={about.organization} />
 
-      {/* 发展历程 */}
-      <section className="bg-white py-20">
-        <Container>
-          <SectionHeading title="发展历程" />
-          <ol className="mt-12 grid gap-6 md:grid-cols-3">
+      {/* 发展历程：是真实的时间顺序，所以按时间排 */}
+      <section className="bg-paper py-20 sm:py-24">
+        <Container className="grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-14">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <SectionHeading title="发展历程" />
+          </div>
+          <ol className="grid gap-8">
             {about.milestones.map((m) => (
-              <li key={m.title} className="relative rounded-3xl border border-ink-100 bg-white p-7 shadow-card">
-                <span className="text-sm font-semibold text-brand-700">{m.year}</span>
-                <h3 className="mt-1 text-lg font-bold text-ink-900">{m.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-500">{m.description}</p>
+              <li key={m.title} className="grid gap-1 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-8">
+                <span className="font-bold">{m.year}</span>
+                <div>
+                  <h3 className="font-display text-2xl font-black leading-snug">{m.title}</h3>
+                  <p className="mt-1 max-w-[36em]">{m.description}</p>
+                </div>
               </li>
             ))}
           </ol>
@@ -83,8 +85,6 @@ export default function AboutPage() {
       </section>
 
       <TeamSection intro={home.team} members={team} />
-
-      <CTA content={home.cta} />
     </>
   );
 }

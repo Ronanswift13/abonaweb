@@ -2,11 +2,11 @@ import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
 /**
- * 艾博纳官网设计令牌（Design Tokens）—— 纯白背景 + 深红强调色（正式企业风格）
- * - brand：品牌主色，深红 / 酒红系。700 = 主色 #9B1B1B，800 = 深色版 #7F1D1D（悬停、页脚），50 = 浅色版 #FEF2F2
- * - ink  ：文字与中性色。900/800 主文字，500/400 次要文字，100 边框与分割线，50 极浅灰背景
- * - night：轮播、联系卡片等深色区域背景（深灰红）
- * 修改品牌色只需调整此处，全站组件统一引用这些 token。
+ * 艾博纳官网设计令牌，规则见 DESIGN.md。
+ * - red：公司红，只做点缀（主要按钮、链接、Logo），不做整屏底色
+ * - ink / paper：石墨和纸白，公司页面的文字和底色
+ * - theme：当前区块的主题色，由 data-product-theme 决定（globals.css），各产品的值取自产品代码
+ * theme.colors 不是 extend：灰色和框架默认色在这里不存在，写了也不会生效。
  */
 const config: Config = {
   content: [
@@ -17,78 +17,46 @@ const config: Config = {
     "./content/**/*.{md,mdx}",
   ],
   theme: {
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      red: "#C8000B",
+      "red-deep": "#9B0109",
+      ink: "#16181D",
+      paper: "#F6F6F3",
+      theme: {
+        bg: "rgb(var(--t-bg) / <alpha-value>)",
+        fg: "rgb(var(--t-fg) / <alpha-value>)",
+        heading: "rgb(var(--t-heading) / <alpha-value>)",
+        accent: "rgb(var(--t-accent) / <alpha-value>)",
+        "on-accent": "rgb(var(--t-on-accent) / <alpha-value>)",
+      },
+    },
     extend: {
-      colors: {
-        brand: {
-          50: "#FEF2F2",
-          100: "#FBE0E0",
-          200: "#F5C7C7",
-          300: "#E99A9A",
-          400: "#D65C5C",
-          500: "#C43131",
-          600: "#B12525",
-          700: "#9B1B1B",
-          800: "#7F1D1D",
-          900: "#661A1A",
-          950: "#3F1212",
-          DEFAULT: "#9B1B1B",
-        },
-        ink: {
-          50: "#F8FAFC",
-          100: "#E5E7EB",
-          200: "#D1D5DB",
-          300: "#9CA3AF",
-          400: "#6B7280",
-          500: "#4B5563",
-          600: "#374151",
-          700: "#283241",
-          800: "#1F2937",
-          900: "#111827",
-          DEFAULT: "#111827",
-        },
-        night: {
-          800: "#3F1A1A",
-          900: "#2B1315",
-          DEFAULT: "#2B1315",
-        },
-      },
       fontFamily: {
-        // 优先系统字体：不依赖 Google Fonts，国内服务器构建/访问更稳定。
-        // 如需统一字体，可用 next/font/local 自托管 Inter / 思源黑体，并在此处前置对应 CSS 变量。
-        sans: [
-          "Inter",
-          '"PingFang SC"',
-          '"Hiragino Sans GB"',
-          '"Microsoft YaHei"',
-          '"Noto Sans SC"',
-          '"Source Han Sans SC"',
-          "system-ui",
-          "-apple-system",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          "sans-serif",
-        ],
-      },
-      borderRadius: {
-        "2xl": "0.625rem",
-        "3xl": "0.75rem",
+        // 西文和数字用 D-DIN；中文正文用系统字体，不增加下载体积
+        sans: ["var(--font-din)", '"PingFang SC"', '"Hiragino Sans GB"', '"Microsoft YaHei"', '"Noto Sans SC"', "sans-serif"],
+        // 标题用思源黑体 Black 子集，字库由 npm run fonts:subset 生成
+        display: ["var(--font-display)", '"PingFang SC"', '"Microsoft YaHei"', "sans-serif"],
       },
       boxShadow: {
-        card: "0 1px 2px rgba(17,24,39,0.05)",
-        "card-hover": "0 2px 8px rgba(17,24,39,0.10)",
+        // 只给弹窗用
+        lift: "0 24px 64px -16px rgba(22,24,29,0.6)",
       },
       typography: ({ theme }: { theme: (path: string) => string }) => ({
         DEFAULT: {
           css: {
-            "--tw-prose-body": theme("colors.ink.600"),
-            "--tw-prose-headings": theme("colors.ink.900"),
-            "--tw-prose-links": theme("colors.brand.700"),
-            "--tw-prose-bold": theme("colors.ink.900"),
-            "--tw-prose-bullets": theme("colors.brand.700"),
-            "--tw-prose-quotes": theme("colors.ink.700"),
-            "--tw-prose-quote-borders": theme("colors.brand.300"),
+            "--tw-prose-body": theme("colors.ink"),
+            "--tw-prose-headings": theme("colors.ink"),
+            "--tw-prose-links": theme("colors.red"),
+            "--tw-prose-bold": theme("colors.ink"),
+            "--tw-prose-bullets": theme("colors.ink"),
+            "--tw-prose-counters": theme("colors.ink"),
+            "--tw-prose-quotes": theme("colors.ink"),
+            "--tw-prose-quote-borders": theme("colors.red"),
+            "--tw-prose-hr": theme("colors.ink"),
+            "--tw-prose-th-borders": theme("colors.ink"),
+            "--tw-prose-td-borders": theme("colors.ink"),
           },
         },
       }),

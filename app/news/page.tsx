@@ -16,16 +16,16 @@ export default function NewsPage() {
   return (
     <>
       <PageHeader title={title} description={description} breadcrumbs={[{ label: title, href: "/news" }]} />
-      <section className="py-20">
-        <Container className="max-w-4xl">
+      <section className="bg-paper py-14 sm:py-20">
+        <Container>
           {news.length > 0 ? (
-            <FilterTabs categories={news.map((n) => n.category)} label="按分类筛选新闻" className="space-y-5">
+            <FilterTabs categories={news.map((n) => n.category)} label="按分类筛选新闻" className="max-w-5xl space-y-4">
               {news.map((item) => (
-                <NewsCard key={item.slug} item={item} headingLevel="h2" />
+                <NewsCard key={item.slug} item={item} headingLevel="h2" showSummary />
               ))}
             </FilterTabs>
           ) : (
-            <p className="py-20 text-center text-ink-400">暂无新闻。</p>
+            <p className="py-20 text-ink">暂无新闻。</p>
           )}
         </Container>
       </section>

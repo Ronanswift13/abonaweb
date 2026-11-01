@@ -2,8 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * 主题色：值是 RGB 通道，供 Tailwind 的透明度写法使用。
+ * 默认是公司的阅读区；产品色取自各产品代码，来源见 DESIGN.md 第 4 节。
+ */
+:root {
+  --t-bg: 246 246 243;
+  --t-fg: 22 24 29;
+  --t-heading: 22 24 29;
+  --t-accent: 200 0 11;
+  --t-on-accent: 246 246 243;
+}
+[data-product-theme="poye"] {
+  --t-bg: 4 28 50;
+  --t-fg: 232 244 253;
+  --t-heading: 71 192 255;
+  --t-accent: 0 168 255;
+  --t-on-accent: 2 19 31;
+}
+[data-product-theme="agent"] {
+  --t-bg: 7 9 15;
+  --t-fg: 232 238 247;
+  --t-heading: 94 231 255;
+  --t-accent: 94 231 255;
+  --t-on-accent: 7 9 15;
+}
+[data-product-theme="logi"] {
+  --t-bg: 223 247 236;
+  --t-fg: 11 59 53;
+  --t-heading: 12 122 110;
+  --t-accent: 11 59 53;
+  --t-on-accent: 223 247 236;
+}
+/* 取自人物形象：背后的浅蓝、外套的深蓝，门襟的红色做按钮 */
+[data-product-theme="yaoer"] {
+  --t-bg: 226 234 245;
+  --t-fg: 27 32 52;
+  --t-heading: 27 32 52;
+  --t-accent: 200 0 11;
+  --t-on-accent: 246 246 243;
+}
+[data-product-theme="plan"] {
+  --t-bg: 11 11 11;
+  --t-fg: 246 246 243;
+  --t-heading: 246 246 243;
+  --t-accent: 246 246 243;
+  --t-on-accent: 11 11 11;
+}
+
 @layer base {
   html {
+    overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
     scroll-padding-top: 88px; /* 锚点跳转时避开吸顶导航 */
   }
@@ -14,14 +63,54 @@
   }
 
   body {
-    @apply bg-white font-sans text-ink-800 antialiased;
+    @apply bg-paper font-sans text-ink antialiased;
+    overflow-x: clip;
+    font-size: 17px;
+    line-height: 1.75;
+    font-synthesis: none;
     text-rendering: optimizeLegibility;
   }
 
+  h1,
+  h2 {
+    @apply font-display font-black;
+    min-width: 0;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
+
   ::selection {
-    @apply bg-brand-100 text-brand-900;
+    @apply bg-ink text-paper;
   }
 }
+
+/* 视频上保证文字可读的遮罩，颜色跟随主题；这是渐变规则的唯一例外，只盖放文字的一侧 */
+.scrim-left { background: linear-gradient(90deg, rgb(var(--t-bg)) 0%, rgb(var(--t-bg) / 0.96) 34%, rgb(var(--t-bg) / 0.55) 48%, rgb(var(--t-bg) / 0) 60%); }
+.scrim-hero { background: linear-gradient(90deg, rgb(var(--t-bg)) 0%, rgb(var(--t-bg) / 0.86) 24%, rgb(var(--t-bg) / 0) 46%); }
+.scrim-bottom { background: linear-gradient(180deg, rgb(var(--t-bg) / 0) 55%, rgb(var(--t-bg) / 0.82) 86%, rgb(var(--t-bg)) 100%); }
+
+/* 导航跟随下方这一屏的底色，看不出是单独一条；默认是公司的阅读区 */
+.site-nav {
+  background-color: theme("colors.paper");
+  color: theme("colors.ink");
+  transition: background-color 250ms, color 250ms;
+}
+.site-nav[data-theme="poye"] { background-color: #041c32; color: theme("colors.paper"); }
+.site-nav[data-theme="agent"] { background-color: #07090f; color: theme("colors.paper"); }
+.site-nav[data-theme="plan"] { background-color: #0b0b0b; color: theme("colors.paper"); }
+.site-nav[data-theme="ink"] { background-color: theme("colors.ink"); color: theme("colors.paper"); }
+.site-nav[data-theme="logi"] { background-color: #dff7ec; color: #0b3b35; }
+.site-nav[data-theme="yaoer"] { background-color: #e2eaf5; color: #1b2034; }
+
+/* 浅色屏用红色 Logo，深色屏用反白 Logo */
+.site-nav .logo-on-dark { display: none; }
+.site-nav:is([data-theme="poye"], [data-theme="agent"], [data-theme="plan"], [data-theme="ink"]) .logo-on-dark { display: block; }
+.site-nav:is([data-theme="poye"], [data-theme="agent"], [data-theme="plan"], [data-theme="ink"]) .logo-on-light { display: none; }
 
 /* 尊重系统“减少动态效果”设置 */
 @media (prefers-reduced-motion: reduce) {

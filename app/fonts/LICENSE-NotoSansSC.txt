@@ -1,0 +1,6 @@
+noto-sans-sc-black.subset.woff2 is a character subset of Noto Sans CJK SC Black
+(https://github.com/notofonts/noto-cjk). Regenerate it with `npm run fonts:subset`.
+
+Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+This Font Software is licensed under the SIL Open Font License, Version 1.1,
+available at https://openfontlicense.org/open-font-license-official-text/

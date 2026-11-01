@@ -36,10 +36,10 @@ export function CopyButton({ value, label = "复制", className }: { value: stri
       type="button"
       onClick={handleCopy}
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+        "inline-flex items-center gap-1 border px-2.5 py-1 text-sm transition-colors",
         copied
-          ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-          : "border-ink-200 text-ink-500 hover:border-brand-300 hover:text-brand-700",
+          ? "border-current"
+          : "border-ink/15 text-ink hover:border-red hover:text-red",
         className,
       )}
       aria-label={`${label}：${value}`}

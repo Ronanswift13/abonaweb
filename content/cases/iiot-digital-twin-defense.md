@@ -5,8 +5,6 @@ date: "2026-06-10"
 industry: 工业互联网
 client: 某科研合作单位
 summary: 面向资源受限的工业物联网环境，研究基于数字孪生的高拟真诱饵编排方法，提升主动防御能力。
-icon: shield
-accent: ocean
 products: []
 results:
   - 形成数字孪生诱饵编排技术方案

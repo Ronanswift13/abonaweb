@@ -24,7 +24,7 @@ export function BackToTop() {
       aria-hidden={!visible}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className={cn(
-        "fixed bottom-6 right-4 z-40 flex size-11 items-center justify-center rounded-full border border-ink-100 bg-white/90 text-ink-700 shadow-card backdrop-blur transition-all duration-300 hover:border-brand-200 hover:text-brand-700 sm:right-6",
+        "fixed bottom-6 right-4 z-40 flex size-11 items-center justify-center bg-ink text-paper transition-colors duration-300 hover:bg-red sm:right-6",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
       )}
     >

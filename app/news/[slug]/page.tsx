@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container } from "@/components/ui/Container";
@@ -53,32 +52,32 @@ export default async function NewsDetailPage({ params }: PageProps<"/news/[slug]
   return (
     <>
       <PageHeader
-        eyebrow={article.category}
         title={article.title}
+        size="md"
         breadcrumbs={[
           { label: "新闻动态", href: "/news" },
           { label: article.title, href: `/news/${article.slug}` },
         ]}
       >
-        <p className="mt-5 text-sm text-ink-400">
-          <time dateTime={article.date}>{formatDate(article.date)}</time> · {site.name}
+        <p className="mt-5 flex flex-wrap gap-x-5 text-[15px]">
+          <time dateTime={article.date}>{formatDate(article.date)}</time>
+          <span>{article.category}</span>
         </p>
       </PageHeader>
 
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <article>
+      <section className="bg-paper py-16 sm:py-20">
+        <Container>
+          <article className="max-w-3xl">
             <Markdown>{article.body}</Markdown>
           </article>
 
-          <nav aria-label="上一篇与下一篇" className="mt-16 grid gap-4 border-t border-ink-100 pt-8 sm:grid-cols-2">
+          <nav aria-label="上一篇与下一篇" className="mt-16 grid max-w-3xl gap-4 border-t border-ink/15 pt-8 sm:grid-cols-2">
             {older ? (
-              <Link href={`/news/${older.slug}`} className="group rounded-2xl border border-ink-100 p-5 hover:border-brand-200">
-                <span className="flex items-center gap-1 text-xs text-ink-400">
-                  <ArrowLeft className="size-3.5" aria-hidden="true" />
+              <Link href={`/news/${older.slug}`} className="group">
+                <span className="flex items-center gap-1 text-sm text-ink">
                   上一篇
                 </span>
-                <span className="mt-2 block font-semibold text-ink-800 group-hover:text-brand-700">{older.title}</span>
+                <span className="mt-2 block font-bold text-ink group-hover:text-red">{older.title}</span>
               </Link>
             ) : (
               <span />
@@ -86,13 +85,12 @@ export default async function NewsDetailPage({ params }: PageProps<"/news/[slug]
             {newer && (
               <Link
                 href={`/news/${newer.slug}`}
-                className="group rounded-2xl border border-ink-100 p-5 text-right hover:border-brand-200"
+                className="group text-right"
               >
-                <span className="flex items-center justify-end gap-1 text-xs text-ink-400">
+                <span className="flex items-center justify-end gap-1 text-sm text-ink">
                   下一篇
-                  <ArrowRight className="size-3.5" aria-hidden="true" />
                 </span>
-                <span className="mt-2 block font-semibold text-ink-800 group-hover:text-brand-700">{newer.title}</span>
+                <span className="mt-2 block font-bold text-ink group-hover:text-red">{newer.title}</span>
               </Link>
             )}
           </nav>

@@ -1,17 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-/**
- * 让 tailwind-merge 识别 tailwind.config.ts 中自定义的背景图 / 背景尺寸 / 阴影类，
- * 否则 "bg-brand-gradient bg-200%" 会被误判为冲突而丢掉渐变。
- * 在 tailwind.config.ts 新增同类 token 时请同步补充。
- */
+/** 让 tailwind-merge 识别自定义阴影；在 tailwind.config.ts 新增阴影时请同步补充 */
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      "bg-image": [{ bg: ["brand-gradient", "brand-gradient-soft", "night-gradient", "grid-light", "grid-dark"] }],
-      "bg-size": [{ bg: ["grid", "200%"] }],
-      shadow: [{ shadow: ["card", "card-hover", "glow"] }],
+      shadow: [{ shadow: ["lift"] }],
     },
   },
 });

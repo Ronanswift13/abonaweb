@@ -1,10 +1,8 @@
-import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
-import { PlanSpotlight } from "@/components/sections/PlanSections";
+import { PlanScene } from "@/components/sections/Scenes";
 import { Container } from "@/components/ui/Container";
+import { InlineList } from "@/components/ui/InlineList";
 import { directions, directionsIntro, horizons } from "@/data/directions";
-import { home } from "@/data/home";
-import { yuanyinPlan } from "@/data/plans";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -23,50 +21,34 @@ export default function DirectionsPage() {
       />
 
       {/* 重点发展计划 */}
-      <section className="pt-20">
-        <Container>
-          <PlanSpotlight plan={yuanyinPlan} />
-        </Container>
-      </section>
+      <PlanScene />
 
-      <section className="py-20">
-        <Container>
-          <div className="space-y-16">
-            {horizons.map((horizon) => {
-              const items = directions.filter((d) => d.horizon === horizon.key);
-              if (items.length === 0) return null;
-              return (
-                <div key={horizon.key}>
-                  <h2 className="text-2xl font-bold text-ink-900">{horizon.label}</h2>
-                  <p className="mt-2 text-ink-500">{horizon.description}</p>
-
-                  <div className="mt-8 grid gap-6 md:grid-cols-2">
-                    {items.map((d) => (
-                      <article
-                        key={d.id}
-                        id={d.id}
-                        className="rounded-xl border border-ink-200 bg-white p-7"
-                      >
-                        <h3 className="text-lg font-bold text-ink-900">{d.title}</h3>
-                        <p className="mt-4 text-sm leading-relaxed text-ink-500">{d.summary}</p>
-                        <ul className="mt-5 flex flex-wrap gap-2">
-                          {d.focus.map((f) => (
-                            <li key={f} className="rounded-full border border-brand-100 bg-brand-50/60 px-3 py-1 text-xs text-brand-800">
-                              {f}
-                            </li>
-                          ))}
-                        </ul>
-                      </article>
-                    ))}
-                  </div>
+      <section className="bg-paper py-20 sm:py-28">
+        <Container className="space-y-16">
+          {horizons.map((horizon) => {
+            const items = directions.filter((d) => d.horizon === horizon.key);
+            if (items.length === 0) return null;
+            return (
+              <div key={horizon.key} className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+                <div className="lg:col-span-3">
+                  <h2 className="text-[2.25rem] leading-[1.15] sm:text-5xl">{horizon.label}</h2>
+                  <p className="mt-3 text-[15px] leading-relaxed text-ink">{horizon.description}</p>
                 </div>
-              );
-            })}
-          </div>
+                <div className="grid gap-8 lg:col-span-9">
+                  {items.map((d) => (
+                    <article key={d.id} id={d.id} className="scroll-mt-24">
+                      <h3 className="font-display text-2xl font-black leading-snug">{d.title}</h3>
+                      <p className="mt-1.5 max-w-[38em]">{d.summary}</p>
+                      <InlineList items={d.focus} className="mt-1.5 text-[15px]" />
+                    </article>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </Container>
       </section>
 
-      <CTA content={home.cta} />
     </>
   );
 }

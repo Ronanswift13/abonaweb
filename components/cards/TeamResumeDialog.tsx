@@ -32,7 +32,7 @@ function Portrait({
   position?: string;
 }) {
   return (
-    <div className="relative aspect-[5/7] overflow-hidden rounded-sm border border-ink-200 bg-ink-50">
+    <div className="relative aspect-[5/7] overflow-hidden border border-ink/15 bg-ink/5">
       {src ? (
         // 宣传照在本地上传后才出现，地址还可能带缓存参数，不走图片优化。
         // eslint-disable-next-line @next/next/no-img-element
@@ -47,7 +47,7 @@ function Portrait({
       ) : (
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center bg-brand-700 font-bold text-white",
+            "bg-ink absolute inset-0 flex items-center justify-center font-display font-black text-paper",
             large ? "text-3xl" : "text-lg",
           )}
           aria-hidden="true"
@@ -62,7 +62,7 @@ function Portrait({
 function ResumeBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
-      <h3 className="border-l-2 border-brand-700 pl-3 text-base font-bold text-ink-900">{title}</h3>
+      <h3 className="border-l-2 border-ink pl-3 text-base font-bold text-ink">{title}</h3>
       <div className="mt-3">{children}</div>
     </section>
   );
@@ -74,13 +74,13 @@ function Timeline({ items }: { items: TeamResumeEntry[] }) {
       {items.map((item, index) => (
         <li
           key={`${item.title}-${index}`}
-          className="grid gap-1 border-t border-ink-100 py-4 first:border-t-0 first:pt-0 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-x-6"
+          className="grid gap-1 border-t border-ink/15 py-4 first:border-t-0 first:pt-0 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-x-6"
         >
-          {item.period ? <p className="text-sm text-ink-400 sm:pt-0.5">{item.period}</p> : null}
+          {item.period ? <p className="text-sm text-ink sm:pt-0.5">{item.period}</p> : null}
           <div className={item.period ? undefined : "sm:col-span-2"}>
-            <p className="font-semibold text-ink-900">{item.title}</p>
-            {item.org && <p className="mt-0.5 text-sm text-ink-600">{item.org}</p>}
-            {item.detail && <p className="mt-1 text-sm leading-relaxed text-ink-600">{item.detail}</p>}
+            <p className="font-bold text-ink">{item.title}</p>
+            {item.org && <p className="mt-0.5 text-sm text-ink">{item.org}</p>}
+            {item.detail && <p className="mt-1 text-sm leading-relaxed text-ink">{item.detail}</p>}
           </div>
         </li>
       ))}
@@ -108,8 +108,8 @@ function TeamAvatarUpload({
       <label
         htmlFor={`avatar-${memberId}`}
         className={cn(
-          "inline-flex cursor-pointer text-sm font-semibold text-brand-700 underline-offset-4 hover:underline",
-          pending && "pointer-events-none text-ink-400",
+          "inline-flex cursor-pointer text-sm font-bold text-red underline-offset-4 hover:underline",
+          pending && "pointer-events-none text-ink",
         )}
       >
         <input
@@ -126,14 +126,14 @@ function TeamAvatarUpload({
         />
         {pending ? "正在保存…" : "上传证件照"}
       </label>
-      <p className="mt-1.5 text-xs leading-relaxed text-ink-400">竖版证件照，JPG、PNG 或 WebP，小于 4MB。保存后作为宣传头像。</p>
+      <p className="mt-1.5 text-sm leading-relaxed text-ink">竖版证件照，JPG、PNG 或 WebP，小于 4MB。保存后作为宣传头像。</p>
       {message && (
-        <p role="status" className="mt-1.5 text-xs text-ink-600">
+        <p role="status" className="mt-1.5 text-sm text-ink">
           {message}
         </p>
       )}
       {error && (
-        <p role="alert" className="mt-1.5 text-xs text-brand-800">
+        <p role="alert" className="mt-1.5 text-sm text-red">
           {error}
         </p>
       )}
@@ -168,7 +168,7 @@ function PhotoLightbox({
         tabIndex={-1}
         aria-label="关闭大图"
         onClick={onClose}
-        className="absolute inset-0 cursor-zoom-out bg-ink-900/95"
+        className="absolute inset-0 cursor-zoom-out bg-ink/95"
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -176,7 +176,7 @@ function PhotoLightbox({
         alt={`${member.name}的宣传照大图`}
         className="relative max-h-[calc(100dvh-5.5rem)] max-w-full object-contain"
       />
-      <p className="relative text-sm text-white/80">
+      <p className="relative text-sm text-paper">
         {member.name} · {member.title}
       </p>
       <button
@@ -184,7 +184,7 @@ function PhotoLightbox({
         type="button"
         onClick={onClose}
         aria-label="关闭大图"
-        className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-full bg-white text-ink-800 shadow-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        className="absolute right-3 top-3 flex size-10 items-center justify-center bg-paper text-ink"
       >
         <X className="size-5" aria-hidden="true" />
       </button>
@@ -322,7 +322,7 @@ export function TeamResumeDialog({
 
   return createPortal(
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-8">
-      <button type="button" className="absolute inset-0 bg-ink-900/50" aria-label="关闭简介" onClick={onClose} />
+      <button type="button" className="absolute inset-0 bg-ink/50" aria-label="关闭简介" onClick={onClose} />
       <div
         ref={panelRef}
         id={dialogId}
@@ -331,16 +331,16 @@ export function TeamResumeDialog({
         aria-labelledby={titleId}
         onKeyDown={trapTab}
         inert={zoom ? true : undefined}
-        className="relative z-10 flex max-h-[min(92vh,920px)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-card-hover"
+        className="relative z-10 flex max-h-[min(92vh,920px)] w-full max-w-4xl flex-col overflow-hidden bg-paper"
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-ink-100 px-5 py-3 sm:px-8">
-          <p className="text-sm font-semibold text-ink-700">个人简历</p>
+        <div className="flex shrink-0 items-center justify-between border-b border-ink/15 px-5 py-3 sm:px-8">
+          <p className="text-sm font-bold text-ink">个人简历</p>
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
             aria-label="关闭简介"
-            className="flex size-9 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-ink-50 hover:text-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+            className="flex size-9 items-center justify-center text-ink transition-colors hover:bg-ink/5 hover:text-red"
           >
             <X className="size-4" aria-hidden="true" />
           </button>
@@ -360,7 +360,7 @@ export function TeamResumeDialog({
                   ref={photoButtonRef}
                   type="button"
                   onClick={() => setZoom(true)}
-                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded-sm border border-ink-200 bg-ink-50 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+                  className="group relative block w-full cursor-zoom-in overflow-hidden border border-ink/15 bg-ink/5 text-left"
                 >
                   {/* 简介里完整展示宣传照，不裁成证件照。 */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -369,7 +369,7 @@ export function TeamResumeDialog({
                     alt={`${member.name}的宣传照`}
                     className="mx-auto h-auto max-h-[46vh] w-full object-contain sm:max-h-[62vh]"
                   />
-                  <span className="absolute bottom-2 right-2 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-brand-800 shadow-card">
+                  <span className="absolute bottom-2 right-2 bg-paper px-2.5 py-1 text-sm font-bold text-red">
                     查看大图
                   </span>
                 </button>
@@ -380,15 +380,15 @@ export function TeamResumeDialog({
             </div>
 
             <div className="min-w-0">
-              <h2 id={titleId} className="text-2xl font-bold text-ink-900">
+              <h2 id={titleId} className="text-2xl font-bold text-ink">
                 {member.name}
               </h2>
-              <p className="mt-1 text-base font-medium text-brand-800">{member.title}</p>
-              <dl className="mt-5 divide-y divide-ink-100 border-y border-ink-100">
+              <p className="mt-1 text-base">{member.title}</p>
+              <dl className="mt-5 divide-y divide-ink/15 border-y border-ink/15">
                 {facts.map((fact) => (
                   <div key={fact.label} className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-3 py-3 text-sm">
-                    <dt className="text-ink-400">{fact.label}</dt>
-                    <dd className="leading-relaxed text-ink-800">{fact.value}</dd>
+                    <dt className="text-ink">{fact.label}</dt>
+                    <dd className="leading-relaxed text-ink">{fact.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -396,9 +396,9 @@ export function TeamResumeDialog({
             </div>
           </div>
 
-          <div className="space-y-8 border-t border-ink-100 px-5 py-6 sm:px-8 sm:py-8">
+          <div className="space-y-8 border-t border-ink/15 px-5 py-6 sm:px-8 sm:py-8">
             <ResumeBlock title="个人简介">
-              <p className="whitespace-pre-wrap text-[15px] leading-7 text-ink-600">{member.bio}</p>
+              <p className="whitespace-pre-wrap text-[15px] leading-7 text-ink">{member.bio}</p>
             </ResumeBlock>
 
             {member.education && member.education.length > 0 && (
@@ -421,7 +421,7 @@ export function TeamResumeDialog({
 
             {member.publications && member.publications.length > 0 && (
               <ResumeBlock title="代表性成果">
-                <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-ink-700">
+                <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-ink">
                   {member.publications.map((item) => (
                     <li key={item}>{item}</li>
                   ))}

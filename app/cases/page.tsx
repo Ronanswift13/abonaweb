@@ -1,9 +1,7 @@
 import { CaseCard } from "@/components/cards/CaseCard";
-import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container } from "@/components/ui/Container";
 import { FilterTabs } from "@/components/ui/FilterTabs";
-import { home } from "@/data/home";
 import { getAllCases } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -18,24 +16,23 @@ export default function CasesPage() {
   return (
     <>
       <PageHeader title={title} description={description} breadcrumbs={[{ label: title, href: "/cases" }]} />
-      <section className="py-20">
+      <section className="bg-paper py-14 sm:py-20">
         <Container>
           {cases.length > 0 ? (
             <FilterTabs
               categories={cases.map((c) => c.industry)}
               label="按行业筛选案例"
-              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              className="max-w-5xl space-y-5"
             >
               {cases.map((item) => (
-                <CaseCard key={item.slug} item={item} headingLevel="h2" />
+                <CaseCard key={item.slug} item={item} headingLevel="h2" showSummary />
               ))}
             </FilterTabs>
           ) : (
-            <p className="py-20 text-center text-ink-400">案例整理中，敬请期待。</p>
+            <p className="py-20 text-ink">案例整理中。</p>
           )}
         </Container>
       </section>
-      <CTA content={home.cta} />
     </>
   );
 }

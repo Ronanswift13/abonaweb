@@ -55,12 +55,12 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
     <nav
       aria-label="页内导航"
       data-section-nav
-      className="sticky top-[72px] z-40 border-b border-ink-100 bg-white/90 backdrop-blur-xl"
+      className="sticky top-[72px] z-40 border-y border-theme-fg/15 bg-theme-bg text-theme-fg"
     >
       <Container>
         <ul
           ref={listRef}
-          className="relative -mx-4 flex gap-1 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
+          className="relative -mx-4 flex gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
         >
           {items.map((item) => {
             const current = item.id === active;
@@ -72,8 +72,8 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
                   aria-current={current ? "location" : undefined}
                   onClick={() => setActive(item.id)}
                   className={cn(
-                    "inline-flex whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500",
-                    current ? "bg-brand-700 font-medium text-white" : "text-ink-600 hover:bg-ink-50 hover:text-brand-700",
+                    "inline-flex whitespace-nowrap border-b-2 py-3 text-sm transition-colors",
+                    current ? "border-theme-heading font-bold" : "border-transparent hover:border-theme-fg/30",
                   )}
                 >
                   {item.label}

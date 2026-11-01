@@ -19,4 +19,4 @@ summary: 破夜绘明变电站监测平台的 20 个监测插件全部具备代�
 
 所有插件遵循“可运行、可回放、可解释、可追溯、可维护”五条验收线，输出统一结果格式；平台全量自动化测试超过 1200 项。
 
-下一步，我们将结合真实现场数据，按七维现场验收契约逐链完成精度验收。详见 [破夜绘明变电站监测平台](/products/poye-substation-monitoring#plugins)。
+详见 [破夜绘明变电站监测平台](/products/poye-substation-monitoring#plugins)。

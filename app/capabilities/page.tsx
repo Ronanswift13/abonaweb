@@ -1,14 +1,8 @@
 
-import { ProductCard } from "@/components/cards/ProductCard";
-import { CTA } from "@/components/sections/CTA";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { capabilities, capabilitiesIntro } from "@/data/capabilities";
-import { home } from "@/data/home";
-import { getAllProducts } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: capabilitiesIntro.title,
@@ -17,8 +11,6 @@ export const metadata = pageMetadata({
 });
 
 export default function CapabilitiesPage() {
-  const products = getAllProducts();
-
   return (
     <>
       <PageHeader
@@ -32,7 +24,7 @@ export default function CapabilitiesPage() {
             <li key={c.id}>
               <a
                 href={`#${c.id}`}
-                className="text-sm text-brand-700 underline-offset-4 hover:underline"
+                className="text-[15px] underline underline-offset-4"
               >
                 {c.title}
               </a>
@@ -41,18 +33,17 @@ export default function CapabilitiesPage() {
         </ul>
       </PageHeader>
 
-      <section className="py-20">
-        <Container className="divide-y divide-ink-200 border-y border-ink-200">
+      <section className="bg-paper">
+        <Container className="py-6">
           {capabilities.map((c) => (
-            <article id={c.id} key={c.id} className="grid gap-6 py-12 lg:grid-cols-12 lg:gap-12">
+            <article id={c.id} key={c.id} className="grid gap-6 py-14 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-5">
-                <h2 className="text-2xl font-bold text-ink-900">{c.title}</h2>
-                <p className="mt-4 leading-relaxed text-ink-600">{c.summary}</p>
+                <h2 className="text-[2.25rem] leading-[1.15] sm:text-5xl">{c.title}</h2>
+                <p className="mt-4">{c.summary}</p>
               </div>
-              <ul className="space-y-3 lg:col-span-7">
+              <ul className="space-y-4 lg:col-span-7">
                 {c.points.map((point) => (
-                  <li key={point} className="flex gap-3 text-[15px] leading-relaxed text-ink-700">
-                    <span className="mt-2.5 h-px w-3 shrink-0 bg-brand-700" aria-hidden="true" />
+                  <li key={point} className="max-w-[38em]">
                     {point}
                   </li>
                 ))}
@@ -62,23 +53,6 @@ export default function CapabilitiesPage() {
         </Container>
       </section>
 
-      <section className="bg-ink-50/70 py-20">
-        <Container>
-          <SectionHeading {...home.products} align="center" />
-          <div
-            className={cn(
-              "mt-12 grid grid-cols-1 items-stretch gap-6 md:grid-cols-2",
-              products.length % 3 === 0 && "lg:grid-cols-3 lg:gap-8",
-            )}
-          >
-            {products.map((product) => (
-              <ProductCard key={product.slug} product={product} />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <CTA content={home.cta} />
     </>
   );
 }

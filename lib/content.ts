@@ -12,8 +12,7 @@ import { cache } from "react";
 import matter from "gray-matter";
 
 import { products } from "@/data/products";
-import { accentStyles } from "@/lib/accent";
-import type { Accent, CaseStudy, IconName, NewsArticle, Product } from "@/types";
+import type { CaseStudy, NewsArticle, Product } from "@/types";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
@@ -43,12 +42,6 @@ function strList(data: Frontmatter, key: string, file: string): string[] {
   return value as string[];
 }
 
-function accent(data: Frontmatter, file: string): Accent {
-  const value = str(data, "accent", file);
-  if (!(value in accentStyles)) fail(file, `accent 必须是 ${Object.keys(accentStyles).join(" / ")} 之一`);
-  return value as Accent;
-}
-
 function readCollection<T>(dir: string, parse: (data: Frontmatter, body: string, slug: string, file: string) => T) {
   const folder = path.join(CONTENT_ROOT, dir);
   if (!fs.existsSync(folder)) return [];
@@ -76,7 +69,6 @@ export const getAllNews = cache((): NewsArticle[] =>
     date: str(data, "date", file),
     category: str(data, "category", file),
     summary: str(data, "summary", file),
-    featured: data.featured === true,
     body,
   })).sort(byDateDesc),
 );
@@ -101,12 +93,9 @@ export const getAllCases = cache((): CaseStudy[] =>
     industry: str(data, "industry", file),
     client: str(data, "client", file),
     summary: str(data, "summary", file),
-    icon: str(data, "icon", file) as IconName,
-    accent: accent(data, file),
     cover: typeof data.cover === "string" && data.cover.trim() ? data.cover.trim() : undefined,
     products: strList(data, "products", file),
     results: strList(data, "results", file),
-    featured: data.featured === true,
     body,
   })).sort(byDateDesc),
 );
@@ -115,22 +104,12 @@ export function getCase(slug: string) {
   return getAllCases().find((item) => item.slug === slug);
 }
 
-/** 首页展示的案例：优先 featured，其次按时间 */
-export function getFeaturedCases(limit = 2) {
-  const all = getAllCases();
-  return [...all.filter((c) => c.featured), ...all.filter((c) => !c.featured)].slice(0, limit);
-}
-
 /* ------------------------------------------------------------------ */
 /* 产品                                                                */
 /* ------------------------------------------------------------------ */
 
 export function getAllProducts(): Product[] {
   return [...products].sort((a, b) => a.order - b.order);
-}
-
-export function getFeaturedProducts(): Product[] {
-  return getAllProducts().filter((p) => p.featured);
 }
 
 export function getProduct(slug: string) {

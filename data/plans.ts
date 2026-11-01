@@ -21,7 +21,7 @@ export const yuanyinPlan: DevelopmentPlan = {
     { label: "业务分计划", value: "空轴稳网（能源）· 元隐测绘（信息安全）" },
     { label: "技术主线", value: "物理空间（空天地）· 网络空间（资产与暴露面）· 主动智能体" },
     { label: "模型定位", value: "领域大模型与智能体运行时，服务感知、研判、派单和报告" },
-    { label: "推进周期", value: "2026 年第四季度起 · 验证 → 复制 → 扩展 · 至 2030 年" },
+    { label: "推进周期", value: "2026 年第四季度起，先验证、再复制、后扩展，至 2030 年" },
   ],
 
   overview: {
@@ -31,17 +31,14 @@ export const yuanyinPlan: DevelopmentPlan = {
     ],
     gaps: [
       {
-        icon: "drone",
         title: "空天地巡检停在告警",
         description: "已经能发现设备缺陷、表计异常和通道异物，但多数停在告警，没有形成可关闭的工单。",
       },
       {
-        icon: "network",
         title: "资产测绘脱离物理对象",
         description: "已经能发现影子资产和暴露端口，但很少与间隔、杆塔和航线绑定。",
       },
       {
-        icon: "brain",
         title: "通用大模型无法担责",
         description: "能写说明，但不能对频率约束、安全分区和授权边界负责。",
       },
@@ -83,21 +80,17 @@ export const yuanyinPlan: DevelopmentPlan = {
       id: "physical",
       title: "物理空间",
       subtitle: "空天地 · 站点物理点位图",
-      icon: "satellite",
       goal: "形成可机器读取的站点物理图，而不是展示用三维模型。开发顺序固定为编码、感知、比对、落图。",
       layers: [
         {
-          icon: "satellite",
           title: "天基 · 广域基线",
           description: "光学与合成孔径雷达观测通道走廊、场站占地、灾害天气和地表变化，作为基线而非表计读数。",
         },
         {
-          icon: "drone",
           title: "空基 · 主传感器",
           description: "无人机沿航线覆盖输电通道，多旋翼与机巢覆盖站内间隔；红外看发热，可见光看外观、异物与表计。",
         },
         {
-          icon: "eye",
           title: "地基 · 补盲",
           description: "球机、枪机、声纹、局部放电与在线监测，解决禁飞区、地磁干扰与夜间连续观测。",
         },
@@ -118,7 +111,6 @@ export const yuanyinPlan: DevelopmentPlan = {
       id: "cyber",
       title: "网络空间",
       subtitle: "资产与暴露面 · 资产逻辑图",
-      icon: "network",
       goal: "形成授权范围内的资产逻辑图和暴露面基线。开发顺序为台账归集、被动发现、基线差分、授权主动复核。",
       steps: [
         { title: "台账归集", description: "设备、地址、端口、协议、证书、责任人、所属安全区、供应商远程通道。" },
@@ -139,7 +131,6 @@ export const yuanyinPlan: DevelopmentPlan = {
       id: "agent",
       title: "主动智能体",
       subtitle: "策略执行器 · 智能体运行时",
-      icon: "bot",
       wide: true,
       goal: "智能体是策略执行器：按班次调用感知插件和测绘插件，读取双图，生成工单，等待确认，回写结果。开发不从对话界面开始。",
       steps: [
@@ -169,7 +160,6 @@ export const yuanyinPlan: DevelopmentPlan = {
       id: "kongzhou",
       name: "空轴稳网计划",
       domain: "能源",
-      icon: "zap",
       summary:
         "服务新能源场站、汇集站和枢纽变电站的主动运维：在空天地观测和运行台账对齐之后，对影响送出能力、设备可用率和涉网可见性的风险做班次级上报。",
       goals: ["设备与通道的主动运维", "涉网风险的证据化提示", "主配微对象的统一台账"],
@@ -225,7 +215,6 @@ export const yuanyinPlan: DevelopmentPlan = {
       id: "yuanyin",
       name: "元隐测绘计划",
       domain: "信息安全",
-      icon: "shield",
       summary:
         "为能源和配套通信节点建立授权资产的逻辑图，发现影子资产、暴露面和配置漂移，并支撑关键信息基础设施的年度检测评估。",
       goals: ["授权资产逻辑图与暴露面基线", "影子资产与配置漂移发现", "年度检测评估素材包"],
@@ -341,13 +330,12 @@ export const yuanyinPlan: DevelopmentPlan = {
     intro: "四个行业方向在复制阶段起用同一套对象编号接入，避免为每个行业重写智能体；第一阶段不单独形成成果承诺。",
     items: [
       {
-        icon: "zap",
         title: "新能源系统",
         description: "空轴稳网的主战场：新能源场站、汇集站与枢纽变电站的主动运维；虚拟电厂与车网互动预留并网点对象，不做群控。",
       },
-      { icon: "car", title: "交通", description: "预留道路或场站进出通道的点位编号，第一阶段不做路侧感知。" },
-      { icon: "radiotower", title: "空天地一体化通信", description: "预留链路可用性字段，不自建星地链路。" },
-      { icon: "server", title: "算力网络", description: "预留边缘节点的在运和可达状态，不调度算力。" },
+      { title: "交通", description: "预留道路或场站进出通道的点位编号，第一阶段不做路侧感知。" },
+      { title: "空天地一体化通信", description: "预留链路可用性字段，不自建星地链路。" },
+      { title: "算力网络", description: "预留边缘节点的在运和可达状态，不调度算力。" },
     ],
   },
 
@@ -410,25 +398,21 @@ export const yuanyinPlan: DevelopmentPlan = {
 
   foundations: [
     {
-      icon: "radar",
       title: "破夜绘明变电站监测平台",
       description: "计划物理侧所需的可见光缺陷、表计、异物、人员行为、红外热斑、声纹与局放等感知插件，与平台现有插件体系同构：独立版本、输出置信度与证据帧。",
       href: "/products/poye-substation-monitoring",
     },
     {
-      icon: "bot",
-      title: "主动 AI 智能体",
+      title: "自主AI交互系统",
       description: "按优先级主动汇报、人在回路确认、只建议不遥控，与计划中智能体运行时的人工闸门和工具白名单原则一致。",
       href: "/products/proactive-ai-agent",
     },
     {
-      icon: "brain",
       title: "「艾博纳幺儿」",
       description: "作为领域大模型，在知识库约束下承担证据叙述、处置建议草稿、跨域关联说明与评估报告生成。",
       href: "/products/abonayaoer",
     },
     {
-      icon: "shield",
       title: "网络与数据安全",
       description: "身份认证、加密审计、大模型安全护栏与数字孪生主动防御，为元隐测绘提供安全工程基础。",
       href: "/capabilities#security",

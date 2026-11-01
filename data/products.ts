@@ -3,7 +3,6 @@ import type { Product } from "@/types";
 
 /**
  * 核心产品
- * - featured: true 的产品出现在首页“核心产品”三列卡片中（按 order 排序，建议保持 3 个）
  * - 每个产品自动生成详情页 /products/[slug]
  * - stats / architecture / plugins / technologies / security / techStack 为技术方案区块，
  *   有数据时详情页自动渲染，没有则不显示
@@ -11,7 +10,7 @@ import type { Product } from "@/types";
  *
  * 技术方案来源（研发仓库）：
  * - 破夜绘明变电站监测平台 ← DarkBreaker
- * - 主动 AI 智能体       ← Proactive AI Interface
+ * - 自主AI交互系统 ← Proactive AI Interface
  * - 智慧后勤 AI 助手     ← AI_assistant_
  */
 export const products: Product[] = [
@@ -19,32 +18,28 @@ export const products: Product[] = [
     slug: "poye-substation-monitoring",
     name: "破夜绘明变电站监测平台",
     nameEn: "DarkBreaker",
-    tag: "电力智能监测",
-    icon: "radar",
-    accent: "sky",
-    summary: `面向变电站巡视与监测。平台由 ${substationPluginCount} 个监测插件组成，覆盖主变、开关、表计、红外、声学、气体和电子围栏等，告警结果保留原图、置信度和模型版本。`,
-    status: `${substationPluginCount} 个插件已完成工程化集成和自动化测试，开关状态、热成像测温、室内围栏三条链路正在进行现场精度验收。`,
+    headline: "破夜绘明|变电站监测平台",
+    theme: "poye",
+    hero: { video: { src: "/videos/twin-orbit.mp4", poster: "/videos/twin-orbit.jpg" }, label: "破夜绘明的三维变电站模型，镜头绕站区缓慢旋转", kind: "stage" },
+    summary: `通过${substationPluginCount} 个自主AI监视插件本地部署实现实时告警，节省人工复核成本，且每条告警原图及相关信息保留90天以上。`,
+    status: `${substationPluginCount} 个插件都能单独部署，自动化测试已跑通。`,
     description:
-      "破夜绘明（DarkBreaker）是变电站巡视与监测平台。平台将主变、开关、母线、电容器、表计、红外、声学、气体、电子围栏等巡视内容拆分为独立插件，各插件可单独开发、测试和部署，结果统一进入任务调度、证据库和数字孪生。值班人员可在三维场景中查看告警对应的设备，并调阅当时的原图、局部画面、置信度和模型版本。未完成现场验收的能力在界面上单独标注，不作为正式告警。",
+      "破夜绘明（DarkBreaker）是变电站巡视与监测平台。平台将主变、开关、母线、电容器、表计、红外、声学、气体、电子围栏等巡视内容拆分为独立插件，各插件可单独开发、测试和部署，结果统一进入任务调度、证据库和数字孪生。值班人员可在三维场景中查看告警对应的设备，并调阅当时的原图、局部画面、置信度和模型版本。",
     features: [
       {
-        icon: "eye",
         title: "夜间和雨雾天气下的监测",
         description:
           "除可见光外，平台接入红外热像、激光雷达和毫米波雷达。图像模糊、眩光或过暗时，由输入质量门拦截并提示复核。",
       },
       {
-        icon: "scan",
         title: "定位到部件的缺陷识别",
         description: "主变先定位本体、套管、避雷器等 15 类构件，再逐一识别；开关分合位由视频和遥信两路比对。结果附位置、置信度和原因码。",
       },
       {
-        icon: "shield",
         title: "人员、动物、烟火和气体告警",
         description: "覆盖电子围栏越界、未戴安全帽、小动物和鸟类进站、烟火以及 SF₆ 等气体浓度异常，按等级推送并给出处置建议。",
       },
       {
-        icon: "layers",
         title: "三维定位与区域总览",
         description: "告警在三维孪生中定位到设备或机柜。区域地图支持从多站总览进入单站驾驶舱和具体房间。",
       },
@@ -61,7 +56,7 @@ export const products: Product[] = [
     demo: {
       title: "110kV 主变 AI 自主巡视实录",
       description:
-        "110kV 变电站主变 AI 自主巡视现场实录（已倍速与脱敏处理），逐段讲解每个巡视环节在破夜绘明变电站监测平台中由哪个插件承接，以及各项能力的当前验收状态。时长约 3 分 17 秒。",
+        "110kV 变电站主变 AI 自主巡视现场实录（已倍速与脱敏处理），逐段讲解每个巡视环节在破夜绘明变电站监测平台中由哪个插件承接。时长约 3 分 17 秒。",
       video: {
         src: "/videos/poye-substation-patrol-demo.mp4",
         poster: "/videos/poye-substation-patrol-demo-poster.jpg",
@@ -107,7 +102,6 @@ export const products: Product[] = [
           caption: "二次设备楼三维场景，覆盖主控室、开关柜室、蓄电池室与电缆层；点击机柜、围栏或传感器即可查看对象详情与关联插件。",
         },
       ],
-      note: "截图来自演示环境，未接入现场数据，设备状态显示为“待接入”。",
     },
     twin: {
       description:
@@ -117,12 +111,11 @@ export const products: Product[] = [
         poster: "/videos/poye-digital-twin-loop-poster.jpg",
       },
       steps: [
-        { icon: "map", title: "区域态势", description: "按电压等级和行政区筛选站点，点击站点进入单站页面。" },
-        { icon: "network", title: "单站驾驶舱", description: "主接线图呈现一次设备拓扑，室内、室外告警在同一张图上对照。" },
-        { icon: "layers", title: "室外三维孪生", description: "站区一次设备三维建模，支持旋转、缩放与俯视 / 正视切换。" },
-        { icon: "building", title: "室内三维孪生", description: "二次设备楼分楼层、分房间建模，告警定位到具体机柜与设备。" },
+        { title: "区域态势", description: "按电压等级和行政区筛选站点，点击站点进入单站页面。" },
+        { title: "单站驾驶舱", description: "主接线图呈现一次设备拓扑，室内、室外告警在同一张图上对照。" },
+        { title: "室外三维孪生", description: "站区一次设备三维建模，支持旋转、缩放与俯视 / 正视切换。" },
+        { title: "室内三维孪生", description: "二次设备楼分楼层、分房间建模，告警定位到具体机柜与设备。" },
       ],
-      note: "演示画面使用平台默认站区布局，非现场测绘数据。",
     },
     field: {
       description: "以下画面截取自 110kV 变电站主变巡视实录。",
@@ -164,11 +157,11 @@ export const products: Product[] = [
           plugin: "meter_reading",
         },
       ],
-      note: "画面截取自本页演示视频，已去除字幕和站点信息。现场精度以试点验收为准。",
+      note: "画面截取自本页演示视频，已去除字幕和站点信息。",
     },
     stats: [
       { value: String(substationPluginCount), label: "标准化监测插件" },
-      { value: "4 类", label: "视觉 · 时序 · 融合 · 空间" },
+      { value: "4 类", label: "视觉、时序、融合、空间" },
       { value: "1200+", label: "自动化测试用例" },
       { value: "7 维", label: "现场验收契约" },
     ],
@@ -210,41 +203,35 @@ export const products: Product[] = [
     plugins: {
       description: `已开发 ${substationPluginCount} 个监测插件，按感知方式分为四类。每个插件都以「代码 + 清单 + 配置 + 测试」四件套交付，可在平台内统一调度，也可单独部署为独立服务。`,
       groups: substationPluginGroups,
-      note: "插件验收要求：按平台接口接入运行；给定回放数据时结果可复现；输出包含检测框、关键点、置信度或失败原因码；输出包含模型版本和代码哈希；提供 README、配置样例和最小单元测试。现场精度以试点数据验收为准，未验收的能力在系统中单独标注，不作为正式告警依据。",
+      note: "插件验收要求：按平台接口接入运行；给定回放数据时结果可复现；输出包含检测框、关键点、置信度或失败原因码；输出包含模型版本和代码哈希；提供 README、配置样例和最小单元测试。",
     },
     technologies: [
       {
-        icon: "puzzle",
         title: "插件独立部署与升级",
         description:
           "统一插件基类与结果格式（UnifiedResult），插件以四件套交付、可热插拔与独立升级；每个插件都能脱离主平台独立启动，自带仪表板、健康检查与 OpenAPI 文档。",
       },
       {
-        icon: "scan",
         title: "深度学习检测与跟踪",
         description:
           "YOLOv8 / ViT 目标检测、关键点检测、DeepSORT / ByteTrack 多目标跟踪；模型统一导出 ONNX，经 ONNX Runtime 在 CPU、GPU 与边缘设备上推理。",
       },
       {
-        icon: "waveform",
         title: "声学、气体和光谱分析",
         description:
           "STFT 声学特征与 CNN-LSTM 声学异常检测、GL-TransLSTM 气体趋势预测、RX / SAM 高光谱异常分析，并在统一时间轴上与视觉结果融合诊断。",
       },
       {
-        icon: "layers",
         title: "三维数字孪生",
         description:
           "基于 Three.js 的室内外数字孪生，布局与告警归因共用同一设备 ID，插件报出的问题直接在三维场景中高亮定位；支持从区域态势逐级下钻。",
       },
       {
-        icon: "history",
         title: "结果回放与复现",
         description:
           "每次识别保存原图、ROI、结果、置信度、时间戳与模型版本，形成不可变证据链；给定回放数据，识别结果可完整复现，便于复核与追责。",
       },
       {
-        icon: "workflow",
         title: "模型分阶段晋级",
         description:
           "模型按「候选 → 影子 → 验收 → 生效」分阶段晋级；训练集、冻结测试集与现场集按分组键与 SHA-256 严格隔离，影子运行通过后才产生正式告警。",
@@ -254,33 +241,27 @@ export const products: Product[] = [
       description: "平台在没有真实数据源时返回“不可用”，不生成读数。每条结果可追溯到数据来源，查询和写入的边界由自动化测试检查。",
       items: [
         {
-          icon: "shield",
           title: "运行档位隔离",
           description:
             "生产、现场、影子、演示、测试五档运行档位：生产档禁止模拟数据，现场档只探测本站授权设备，影子档只推理不告警；未声明时默认取最严档。",
         },
         {
-          icon: "filecheck",
           title: "数据真实性约束",
           description: "没有真实数据源时返回“不可用”，不生成读数。演示数据全程标注为合成数据，不进入生产告警。",
         },
         {
-          icon: "database",
           title: "不可变证据链",
           description: "证据记录只增不改，每次运行绑定模型版本、配置摘要与数据集版本，做到可回放、可回滚、可追责。",
         },
         {
-          icon: "fingerprint",
           title: "构建溯源自证",
           description: "每个运行实例可自证构建版本、分支、工作区状态与运行档位，界面常驻构建标识，杜绝「代码已修复、线上仍是旧版本」。",
         },
         {
-          icon: "lock",
           title: "只读查询无副作用",
           description: "状态查询不触发设备初始化，插件初始化阶段不得注入任何告警；读写边界由自动化测试持续校验。",
         },
         {
-          icon: "server",
           title: "部署与网络隔离",
           description: "Docker 容器化部署、Nginx HTTPS 反向代理；插件独立进程运行、故障隔离；配置文件不存放密钥与凭证。",
         },
@@ -293,40 +274,32 @@ export const products: Product[] = [
       { category: "前端与可视化", items: ["Jinja2", "Bootstrap 5", "Chart.js", "Three.js", "Leaflet"] },
       { category: "工程化", items: ["pytest", "ruff", "mypy", "Docker", "Nginx", "PyInstaller"] },
     ],
-    featured: true,
     order: 1,
   },
   {
     slug: "abonayaoer",
     name: "艾博纳幺儿",
     nameEn: "Abonayaoer",
-    tag: "自研大模型",
-    icon: "brain",
-    accent: "cyan",
-    summary:
-      "公司自研的行业大模型，已完成阶段性内部验证，计划用于规程问答、报告起草和设备数据分析，支持内网部署。",
-    status: "已完成阶段性内部验证，尚未在客户现场试点，评测结果暂未公开。",
+    theme: "yaoer",
+    figure: { src: "/images/brand/yaoer.webp", width: 1152, height: 1194, alt: "艾博纳幺儿的形象：穿深蓝立领外套的卡通人物，胸前有公司标志" },
+    summary: "公司自己研发的行业大模型，用来查规程、起草报告和分析设备数据，可以装在客户内网。",
     // 【占位】请补充模型参数规模、评测结果等经确认可公开的信息
     description:
-      "「艾博纳幺儿」（Abonayaoer）是公司自主研发的行业大模型，已完成阶段性内部验证，尚未在客户现场试点。模型计划用于规程问答、报告初稿起草和设备数据分析，可部署在客户服务器上，数据不出客户网络。参数规模和评测结果将在确认后公布。",
+      "「艾博纳幺儿」（Abonayaoer）是公司自研的行业大模型，用于回答规程问题、起草报告初稿和分析设备数据。模型可以装在客户服务器上，数据不出客户网络。",
     features: [
       {
-        icon: "brain",
         title: "规程问答并标注出处",
         description: "将规程标准和设备台账纳入检索库，回答时注明引用的条款和文件。",
       },
       {
-        icon: "layers",
         title: "设备数据分析",
         description: "对测温、负荷等表格和时序数据进行汇总，给出结论和对应的数据点，供运维人员判断。",
       },
       {
-        icon: "network",
         title: "起草报告初稿",
         description: "通过工具调用完成资料检索、数据汇总和报告起草，每一步可查看，定稿和签发由人负责。",
       },
       {
-        icon: "shield",
         title: "部署在客户内网",
         description: "模型和检索库部署在客户服务器上，数据不出客户网络，并保留访问记录。",
       },
@@ -338,41 +311,34 @@ export const products: Product[] = [
     ],
     demo: {
       title: "模型演示",
-      description: "在线体验入口建设中。欢迎联系我们获取演示账号或预约现场演示。",
+      description: "欢迎联系我们获取演示账号或预约现场演示。",
     },
-    featured: true,
     order: 2,
   },
   {
     slug: "proactive-ai-agent",
-    name: "主动 AI 智能体",
+    name: "自主AI交互系统",
     nameEn: "Proactive AI Agent",
-    tag: "主动智能",
-    icon: "bot",
-    accent: "ocean",
+    theme: "agent",
+    hero: { video: { src: "/videos/duty-briefing.mp4", poster: "/videos/duty-briefing.jpg" }, label: "自主AI交互系统界面：虚拟同事语音汇报，右侧是按优先级排序的风险卡片", kind: "stage" },
     summary:
-      "面向变电站值守。系统接入电子围栏、人员违章和鸟类监测三路事件，由虚拟同事按优先级语音汇报结论、位置、依据和建议，值守人员回应后继续汇报下一项。",
-    status: "演示和回放模式可完整运行。现场数据源尚未接入，现场精度未验收，设备控制权限保持关闭。",
+      "平台汇报由虚拟同事“幺儿”用语音交互，遇到紧急事件会主动电话通知负责人员并告知事件原因、位置、依据和执行建议。",
     description:
-      "主动 AI 智能体（主动 AI 值守交互系统）接入电子围栏、人员违章、鸟类监测三路插件，界面分为一级主控面板和二级插件对话。虚拟同事按优先级主动汇报，值守人员可通过点按或语音确认已阅、拟工单、切换下一项或追问原因。系统只提供建议，不控制设备，工单为草稿。目前在演示和回放模式下运行，完成现场签核前，顶栏持续显示现场精度未验证。",
+      "自主AI交互系统接入电子围栏、人员违章、鸟类监测三路插件，界面分为一级主控面板和二级插件对话。虚拟同事按优先级主动汇报，值守人员可通过点按或语音确认已阅、拟工单、切换下一项或追问原因。系统只提供建议，不控制设备，工单为草稿。",
     features: [
       {
-        icon: "lightbulb",
         title: "按优先级主动汇报",
         description: "按结论、对象与位置、依据、建议的顺序播报最高优先事项，单次 8–12 秒。同一事项 60 秒内不重复，最高优先项变化时才插入新汇报。",
       },
       {
-        icon: "workflow",
         title: "逐项汇报与确认",
         description: "主动汇报 → 回应（已阅 / 拟工单 / 下一项）→ 续报下一项 → 超时催办 → 事项消失回报「不再检出」→ 本轮小结。",
       },
       {
-        icon: "users",
         title: "按岗位调整汇报内容",
         description: "值班员侧重现场动作，主管侧重影响范围和处置时限，专家侧重指标和证据，管理层侧重合规与决策。",
       },
       {
-        icon: "layers",
         title: "与数字孪生联动",
         description: "室内数字孪生地图包含六个房间、近三百个设备对象，汇报时镜头和指向转到对应位置。",
       },
@@ -387,7 +353,7 @@ export const products: Product[] = [
     demo: {
       title: "值守交互演示",
       description:
-        "演示回放模式下的一轮值守，包括围栏越线告警、确认已阅、拟工单、切换主管角色和二级对话追问。语音为本地离线合成，时长约 1 分 25 秒。",
+        "一轮值守演示，包括围栏越线告警、确认已阅、拟工单、切换主管角色和二级对话追问。语音为本地离线合成，时长约 1 分 25 秒。",
       video: {
         src: "/videos/proactive-ai-duty-demo.mp4",
         poster: "/videos/proactive-ai-duty-demo-poster.jpg",
@@ -400,42 +366,36 @@ export const products: Product[] = [
       steps: [
         {
           actor: "system",
-          icon: "database",
           title: "事件汇聚",
           description: "电子围栏、人员违章、鸟类监测三路插件事件统一入库，带序号与证据引用，去重、乱序后实时推送。",
           points: ["三路插件", "去重 / 乱序", "SSE 推送"],
         },
         {
           actor: "system",
-          icon: "gauge",
           title: "可解释排序",
           description: "按严重度、时效、插件与角色加权计算优先分，紧急项永远排在观察项之前；分数只决定顺序，不改写插件原始等级。",
           points: ["优先分 S", "权重热加载"],
         },
         {
           actor: "system",
-          icon: "volume",
           title: "主动汇报",
           description: "虚拟同事按结论、对象与位置、依据、建议的顺序播报最高优先项，并在数字孪生上指示位置。",
           points: ["四拍播报", "孪生联动", "60 秒不重复"],
         },
         {
           actor: "human",
-          icon: "usercheck",
           title: "值守回应",
           description: "点按或语音回应：确认已阅、拟工单、下一项，或直接追问「为什么先报这条」；关键指令识别置信不足时先反问、不执行。",
           points: ["确认已阅", "拟工单", "下一项", "语音追问"],
         },
         {
           actor: "system",
-          icon: "clock",
           title: "续报与催办",
           description: "回应后接着报下一项；超时未回应自动催办；只有最高项切换时才插话，不反复打扰。",
           points: ["续报下一项", "超时催办"],
         },
         {
           actor: "system",
-          icon: "checklist",
           title: "收尾小结",
           description: "事项消失时主动回报「不再检出」，一轮结束给出本轮小结；工单始终只是建议草稿。",
           points: ["不再检出", "本轮小结"],
@@ -443,22 +403,23 @@ export const products: Product[] = [
       ],
       loop: "新事件进入，开始下一轮汇报",
       guardrails: [
-        { icon: "hardhat", title: "不控制设备", description: "自动执行权限在代码中锁定关闭，工单仅为建议草稿，处置由人完成。" },
-        { icon: "eye", title: "状态标注", description: "现场精度、人工复核和控制权限的状态常驻顶栏，现场签核前不可关闭。" },
-        { icon: "users", title: "岗位权限", description: "汇报内容按岗位调整，权限由身份决定，不随话术角色变化。" },
-        { icon: "layers", title: "两级界面", description: "一级主控面板显示全局情况，点击卡片或通过语音进入二级插件对话。" },
+        { title: "不控制设备", description: "自动执行权限在代码中锁定关闭，工单仅为建议草稿，处置由人完成。" },
+        { title: "状态标注", description: "人工复核和控制权限的状态常驻顶栏。" },
+        { title: "岗位权限", description: "汇报内容按岗位调整，权限由身份决定，不随话术角色变化。" },
+        { title: "两级界面", description: "一级主控面板显示全局情况，点击卡片或通过语音进入二级插件对话。" },
       ],
     },
     screens: {
       device: "desktop",
       description: "界面由数字孪生地图、虚拟同事和风险卡片三部分组成。",
+      cover: 3,
       items: [
         {
           src: "/images/products/proactive-ai/l1-proactive-briefing.jpg",
           width: 2400,
           height: 1350,
           title: "一级主控 · 主动汇报",
-          alt: "主动 AI 一级主控面板：左侧数字孪生高亮开关柜位置，中间虚拟同事指向孪生地图，右侧为当前最高项与风险卡片",
+          alt: "自主AI交互系统一级主控面板：左侧数字孪生高亮开关柜位置，中间虚拟同事指向孪生地图，右侧为当前最高项与风险卡片",
           caption:
             "虚拟同事播报当前最高优先项并指向数字孪生上的对应机柜。右侧为最高项速览、汇报进度和风险卡片。",
         },
@@ -487,11 +448,10 @@ export const products: Product[] = [
           caption: "点击风险卡片进入插件对话，可追问汇报依据。",
         },
       ],
-      note: "画面来自演示回放模式，非现场数据。",
     },
     stats: [
       { value: "3 路", label: "监测插件统一接入" },
-      { value: "4 拍", label: "结论 · 位置 · 依据 · 建议" },
+      { value: "4 拍", label: "结论、位置、依据、建议" },
       { value: "4 种", label: "岗位角色差异化话术" },
       { value: "≈0.2 秒", label: "本地语音识别出字" },
     ],
@@ -521,42 +481,36 @@ export const products: Product[] = [
         {
           name: "安全与审计层",
           description: "认证、授权与可信边界",
-          items: ["OIDC 代理 / JWT 认证", "身份权限天花板", "审计与业务同事务", "现场精度与控制权限可信标注"],
+          items: ["OIDC 代理 / JWT 认证", "身份权限天花板", "审计与业务同事务", "控制权限可信标注"],
         },
       ],
     },
     technologies: [
       {
-        icon: "gauge",
         title: "可解释优先级",
         description:
           "优先分 S = ws·严重度 + wt·时效 + wp·插件 + wr·角色，权重热加载并经不变式校验，保证紧急项永远排在观察项之前；分数只决定排序，不改写插件原始等级。",
       },
       {
-        icon: "message",
         title: "受约束对话编排",
         description:
           "解析器不认识的问题先检索当前卡片与知识库，再由可选的大模型返回只含引用编号的结构化声明，最后由本地规则组织回答。系统只作答、反问或拒绝控制请求。",
       },
       {
-        icon: "mic",
         title: "本地语音识别",
         description:
           "SenseVoice-Small 出文字，流式 Zipformer 做第二意见计算识别置信度，离线 CPU 运行，停说到出字约 0.2 秒；关键指令置信不足时先反问、不执行。",
       },
       {
-        icon: "volume",
         title: "本地语音合成",
         description: "Kokoro-82M 本地声线（沉稳专业 / 稍活泼专业），配套电力领域发音词典与 G2P，130 句黄金发音句双声线回归验证。",
       },
       {
-        icon: "database",
         title: "事件汇聚与实时推送",
         description:
           "统一事件库记录序号、游标、模型与配置版本及证据引用，支持去重与乱序；SSE 增量推送，实时模式断流时停止，不切换为演示数据。",
       },
       {
-        icon: "filecheck",
         title: "电力安全专业词库",
         description: "三路插件 18 个事件码逐一给出术语、依据、建议、处置步骤与时限；卡片与口播只使用规范中文表述，原始字段仅向专家展开。",
       },
@@ -565,32 +519,26 @@ export const products: Product[] = [
       description: "身份决定权限上限，模型只能返回编号和引用，自动执行权限在代码中锁定为关闭。已阅、拟工单等操作与审计记录在同一事务中提交。",
       items: [
         {
-          icon: "key",
           title: "标准身份认证",
           description: "支持受信反向代理（OIDC）与标准 JWT / JWKS 认证，拒绝算法混淆攻击；令牌内容从不写入日志。",
         },
         {
-          icon: "usercheck",
           title: "最小权限",
           description: "身份决定权限天花板，话术角色只能收窄、不能提权；审计与指标权限需显式授予，响应离开服务前再按权限二次裁剪。",
         },
         {
-          icon: "lock",
           title: "会话与 Web 安全",
           description: "HMAC 签名会话 Cookie（HttpOnly / SameSite / Secure），CSRF 双提交令牌与同源校验；全站 CSP、HSTS、X-Frame-Options 等安全响应头。",
         },
         {
-          icon: "shield",
           title: "大模型使用限制",
           description: "提示注入与凭据类内容在发送前拦截；模型只能返回枚举代码与引用编号，「允许控制」字段类型固定为 false，越界输出触发熔断。",
         },
         {
-          icon: "hardhat",
           title: "控制权限锁死",
-          description: "自动执行权限在代码中锁定为关闭，工单仅为建议草稿；现场精度未验收前始终明确标注，风险不可评估时不得按安全处理。",
+          description: "自动执行权限在代码中锁定为关闭，工单仅为建议草稿；风险不可评估时不得按安全处理。",
         },
         {
-          icon: "history",
           title: "审计一致性",
           description: "已阅、工单、状态迁移与审计记录在同一事务中提交，审计失败即回滚；乐观并发控制防止多人操作相互覆盖。",
         },
@@ -603,39 +551,32 @@ export const products: Product[] = [
       { category: "大模型（可选）", items: ["Ollama 本地部署", "Qwen 等开源模型", "JSON Schema 结构化输出"] },
       { category: "安全", items: ["OIDC", "JWT / JWKS", "HMAC", "CSP"] },
     ],
-    featured: true,
     order: 3,
   },
   {
     slug: "smart-logistics-assistant",
     name: "智慧后勤 AI 助手",
     nameEn: "Smart Logistics AI Assistant",
-    tag: "后勤智能服务",
-    icon: "mic",
-    accent: "indigo",
-    summary:
-      "面向企业后勤的语音助手，首个业务为访客预约。员工通过语音提出申请，助手生成确认卡，本人确认后提交业务系统。",
-    status: "六个研发阶段已完成复验，部署包已就绪。尚未在客户环境和真实语音下测试，效率指标待试点实测。",
+    theme: "logi",
+    hero: { video: { src: "/videos/logistics-flow.mp4", poster: "/videos/logistics-flow.jpg" }, label: "智慧后勤助手操作录屏：输入一句话，生成确认卡，确认后返回申请单号", kind: "phone" },
+    summary: "员工说一句话发起访客预约，助手生成确认卡，本人点确认后才提交业务系统。",
+    status: "访客预约流程已走通，部署包已备好。",
     description:
-      "智慧后勤 AI 助手是《面向后勤多场景服务的人工智能助手关键技术研究》的落地成果，首个试点业务为访客到访预约的创建与审批。助手以语音为主、文本为辅，既可独立部署，也可嵌入企业移动办公 App；大模型、语音识别与意图模型全部内网私有化部署，所有业务操作必须由用户在确认卡上点击确认后才会执行。",
+      "智慧后勤 AI 助手是《面向后勤多场景服务的人工智能助手关键技术研究》的落地成果，首个业务为访客到访预约的创建与审批。助手以语音为主、文本为辅，既可独立部署，也可嵌入企业移动办公 App；大模型、语音识别与意图模型全部内网私有化部署，所有业务操作必须由用户在确认卡上点击确认后才会执行。",
     features: [
       {
-        icon: "mic",
         title: "语音办理",
         description: "转写 16k 中文语音，进行口语清洗和术语纠错，并将“下周三下午两点到四点”这类说法转换为标准时间。",
       },
       {
-        icon: "brain",
         title: "识别意图并抽取预约信息",
         description: "MacBERT 意图模型结合对话状态识别六类意图；信息抽取规则优先，规则抽不出时才调用大模型补全，输出固定结构。",
       },
       {
-        icon: "checklist",
         title: "缺项追问与冲突确认",
         description: "信息缺失时向用户追问，日期、被访人等存在冲突时标红并由用户选择。用户点击确认前不调用业务接口。",
       },
       {
-        icon: "network",
         title: "确认后调用业务接口",
         description: "业务接口统一注册为 MCP 工具，编排引擎只认工具名；幂等键防止重复提交，接口超时重试一次仍失败则保留草稿。",
       },
@@ -644,7 +585,7 @@ export const products: Product[] = [
       "员工在移动办公 App 中通过语音发起访客预约",
       "被访人收到申请后点击同意或驳回",
       "以页面形式嵌入宿主 App，身份由宿主传入并校验",
-      "验收后扩展到会务、报修和餐饮预订",
+      "可扩展到会务、报修和餐饮预订",
     ],
     demo: {
       title: "助手演示",
@@ -722,32 +663,26 @@ export const products: Product[] = [
     },
     technologies: [
       {
-        icon: "database",
         title: "可维护的术语规则库",
         description: "事由、部门、手机号段、姓氏、口语词等规则库以 YAML 维护，业务方可直接修改、重启生效；语音识别热词由规则库自动生成。",
       },
       {
-        icon: "clock",
         title: "时间口语归一",
         description: "支持相对日、星期、绝对日期、时段、钟点、区间与时长等多种说法；推断项降低置信并标注，矛盾或已过去的时间不填写、提示用户。",
       },
       {
-        icon: "fingerprint",
         title: "号码只认规则",
         description: "身份证按 GB 11643 校验位与出生日期校验，手机号按号段校验；任何模型都不生成、不补全号码，大模型输出中的号码一律丢弃。",
       },
       {
-        icon: "brain",
         title: "大模型输出校验",
         description: "大模型只在规则失败且原话有线索时调用；抽取结果必须是用户原话的子串。提示词只组装宿主摘要、缺项摘要、最近两轮与当前句。",
       },
       {
-        icon: "workflow",
         title: "状态机与确认门",
         description: "状态转移表与技术方案逐条一致，非法转移直接拒绝；执行节点只能由带卡片编号与版本号的点击确认触发，模型无法直接触发执行。",
       },
       {
-        icon: "zap",
         title: "故障降级",
         description: "大模型连续失败自动熔断并转为表单确认，意图模型未就绪回退规则分类，语音不可用提示改用文字；任何情况下都不转调外部模型。",
       },
@@ -756,32 +691,26 @@ export const products: Product[] = [
       description: "访客信息包含身份证号和手机号。助手只采集办理所需字段，语音转写后立即丢弃，日志中的号码脱敏，每次提交均记录审计。",
       items: [
         {
-          icon: "usercheck",
           title: "身份校验与防越权",
           description: "身份由宿主 App 经 URL 传入，可选 HMAC-SHA256 签名防篡改；创建用申请人身份，审批只认被访人本人，口头“同意”无效。",
         },
         {
-          icon: "lock",
           title: "敏感数据保护",
           description: "证件号、手机号全局日志掩码（含异常堆栈）；审计中的提交内容 AES-256-GCM 加密；不拉取、不缓存组织树与通讯录。",
         },
         {
-          icon: "mic",
           title: "音频即删",
           description: "语音只在内存中转写，转写后立即丢弃，不落盘、不入日志、不进提示词；照片不识别、不进入模型；无跨会话记忆。",
         },
         {
-          icon: "shield",
           title: "嵌入与传输安全",
           description: "CSP frame-ancestors 白名单只允许指定宿主嵌入；Referrer-Policy: no-referrer，访问日志去除查询串；会话令牌只存页面内存。",
         },
         {
-          icon: "server",
           title: "模型与接口边界",
           description: "大模型地址守卫只允许内网私有化模型，配置不合规拒绝启动；MCP 端点需令牌或仅本机访问，创建与审批工具须带确认凭据。",
         },
         {
-          icon: "history",
           title: "全程审计",
           description: "会话、意图类别、确认人、工具调用、幂等键、单号与结果码全部入审计；越权尝试即时记录；审计按保存期自动清理。",
         },
@@ -794,7 +723,6 @@ export const products: Product[] = [
       { category: "前端", items: ["Vue 3", "Vite", "Vant 4", "TypeScript"] },
       { category: "部署运维", items: ["Linux x86_64", "systemd", "Nginx", "一键安装 / 升级 / 回滚"] },
     ],
-    featured: false,
     order: 4,
   },
 ];

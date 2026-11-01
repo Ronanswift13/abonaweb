@@ -1,0 +1,4 @@
+D-DIN-Regular.woff2 and D-DIN-Bold.woff2 are the D-DIN typeface by Datto, Inc.
+Source: https://github.com/amcchord/datto-d-din
+This Font Software is licensed under the SIL Open Font License, Version 1.1,
+available at https://openfontlicense.org/open-font-license-official-text/

@@ -49,3 +49,6 @@ deploy/nginx/certs/
 # ACME 临时校验文件与 Nginx 日志
 deploy/nginx/acme/
 deploy/nginx/logs/
+
+# 静态视觉原型，只在本地看，不上线（见 DESIGN.md）
+/public/prototype/

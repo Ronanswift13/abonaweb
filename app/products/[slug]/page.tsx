@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CirclePlay } from "lucide-react";
 
 import { CaseCard } from "@/components/cards/CaseCard";
-import { CTA } from "@/components/sections/CTA";
-import { PageHeader } from "@/components/sections/PageHeader";
 import { FieldPhotos, InteractionFlow, PhoneScreens, TwinShowcase } from "@/components/sections/ProductMedia";
 import {
   ArchitectureStack,
@@ -14,12 +13,15 @@ import {
   ProductStats,
   TechStack,
 } from "@/components/sections/ProductTech";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { LoopVideo } from "@/components/ui/LoopVideo";
+import { Phrases } from "@/components/ui/Phrases";
 import { ScreenGallery } from "@/components/ui/ScreenGallery";
 import { SectionNav } from "@/components/ui/SectionNav";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { home } from "@/data/home";
+import { TextLink } from "@/components/ui/TextLink";
 import { getAllProducts, getCasesByProduct, getProduct } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
@@ -29,16 +31,19 @@ interface DetailSection extends SectionIntro {
   id: string;
   /** 页内导航上的短名称 */
   label: string;
+  /** side：标题吸顶在左、内容在右，用于文字条目；默认通栏，用于图片和图表 */
+  layout?: "side";
   content: React.ReactNode;
 }
 
-/** 按产品已有的数据组装详情页区块；没有数据的区块不出现，导航与背景交替随之调整 */
+/** 按产品已有的数据组装详情页区块；没有数据的区块不出现，导航随之调整 */
 function buildSections(product: Product): DetailSection[] {
   const sections: (DetailSection | false)[] = [
     {
       id: "features",
       label: "核心功能",
       title: "核心功能",
+      layout: "side",
       content: <FeatureGrid items={product.features} />,
     },
     !!product.flow && {
@@ -59,7 +64,7 @@ function buildSections(product: Product): DetailSection[] {
         ) : (
           <>
             <ScreenGallery items={product.screens.items} label={`${product.name}界面截图`} />
-            {product.screens.note && <p className="mt-6 text-xs leading-relaxed text-ink-400">注：{product.screens.note}</p>}
+            {product.screens.note && <p className="mt-6 max-w-[38em] text-[15px] leading-relaxed">注：{product.screens.note}</p>}
           </>
         ),
     },
@@ -107,16 +112,18 @@ function buildSections(product: Product): DetailSection[] {
       id: "technology",
       label: "关键技术",
       title: "关键技术",
-      content: <FeatureGrid items={product.technologies} columns={3} />,
+      layout: "side",
+      content: <FeatureGrid items={product.technologies} />,
     },
     {
       id: "scenarios",
       label: "应用场景",
       title: "应用场景",
+      layout: "side",
       content: (
-        <ul className="mt-8 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+        <ul className="space-y-3">
           {product.scenarios.map((scenario) => (
-            <li key={scenario} className="border-t border-ink-200 pt-3 text-[15px] leading-relaxed text-ink-700">
+            <li key={scenario} className="max-w-[36em]">
               {scenario}
             </li>
           ))}
@@ -128,16 +135,130 @@ function buildSections(product: Product): DetailSection[] {
       label: "安全设计",
       title: "安全设计",
       description: product.security.description,
-      content: <FeatureGrid items={product.security.items} columns={3} />,
+      layout: "side",
+      content: <FeatureGrid items={product.security.items} />,
     },
     !!product.techStack?.length && {
       id: "stack",
       label: "技术栈",
       title: "技术栈",
+      layout: "side",
       content: <TechStack groups={product.techStack} />,
     },
   ];
   return sections.filter((s): s is DetailSection => s !== false);
+}
+
+function DetailBlock({ section }: { section: DetailSection }) {
+  const side = section.layout === "side";
+  return (
+    <section id={section.id}>
+      <Container className={cn("py-16 sm:py-20", side && "grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-14")}>
+        <div className={cn(side && "lg:sticky lg:top-40 lg:self-start")}>
+          <SectionHeading title={section.title} description={section.description} />
+        </div>
+        <div>{section.content}</div>
+      </Container>
+    </section>
+  );
+}
+
+/** 产品名 + 一句话说明 + 现状 + 动作 */
+function HeroCopy({ product }: { product: Product }) {
+  const hasVideo = !!product.demo?.video;
+  return (
+    <>
+      <Breadcrumbs
+        items={[
+          { label: "产品与解决方案", href: "/products" },
+          { label: product.name, href: `/products/${product.slug}` },
+        ]}
+      />
+      <h1
+        className={cn(
+          "mt-10",
+          product.hero
+            ? "text-[2.5rem] leading-[1.14] sm:text-6xl lg:text-[clamp(2.75rem,4vw,4rem)]"
+            : "text-[3.25rem] leading-none lg:text-[clamp(3.5rem,9vw,9.5rem)]",
+        )}
+      >
+        <Phrases text={product.headline ?? product.name} />
+      </h1>
+      <p className="mt-5 max-w-[32em]">{product.summary}</p>
+      {product.status && <p className="mt-3 max-w-[32em]">{product.status}</p>}
+      <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <ButtonLink
+          href={hasVideo ? "#demo" : "/contact#solution"}
+          variant="theme"
+          icon={hasVideo ? <CirclePlay className="size-5" aria-hidden="true" /> : undefined}
+        >
+          {hasVideo ? "看演示视频" : "看合作流程"}
+        </ButtonLink>
+        {hasVideo && <TextLink href="/contact#solution">看合作流程</TextLink>}
+      </div>
+    </>
+  );
+}
+
+/** 产品页头：视频铺满或竖屏录屏；没有界面的产品放人物形象 */
+function ProductHero({ product }: { product: Product }) {
+  const { hero, figure, theme } = product;
+
+  if (!hero) {
+    return (
+      <section data-nav={theme} className="relative overflow-clip lg:min-h-[calc(100svh-72px)]">
+        <Container className="relative z-10 pt-4 lg:pb-14">
+          <div className="lg:max-w-[52%]">
+            <HeroCopy product={product} />
+          </div>
+        </Container>
+        {figure && (
+          <Image
+            src={figure.src}
+            width={figure.width}
+            height={figure.height}
+            alt={figure.alt}
+            priority
+            sizes="(min-width: 1024px) 50vw, 90vw"
+            className="ml-auto mt-8 h-auto w-[86vw] max-w-[440px] lg:absolute lg:bottom-0 lg:right-[3vw] lg:mt-0 lg:h-[92%] lg:w-auto lg:max-w-none"
+          />
+        )}
+      </section>
+    );
+  }
+
+  if (hero.kind === "phone") {
+    return (
+      <section data-nav={theme} className="overflow-clip">
+        <Container className="flex flex-col gap-8 pt-4 lg:min-h-[calc(100svh-72px)] lg:flex-row lg:items-center lg:justify-between lg:gap-14">
+          <div className="max-w-[660px] lg:pb-14">
+            <HeroCopy product={product} />
+          </div>
+          <LoopVideo
+            video={hero.video}
+            label={hero.label}
+            className="mx-auto aspect-[780/1688] h-[118vw] max-h-[720px] w-auto rounded-t-[28px] object-cover object-top lg:mx-0 lg:mr-[8vw] lg:h-[calc(100svh-104px)] lg:max-h-none lg:self-end"
+          />
+        </Container>
+      </section>
+    );
+  }
+
+  return (
+    <section data-nav={theme} className="relative flex flex-col overflow-clip lg:block lg:min-h-[calc(100svh-72px)]">
+      <LoopVideo
+        video={hero.video}
+        label={hero.label}
+        className="order-2 h-[66vw] w-full object-cover object-[100%_30%] lg:absolute lg:inset-0 lg:h-full lg:object-[100%_50%]"
+      />
+      <div className="scrim-left absolute inset-0 hidden lg:block" aria-hidden="true" />
+      <Container className="relative z-10 order-1 pb-8 pt-4 lg:pb-14">
+        <div className="max-w-[640px]">
+          <HeroCopy product={product} />
+        </div>
+      </Container>
+    </section>
+  );
 }
 
 // 仅生成 data/products.ts 中存在的产品，其余路径返回 404
@@ -163,71 +284,20 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
   const sections = buildSections(product);
 
   return (
-    <>
-      <PageHeader
-        eyebrow={product.tag}
-        title={product.name}
-        description={product.description}
-        breadcrumbs={[
-          { label: "产品与解决方案", href: "/products" },
-          { label: product.name, href: `/products/${product.slug}` },
-        ]}
-      >
-        {product.nameEn && <p className="mt-2 text-lg font-semibold text-brand-700">{product.nameEn}</p>}
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/contact#solution" size="lg" arrow>
-            预约演示
-          </ButtonLink>
-          {product.demo && (
-            <ButtonLink
-              href="#demo"
-              variant="secondary"
-              size="lg"
-              icon={<CirclePlay className="size-5 text-brand-600" aria-hidden="true" />}
-            >
-              观看产品演示
-            </ButtonLink>
-          )}
-        </div>
-        {product.stats && <ProductStats stats={product.stats} note={product.statsNote} />}
-      </PageHeader>
+    <div data-product-theme={product.theme} className="bg-theme-bg text-theme-fg">
+      <ProductHero product={product} />
 
-      {sections.length > 2 && (
-        <SectionNav
-          items={[
-            ...sections.map(({ id, label }) => ({ id, label })),
-            ...(product.demo ? [{ id: "demo", label: "产品演示" }] : []),
-          ]}
-        />
-      )}
-
-      {/* 技术方案各区块（白 / 浅灰交替） */}
-      {sections.map((section, index) => (
-        <section key={section.id} id={section.id} className={cn("py-20", index % 2 === 1 && "bg-ink-50/70")}>
-          <Container>
-            <SectionHeading title={section.title} description={section.description} />
-            {section.content}
-          </Container>
-        </section>
-      ))}
-
-      {/* 产品演示：有视频时播放视频，否则显示预约演示占位卡 */}
-      {product.demo?.video && (
-        <section id="demo" className="py-20">
-          <Container>
-            <div className="rounded-2xl bg-night p-5 sm:p-8 lg:p-10">
-              <SectionHeading
-                title={product.demo.title}
-                description={product.demo.description}
-                invert
-                action={
-                  <ButtonLink href="/contact" variant="light">
-                    预约演示
-                  </ButtonLink>
-                }
-              />
+      <div data-nav={product.theme}>
+        {/* 演示视频放在页头之后：这是最能说明产品的内容 */}
+        {product.demo?.video && (
+          <section id="demo">
+            <Container className="grid gap-8 py-14 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,9fr)] lg:items-end lg:gap-14">
+              <div>
+                <h2 className="text-[1.75rem] leading-snug text-theme-heading sm:text-3xl">{product.demo.title}</h2>
+                <p className="mt-4">{product.demo.description}</p>
+              </div>
               <video
-                className="mt-8 aspect-video w-full rounded-2xl bg-black shadow-2xl ring-1 ring-white/15"
+                className="aspect-video w-full"
                 controls
                 playsInline
                 preload="metadata"
@@ -241,40 +311,52 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
                 </a>
                 观看。
               </video>
-            </div>
-          </Container>
-        </section>
-      )}
-      {product.demo && !product.demo.video && (
-        <section id="demo" className="py-20">
-          <Container>
-            {/* 暂无演示视频：不放播放按钮，直接说明如何预约 */}
-            <div className="rounded-2xl border border-dashed border-ink-200 bg-ink-50/60 p-8 sm:p-10">
-              <h2 className="text-2xl font-bold text-ink-900">{product.demo.title}</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-500 sm:text-base">{product.demo.description}</p>
-              <ButtonLink href="/contact" className="mt-6">
-                预约演示
+            </Container>
+          </section>
+        )}
+
+        {sections.length > 2 && (
+          <SectionNav
+            items={[
+              ...(product.demo?.video ? [{ id: "demo", label: "产品演示" }] : []),
+              ...sections.map(({ id, label }) => ({ id, label })),
+              ...(product.demo && !product.demo.video ? [{ id: "demo", label: "模型演示" }] : []),
+            ]}
+          />
+        )}
+
+        {product.stats && <ProductStats stats={product.stats} note={product.statsNote} />}
+
+        {sections.map((section) => (
+          <DetailBlock key={section.id} section={section} />
+        ))}
+
+        {/* 暂无演示视频：不放播放按钮，直接说明如何联系 */}
+        {product.demo && !product.demo.video && (
+          <section id="demo" className="pb-20">
+            <Container>
+              <SectionHeading title={product.demo.title} description={product.demo.description} />
+              <ButtonLink href="/contact" variant="theme" className="mt-6">
+                看联系方式
               </ButtonLink>
-            </div>
-          </Container>
-        </section>
-      )}
+            </Container>
+          </section>
+        )}
 
-      {/* 相关案例 */}
-      {relatedCases.length > 0 && (
-        <section className="pb-4 pt-4">
-          <Container>
-            <SectionHeading title="相关案例" />
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {relatedCases.map((item) => (
-                <CaseCard key={item.slug} item={item} />
-              ))}
-            </div>
-          </Container>
-        </section>
-      )}
-
-      <CTA content={home.cta} />
-    </>
+        {/* 相关案例 */}
+        {relatedCases.length > 0 && (
+          <section className="pb-20 sm:pb-24">
+            <Container className="grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-14">
+              <SectionHeading title="相关案例" />
+              <div>
+                {relatedCases.map((item) => (
+                  <CaseCard key={item.slug} item={item} showSummary />
+                ))}
+              </div>
+            </Container>
+          </section>
+        )}
+      </div>
+    </div>
   );
 }

@@ -1,78 +1,59 @@
 import Link from "next/link";
 
-import { ContactList } from "@/components/ui/ContactList";
 import { Container } from "@/components/ui/Container";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { Logo } from "@/components/ui/Logo";
-import { footerColumns } from "@/data/navigation";
+import { footerLinks } from "@/data/navigation";
 import { site } from "@/data/site";
+import { formatPhone } from "@/lib/utils";
 
-/** 页脚：公司信息 / 快速链接 / 联系方式 / 版权与备案 */
+/** 页脚：一条矮的深色带，放联系方式和备案信息 */
 export function Footer() {
   const year = new Date().getFullYear();
   const copyrightYears = year > site.foundedYear ? `${site.foundedYear}–${year}` : `${year}`;
+  const { contact } = site;
 
   return (
-    <footer className="bg-ink-900 text-white/75">
-      <Container>
-        <div className="grid gap-12 py-16 lg:grid-cols-12">
-          {/* 公司信息 */}
-          <div className="lg:col-span-4">
-            <Logo invert />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/75">{site.description}</p>
-            <p className="mt-4 text-xs text-white/65">{site.nameEn}</p>
-          </div>
-
-          {/* 链接分栏 */}
-          <div className="grid grid-cols-2 gap-8 lg:col-span-4">
-            {footerColumns.map((column) => (
-              <div key={column.title}>
-                <h3 className="text-sm font-semibold text-white">{column.title}</h3>
-                <ul className="mt-4 space-y-3">
-                  {column.links.map((link) => (
-                    <li key={link.href}>
-                      <Link href={link.href} className="text-sm transition-colors hover:text-white">
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* 联系方式 */}
-          <div className="lg:col-span-4">
-            <h3 className="text-sm font-semibold text-white">联系我们</h3>
-            <ContactList invert showQr className="mt-4" />
+    <footer data-nav="ink" className="bg-ink text-paper">
+      <Container className="py-7">
+        <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4">
+          <Logo invert />
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
+            <a href={`tel:${contact.phone}`} className="text-xl font-bold hover:underline">
+              {formatPhone(contact.phone)}
+            </a>
+            <span>{contact.name}</span>
+            <span>{site.serviceHours}</span>
+            <span className="inline-flex items-center gap-2">
+              微信 {contact.wechat}
+              <CopyButton value={contact.wechat} label="复制" className="border-paper/40 text-paper hover:border-paper" />
+            </span>
           </div>
         </div>
 
-        {/* 版权与备案 */}
-        <div className="flex flex-col gap-3 border-t border-white/15 py-6 text-xs text-white/65 md:flex-row md:items-center md:justify-between">
-          <p>
-            © {copyrightYears} {site.name} 版权所有
-          </p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a
-              href="https://beian.miit.gov.cn/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-white"
-            >
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-sm">
+          <ul className="flex flex-wrap gap-x-6 gap-y-1">
+            {footerLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:underline">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="flex flex-wrap gap-x-6">
+            <span>
+              © {copyrightYears} {site.name}
+            </span>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:underline">
               {site.icp.record}
             </a>
             {site.icp.police && (
-              <a
-                href="https://beian.mps.gov.cn/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-white"
-              >
+              <a href="https://beian.mps.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:underline">
                 {site.icp.police}
               </a>
             )}
-            <span>{site.domain}</span>
-          </div>
+          </p>
         </div>
       </Container>
     </footer>

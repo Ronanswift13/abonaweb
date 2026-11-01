@@ -9,7 +9,7 @@ import type { ProductImage } from "@/types";
 
 /**
  * 大屏界面截图展示（产品详情页 #screens）
- * - 上方为当前截图（带窗口外框），点击可在新标签页查看原图
+ * - 上方为当前截图，放在炭黑底色上；点击右上角可在新标签页查看原图
  * - 下方缩略图即标签页：点击或用左右方向键切换
  */
 export function ScreenGallery({ items, label }: { items: ProductImage[]; label: string }) {
@@ -33,22 +33,7 @@ export function ScreenGallery({ items, label }: { items: ProductImage[]; label: 
           aria-labelledby={`screen-tab-${index}`}
           hidden={index !== active}
         >
-          <div className="overflow-hidden rounded-2xl bg-ink-900 shadow-card-hover ring-1 ring-ink-900/10">
-            <div className="flex items-center gap-2 border-b border-white/10 bg-ink-800 px-4 py-2.5">
-              <span className="size-2.5 rounded-full bg-white/20" aria-hidden="true" />
-              <span className="size-2.5 rounded-full bg-white/20" aria-hidden="true" />
-              <span className="size-2.5 rounded-full bg-white/20" aria-hidden="true" />
-              <span className="ml-3 truncate text-xs text-ink-300">{item.title}</span>
-              <a
-                href={item.src}
-                target="_blank"
-                rel="noopener"
-                className="ml-auto inline-flex items-center gap-1 text-xs text-ink-300 transition-colors hover:text-white"
-              >
-                <Maximize2 className="size-3.5" aria-hidden="true" />
-                查看原图
-              </a>
-            </div>
+          <div className="relative">
             <Image
               src={item.src}
               width={item.width}
@@ -57,17 +42,26 @@ export function ScreenGallery({ items, label }: { items: ProductImage[]; label: 
               sizes="(min-width: 1280px) 1216px, 100vw"
               className="h-auto w-full"
             />
+            <a
+              href={item.src}
+              target="_blank"
+              rel="noopener"
+              className="absolute right-3 top-3 inline-flex items-center gap-1 bg-theme-bg px-2 py-1 text-sm text-theme-fg hover:underline"
+            >
+              <Maximize2 className="size-3.5" aria-hidden="true" />
+              查看原图
+            </a>
           </div>
           {item.caption && (
-            <figcaption className="mt-4 text-sm leading-relaxed text-ink-500">
-              <span className="font-semibold text-ink-800">{item.title}：</span>
+            <figcaption className="mt-5 max-w-[38em] text-[15px] leading-relaxed">
+              <span className="font-bold">{item.title}：</span>
               {item.caption}
             </figcaption>
           )}
         </figure>
       ))}
 
-      <div role="tablist" aria-label={label} className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div role="tablist" aria-label={label} className="mt-6 flex flex-wrap gap-x-7 gap-y-2">
         {items.map((item, index) => (
           <button
             key={item.src}
@@ -86,25 +80,11 @@ export function ScreenGallery({ items, label }: { items: ProductImage[]; label: 
               if (e.key === "ArrowLeft") select(active - 1, true);
             }}
             className={cn(
-              "group overflow-hidden rounded-xl border bg-white text-left transition-all",
-              index === active
-                ? "border-brand-400 shadow-card-hover ring-2 ring-brand-200"
-                : "border-ink-100 shadow-card hover:border-brand-200",
+              "border-b-2 py-1 text-[15px] transition-colors",
+              index === active ? "border-theme-heading font-bold" : "border-transparent hover:border-theme-heading",
             )}
           >
-            <Image
-              src={item.src}
-              width={item.width}
-              height={item.height}
-              alt=""
-              sizes="(min-width: 640px) 300px, 50vw"
-              className={cn("aspect-video w-full object-cover", index !== active && "opacity-75 group-hover:opacity-100")}
-            />
-            <span className="flex items-center gap-2 px-3 py-2.5 text-sm">
-              <span className={cn("truncate font-medium", index === active ? "text-ink-900" : "text-ink-600")}>
-                {item.title}
-              </span>
-            </span>
+            {item.title}
           </button>
         ))}
       </div>
