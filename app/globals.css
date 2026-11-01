@@ -91,6 +91,8 @@
 
 /* 视频上保证文字可读的遮罩，颜色跟随主题；这是渐变规则的唯一例外，只盖放文字的一侧 */
 .scrim-left { background: linear-gradient(90deg, rgb(var(--t-bg)) 0%, rgb(var(--t-bg) / 0.96) 34%, rgb(var(--t-bg) / 0.55) 48%, rgb(var(--t-bg) / 0) 60%); }
+/* 主动 AI 这一屏：人物面板是浅色，遮罩要在面板左缘附近收住 */
+.scrim-stage { background: linear-gradient(90deg, rgb(var(--t-bg)) 0%, rgb(var(--t-bg) / 0.96) 34%, rgb(var(--t-bg) / 0.6) 41%, rgb(var(--t-bg) / 0) 52%); }
 .scrim-hero { background: linear-gradient(90deg, rgb(var(--t-bg)) 0%, rgb(var(--t-bg) / 0.86) 24%, rgb(var(--t-bg) / 0) 46%); }
 .scrim-bottom { background: linear-gradient(180deg, rgb(var(--t-bg) / 0) 55%, rgb(var(--t-bg) / 0.82) 86%, rgb(var(--t-bg)) 100%); }
 

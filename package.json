@@ -12,6 +12,7 @@
     "check": "npm run typecheck && npm run lint && npm run check:design && npm run build",
     "og:generate": "node scripts/generate-og-image.mjs",
     "fonts:subset": "node scripts/subset-fonts.mjs",
+    "map:build": "node scripts/build-grid-map.mjs",
     "check:design": "node scripts/check-design.mjs"
   },
   "engines": {

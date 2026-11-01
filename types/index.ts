@@ -112,7 +112,7 @@ export interface Scene {
 
 export interface HomeContent {
   hero: HeroContent;
-  scenes: { poye: Scene; agent: Scene; logistics: Scene; yaoer: Scene; plan: Omit<Scene, "say"> };
+  scenes: { poye: Scene; agent: Scene; logistics: Scene; yaoer: Scene; plan: Omit<Scene, "say"> & { credit: LinkItem } };
   casesNews: {
     cases: SectionIntro & { more: LinkItem };
     news: SectionIntro & { more: LinkItem };

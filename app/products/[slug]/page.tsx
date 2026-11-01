@@ -220,7 +220,7 @@ function ProductHero({ product }: { product: Product }) {
             alt={figure.alt}
             priority
             sizes="(min-width: 1024px) 50vw, 90vw"
-            className="ml-auto mt-8 h-auto w-[86vw] max-w-[440px] lg:absolute lg:bottom-0 lg:right-[3vw] lg:mt-0 lg:h-[92%] lg:w-auto lg:max-w-none"
+            className="ml-auto mt-8 h-auto w-[86vw] max-w-[440px] lg:absolute lg:bottom-0 lg:right-[3vw] lg:mt-0 lg:h-auto lg:w-[min(54vw,calc((100svh-136px)*0.965))] lg:max-w-none"
           />
         )}
       </section>

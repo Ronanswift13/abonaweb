@@ -169,6 +169,12 @@ results: [成果一, 成果二]
 
 首页和产品页头的循环视频在 `public/videos/`（`twin-orbit`、`field-patrol`、`duty-briefing`、`logistics-flow`），规格见 `DESIGN.md` 第 6 节：H.264、无音轨、不超过 5MB、首尾无缝、带封面图。画面都来自真实产品，不做单色调色。
 
+`duty-briefing`、`proactive-ai-duty-demo` 和 `public/images/products/proactive-ai/` 的截图录自 Proactive AI Interface 的演示回放模式，形象用同事 B（和艾博纳幺儿同一人物），声线用“沉稳专业”。人物或界面更新后要一起重录。
+
+### 电网图
+
+发展计划这一屏的 `public/images/brand/yunnan-grid.svg` 由 `npm run map:build` 生成，数据是 DarkBreaker 抓取的 OpenStreetMap 云南电网（`data/osm/yunnan_power`，不进仓库）。DarkBreaker 不在默认位置时写成 `npm run map:build -- /path/to/DarkBreaker`。规格见 `DESIGN.md` 第 6 节。
+
 ### 字体
 
 字体全部自托管，不依赖 Google Fonts。标题用思源黑体 Black 子集（`app/fonts/`，只含站内用到的字），西文和数字用 D-DIN，中文正文用系统字体。文案出现新字后运行 `npm run fonts:subset` 重新生成子集。

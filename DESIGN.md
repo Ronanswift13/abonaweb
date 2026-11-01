@@ -99,6 +99,13 @@
 - 系统开启“减少动态效果”时不自动播放，只显示封面。
 - 视频里不能有字幕、水印、脱敏马赛克或内部地址；只用真实产品画面，不用生成画面。
 
+电网图规格（发展计划这一屏）：
+
+- 用矢量 SVG，不用截图或视频。`npm run map:build` 从 DarkBreaker 的 OSM 数据生成 `public/images/brand/yunnan-grid.svg`，配色和线宽跟随 DarkBreaker。
+- 动态只有一条整片扫过的测绘光带，不沿线路走，不做流动箭头。OSM 没有潮流方向，方向动画等于宣称知道潮流方向。
+- 只用 OSM 公开数据，不用 DarkBreaker 站点清单里的占位站和未核对联络线；不画省界，其中一段是国界。
+- 图上的“© OpenStreetMap contributors”是 ODbL 许可的要求，不能去掉。
+
 ## 7. 脚本检查的禁用项
 
 `npm run check:design` 检查以下内容，一项不过就报错。来源：Anthropic frontend-design、Hallmark gates（MIT）和本项目的修改记录。

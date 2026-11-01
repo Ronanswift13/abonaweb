@@ -42,6 +42,7 @@ export const home: HomeContent = {
       title: "元隐空轴|智慧测绘计划",
       body: "结合卫星、无人机和地面测量掌握新能源场站的物理状态，同时梳理关键信息系统的网络资产。",
       action: { label: "看推进计划", href: "/directions/yuanyin-kongzhou" },
+      credit: { label: "地图数据 © OpenStreetMap contributors", href: "https://www.openstreetmap.org/copyright" },
     },
   },
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { GridMap } from "@/components/ui/GridMap";
 import { LoopVideo } from "@/components/ui/LoopVideo";
 import { Phrases } from "@/components/ui/Phrases";
 import { home } from "@/data/home";
@@ -77,9 +78,10 @@ function AgentScene() {
         label="自主AI交互系统界面：虚拟同事语音汇报，右侧是按优先级排序的风险卡片"
         className="order-2 h-[76vw] w-full object-cover object-[100%_12%] lg:absolute lg:inset-0 lg:h-full lg:object-[100%_50%]"
       />
-      <div className="scrim-left absolute inset-0 hidden lg:block" aria-hidden="true" />
+      <div className="scrim-stage absolute inset-0 hidden lg:block" aria-hidden="true" />
       <Container className="relative z-10 order-1 pb-6 pt-12 lg:pb-0 lg:pt-[72px]">
-        <div className="lg:max-w-[520px]">
+        {/* 文字收在左侧，不盖住画面里的人物 */}
+        <div className="lg:max-w-[min(520px,42vw)]">
           <Copy scene={scene} sayClass="text-[2.25rem] sm:text-5xl lg:text-[clamp(2.5rem,3.4vw,3.25rem)]" />
         </div>
       </Container>
@@ -121,7 +123,7 @@ function YaoerScene() {
         height={1194}
         sizes="(min-width: 1024px) 50vw, 90vw"
         alt="艾博纳幺儿的形象：穿深蓝立领外套的卡通人物，胸前有公司标志"
-        className="order-2 hidden lg:absolute lg:bottom-0 lg:right-[3vw] lg:block lg:h-[calc(100%-96px)] lg:w-auto lg:max-w-none"
+        className="order-2 hidden lg:absolute lg:bottom-0 lg:right-[3vw] lg:block lg:h-auto lg:w-[min(54vw,calc((100svh-96px)*0.965))] lg:max-w-none"
       />
       <Container className="relative z-10 py-14 lg:py-24">
         <h2 className="text-[3.25rem] leading-none lg:text-[clamp(3.5rem,9vw,9.5rem)]">{scene.title}</h2>
@@ -148,7 +150,7 @@ function YaoerScene() {
   );
 }
 
-/** 发展计划（首页、发展方向页）：原色电网图，底色取自地图本身 */
+/** 发展计划（首页、发展方向页）：矢量电网图，配色和破夜绘明的区域地图一致；署名是 ODbL 的要求，不能去掉 */
 export function PlanScene() {
   const scene = home.scenes.plan;
   return (
@@ -158,15 +160,17 @@ export function PlanScene() {
       className="relative flex flex-col overflow-clip bg-theme-bg text-theme-fg lg:min-h-svh lg:flex-row lg:items-center"
     >
       <div className="relative order-2 h-[70vw] w-full lg:absolute lg:inset-0 lg:h-full">
-        <Image
-          src="/images/brand/region-map.jpg"
-          fill
-          sizes="100vw"
-          alt="云南电网线路和变电站分布图"
-          className="object-cover object-[76%_40%] lg:object-[100%_42%]"
-        />
+        <GridMap alt="云南电网线路和变电站分布图" className="object-cover object-[76%_40%] lg:object-[100%_42%]" />
       </div>
       <div className="scrim-left absolute inset-0 hidden lg:block" aria-hidden="true" />
+      <a
+        href={scene.credit.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-2 right-4 z-10 bg-theme-bg px-1.5 text-xs leading-normal hover:underline lg:bottom-4 lg:right-[88px]"
+      >
+        {scene.credit.label}
+      </a>
       <Container className="relative z-10 order-1 pb-8 pt-12 lg:py-[72px]">
         <h2 className="max-w-[560px] text-[2.5rem] leading-[1.16] sm:text-5xl lg:text-[clamp(2.75rem,4.6vw,4.25rem)]">
           <Phrases text={scene.title} />

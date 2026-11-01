@@ -349,11 +349,11 @@ export const products: Product[] = [
       "检修作业中提示现场违章，并生成整改工单草稿",
       "交接班时查询未处理事项",
     ],
-    // 视频与截图录制自 Proactive AI Interface 演示回放模式（PAI_RUN_MODE=demo，五幕剧本），语音为本地 Kokoro 合成
+    // 视频与截图录制自 Proactive AI Interface 演示回放模式（PAI_RUN_MODE=demo，五幕剧本），形象是同事 B（和艾博纳幺儿同一人物），语音为本地 Kokoro 合成的“沉稳专业”
     demo: {
       title: "值守交互演示",
       description:
-        "一轮值守演示，包括围栏越线告警、确认已阅、拟工单、切换主管角色和二级对话追问。语音为本地离线合成，时长约 1 分 25 秒。",
+        "一轮值守演示，包括围栏越线告警、确认已阅、拟工单、切换主管角色和二级对话追问。语音为本地离线合成，时长约 1 分 23 秒。",
       video: {
         src: "/videos/proactive-ai-duty-demo.mp4",
         poster: "/videos/proactive-ai-duty-demo-poster.jpg",
@@ -461,7 +461,7 @@ export const products: Product[] = [
         {
           name: "交互层",
           description: "两级界面与虚拟同事",
-          items: ["一级主控面板 + 二级插件对话", "二维虚拟同事（待命 / 聆听 / 说话 / 指向）", "语音条：录音 → 识别 → 思考 → 合成 → 播放", "数字孪生地图（无 WebGL 自动降级平面图）"],
+          items: ["一级主控面板 + 二级插件对话", "二维虚拟同事（待命 / 讲解 / 指向 / 聆听 / 警示，口型跟随语音）", "语音条：录音 → 识别 → 思考 → 合成 → 播放", "数字孪生地图（无 WebGL 自动降级平面图）"],
         },
         {
           name: "对话与汇报层",
